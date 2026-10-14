@@ -80,7 +80,7 @@ p{margin:0}
 /* cover */
 .cover{background:var(--cover);color:var(--on-cover);position:relative;overflow:hidden}
 .cover::before{content:"";position:absolute;inset:0;background-image:linear-gradient(var(--cover-rule) 1px,transparent 1px),linear-gradient(90deg,var(--cover-rule) 1px,transparent 1px);background-size:48px 48px;opacity:.35;pointer-events:none}
-.cover .wrap{position:relative;display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,.85fr);gap:clamp(24px,5vw,72px);align-items:center;padding-block:clamp(48px,7vw,88px)}
+.cover .wrap{position:relative;display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,.85fr);gap:clamp(24px,5vw,72px);align-items:start;padding-block:clamp(48px,7vw,88px)}
 .eyebrow{color:var(--cover-accent)}
 .cover h1{font:700 clamp(30px,5.2vw,64px)/1.06 var(--f-display);letter-spacing:-.02em;margin:18px 0 22px}
 .cover h1 em{font-style:normal;color:var(--cover-accent)}
@@ -94,15 +94,16 @@ p{margin:0}
 .facts{display:flex;flex-wrap:wrap;gap:8px 22px;margin:34px 0 0;color:var(--on-cover-2)}
 .facts span{display:inline-flex;gap:8px;align-items:center}
 .facts span::before{content:"";width:6px;height:6px;border:1px solid var(--cover-accent);transform:rotate(45deg)}
-.portrait{position:relative;margin:22px 0 0}
+.portrait{position:relative;margin:calc(37.2px + .155 * clamp(30px,5.2vw,64px)) 0 0}
 .portrait img{width:100%;height:auto;aspect-ratio:4/5;object-fit:cover;border-radius:2px;border:1px solid var(--cover-rule)}
 .portrait figcaption{position:absolute;left:12px;bottom:12px;color:var(--on-cover);background:rgba(6,13,24,.72);padding:6px 10px;border-radius:2px}
-.dim{position:absolute;top:-22px;left:0;right:0;height:14px;border-left:1px solid var(--on-cover-2);border-right:1px solid var(--on-cover-2);opacity:.7}
+.dim{position:absolute;top:calc(-34.6px - .155 * clamp(30px,5.2vw,64px));left:0;right:0;height:14px;border-left:1px solid var(--on-cover-2);border-right:1px solid var(--on-cover-2);opacity:.7}
 .dim::before{content:"";position:absolute;left:0;right:0;top:50%;border-top:1px solid var(--on-cover-2)}
 .dim span{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);background:var(--cover);padding:0 8px;color:var(--on-cover-2);font:500 11px/1 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;white-space:nowrap}
 @media (max-width:860px){
   .cover .wrap{grid-template-columns:minmax(0,1fr);padding-bottom:0}
   .portrait{max-width:420px;width:100%;margin:34px auto 0}
+  .dim{top:-22px}
   .portrait img{border-radius:2px 2px 0 0;border-bottom:0}
 }
 
@@ -149,9 +150,6 @@ section.sheet{padding-block:clamp(56px,8vw,104px);border-bottom:1px solid var(--
 .ticks span{position:absolute;transform:translateX(-50%)}
 .legend{display:flex;flex-wrap:wrap;gap:18px;margin-top:18px;color:var(--ink-2);font-size:14px}
 .legend i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:8px;vertical-align:middle}
-.sum{margin-top:22px;padding-top:18px;border-top:1px solid var(--rule);display:flex;flex-wrap:wrap;gap:8px 16px;align-items:baseline}
-.sum b{font:700 22px/1.2 var(--f-display);color:var(--accent)}
-.sum span{color:var(--ink-2)}
 @media (max-width:700px){
   .frow{grid-template-columns:minmax(0,1fr) 56px}
   .frow .lbl{grid-column:1/-1}
@@ -238,6 +236,8 @@ section.sheet{padding-block:clamp(56px,8vw,104px);border-bottom:1px solid var(--
 blockquote{margin:0;background:var(--sheet);border:1px solid var(--rule);padding:52px 24px 24px;box-shadow:var(--shadow);position:relative}
 blockquote p{font-size:17px;line-height:1.55}
 blockquote p + p{margin-top:10px}
+blockquote.fb p + p{margin-top:18px}
+blockquote.fb p b{display:block;margin-bottom:4px;font:500 11px/1.5 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
 blockquote footer{margin-top:16px;color:var(--ink-2)}
 blockquote::before{content:"“";position:absolute;left:22px;top:10px;font:700 64px/1 var(--f-display);color:var(--rule)}
 
@@ -422,7 +422,6 @@ blockquote::before{content:"“";position:absolute;left:22px;top:10px;font:700 6
         <div class="mult">×6</div>
       </div>
       <div class="legend"><span><i style="background:var(--before)"></i>було</span><span><i style="background:var(--accent)"></i>стало</span></div>
-      <div class="sum"><b>≈ ×24</b><span>переглядів з тієї самої кількості лідів: 5% × 2% проти 20% × 12%.</span></div>
     </div>
   </div>
 </section>
@@ -485,12 +484,12 @@ blockquote::before{content:"“";position:absolute;left:22px;top:10px;font:700 6
         <h3>Контент, що знімає заперечення до першого дзвінка</h3>
         <dl class="steps">
           <div><dt>Задача</dt><dd>Покупець боїться, що не добудують, і довго порівнює. На перегляд доходили 2% кваліфікованих лідів.</dd></div>
-          <div><dt>Що зробив</dt><dd>Побудував Telegram-воронки — 12-денний курс засновника (щодня о 19:00 — повідомлення і відео) і ланцюжок «Кейс будівництва» — та YouTube-канал компанії. Склав карту шляху клієнта від життєвого тригера до угоди, з задачею для кожної точки дотику.</dd></div>
+          <div><dt>Що зробив</dt><dd>Побудував Telegram-воронки — 30-денний курс засновника (щодня о 19:00 — повідомлення і відео) і ланцюжок «Кейс будівництва» — та YouTube-канал компанії. Склав карту шляху клієнта від життєвого тригера до угоди, з задачею для кожної точки дотику.</dd></div>
           <div><dt>Результат</dt><dd class="res">Кваліфікований лід → перегляд: <em>з 2% до 12%</em>. 2&nbsp;000+ органічних підписників у теплій базі, найкраще відео — 65&nbsp;000 органічних переглядів.</dd></div>
         </dl>
       </div>
       <div class="stack">
-        <figure style="margin:0"><button class="shot" data-zoom="img/bot-course.jpg" aria-label="Відкрити сценарій 12-денного курсу"><img src="img/bot-course.jpg" alt="Сценарій 12-денної Telegram-воронки" width="2200" height="626"></button><figcaption class="cap">12-денний курс засновника в Telegram, щодня о 19:00</figcaption></figure>
+        <figure style="margin:0"><button class="shot" data-zoom="img/bot-course.jpg" aria-label="Відкрити сценарій 30-денного курсу"><img src="img/bot-course.jpg" alt="Сценарій 30-денної Telegram-воронки" width="2200" height="626"></button><figcaption class="cap">30-денний курс засновника в Telegram, щодня о 19:00</figcaption></figure>
         <figure style="margin:0"><button class="shot" data-zoom="img/bot-build.jpg" data-pano aria-label="Відкрити сценарій ланцюжка «Кейс будівництва»"><img src="img/bot-build.jpg" alt="Сценарій Telegram-ланцюжка «Кейс будівництва»" width="2436" height="414"></button><figcaption class="cap">Ланцюжок «Кейс будівництва»</figcaption></figure>
         <figure style="margin:0"><button class="shot" data-zoom="img/cjm.jpg" aria-label="Відкрити карту шляху клієнта"><img src="img/cjm.jpg" alt="Карта шляху клієнта з точками дотику" width="2000" height="700"></button><figcaption class="cap">Карта шляху клієнта: тригер → знайомство із забудовником → дослідження і порівняння</figcaption></figure>
       </div>
@@ -524,7 +523,7 @@ blockquote::before{content:"“";position:absolute;left:22px;top:10px;font:700 6
     <div class="section-draw">
       <div>
         <div class="layers">
-          <div class="layer l-roof"><div class="sw"><span class="ic"><svg viewBox="0 0 28 28" aria-hidden="true"><path d="M3 15 14 5l11 10"/><path d="M19 9.5V5h3v7.2"/><path d="M6 13v2M22 13v2"/></svg></span><b>Дах</b><small>стратегія</small></div><p>Дослідження ЦА, позиціонування і медіаплан — накривають усю систему.</p></div>
+          <div class="layer l-roof"><div class="sw"><span class="ic"><svg viewBox="0 0 28 28" aria-hidden="true"><path d="M3 15 14 5l11 10"/><path d="M19 9.5V5h3v7.2"/><path d="M6 13v2M22 13v2"/></svg></span><b>Дах</b><small>стратегія</small></div><p>Дослідження та сегментація ЦА, позиціонування і медіаплан — накривають усю систему.</p></div>
           <div class="layer l-facade"><div class="sw"><span class="ic"><svg viewBox="0 0 28 28" aria-hidden="true"><rect x="5" y="4" width="18" height="20"/><path d="M9 8h3v3H9zM16 8h3v3h-3zM9 14h3v3H9zM16 14h3v3h-3z"/><path d="M12 24v-4h4v4"/></svg></span><b>Фасад</b><small>бренд</small></div><p>Особистий бренд засновника, ребренд, зовнішня реклама.</p></div>
           <div class="layer l-eng"><div class="sw"><span class="ic"><svg viewBox="0 0 28 28" aria-hidden="true"><path d="M3 9h9v10h13"/><circle cx="12" cy="9" r="2.2"/><circle cx="12" cy="19" r="2.2"/><path d="M20 4l-2.5 4h4L19 12"/></svg></span><b>Інженерні мережі</b><small>аналітика</small></div><p>Наскрізна аналітика від кліку до угоди, OKR і звітність по кожному напряму, бюджет план-факт.</p></div>
           <div class="layer l-ins"><div class="sw"><span class="ic"><svg viewBox="0 0 28 28" aria-hidden="true"><path d="M3 8c2.5-3 5-3 7.5 0s5 3 7.5 0 5-3 7.5 0"/><path d="M3 14c2.5-3 5-3 7.5 0s5 3 7.5 0 5-3 7.5 0"/><path d="M3 20c2.5-3 5-3 7.5 0s5 3 7.5 0 5-3 7.5 0"/></svg></span><b>Утеплення</b><small>прогрів</small></div><p>Прогрів, що знімає заперечення: YouTube, Telegram-канали, чат-боти.</p></div>
@@ -567,9 +566,11 @@ blockquote::before{content:"“";position:absolute;left:22px;top:10px;font:700 6
         </ul>
       </div>
       <div class="quotes">
-        <blockquote>
-          <p>«Швидкість дій: ти швидко дієш, тільки поговорили — одразу впроваджуєш, дієш. Респект.»</p>
-          <p>«Зміг знайти і найняти достойного копірайтера… досить оперативно. Дослухався до фідбеку і не поспішив з рішенням.»</p>
+        <blockquote class="fb">
+          <p><b>Швидкість дій</b>«Ти швидко дієш, тільки поговорили — одразу впроваджуєш, дієш.»</p>
+          <p><b>Гнучкість мислення</b>«Ти притримуєшся свого погляду на речі і бачення, але в той самий час готовий слухати і брати в роботу те, що „купуєш“, або починаєш розуміти іншу перспективу, погляд або потребу.»</p>
+          <p><b>Стійкість</b>«Ти витримуєш тиск зі сторони команди відділу продажів…»</p>
+          <p><b>Найм</b>«Зміг знайти і найняти достойного копірайтера… досить оперативно. Дослухався до фідбеку і не поспішив з рішенням.»</p>
           <footer class="mono">Комерційний директор</footer>
         </blockquote>
         <blockquote>
