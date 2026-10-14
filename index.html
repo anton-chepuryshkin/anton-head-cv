@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Антон Чепуришкін — Head of Marketing</title>
-<meta name="description" content="Head of Marketing у заміській нерухомості: 80% річного плану продажів за 60% бюджету, конверсія кваліфікованого ліда в перегляд ×6. Кейси DFD, підхід і план на перші 90 днів.">
+<meta name="description" content="Head of Marketing для девелоперів заміської нерухомості: 80% річного плану продажів за 60% бюджету, конверсія кваліфікованого ліда в перегляд ×6. Чотири кейси DFD, підхід і план на перші 90 днів.">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="uk_UA">
 <meta property="og:title" content="Антон Чепуришкін — Head of Marketing">
@@ -80,7 +80,7 @@ p{margin:0}
 /* cover */
 .cover{background:var(--cover);color:var(--on-cover);position:relative;overflow:hidden}
 .cover::before{content:"";position:absolute;inset:0;background-image:linear-gradient(var(--cover-rule) 1px,transparent 1px),linear-gradient(90deg,var(--cover-rule) 1px,transparent 1px);background-size:48px 48px;opacity:.35;pointer-events:none}
-.cover .wrap{position:relative;display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,.85fr);gap:clamp(24px,5vw,72px);align-items:end;padding-block:clamp(40px,7vw,88px) 0}
+.cover .wrap{position:relative;display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,.85fr);gap:clamp(24px,5vw,72px);align-items:center;padding-block:clamp(48px,7vw,88px)}
 .eyebrow{color:var(--cover-accent)}
 .cover h1{font:700 clamp(30px,5.2vw,64px)/1.06 var(--f-display);letter-spacing:-.02em;margin:18px 0 22px}
 .cover h1 em{font-style:normal;color:var(--cover-accent)}
@@ -91,19 +91,19 @@ p{margin:0}
 .btn-primary{background:var(--cover-accent);color:var(--cover)}
 .btn-ghost{border-color:var(--cover-rule);color:var(--on-cover);background:transparent}
 .btn-ghost:hover{border-color:var(--on-cover-2)}
-.facts{display:flex;flex-wrap:wrap;gap:8px 22px;margin:34px 0 clamp(32px,6vw,72px);color:var(--on-cover-2)}
+.facts{display:flex;flex-wrap:wrap;gap:8px 22px;margin:34px 0 0;color:var(--on-cover-2)}
 .facts span{display:inline-flex;gap:8px;align-items:center}
 .facts span::before{content:"";width:6px;height:6px;border:1px solid var(--cover-accent);transform:rotate(45deg)}
-.portrait{position:relative;align-self:end;margin:0}
-.portrait img{width:100%;height:auto;aspect-ratio:4/5;object-fit:cover;border-radius:2px 2px 0 0}
+.portrait{position:relative;margin:22px 0 0}
+.portrait img{width:100%;height:auto;aspect-ratio:4/5;object-fit:cover;border-radius:2px;border:1px solid var(--cover-rule)}
 .portrait figcaption{position:absolute;left:12px;bottom:12px;color:var(--on-cover);background:rgba(6,13,24,.72);padding:6px 10px;border-radius:2px}
 .dim{position:absolute;top:-22px;left:0;right:0;height:14px;border-left:1px solid var(--on-cover-2);border-right:1px solid var(--on-cover-2);opacity:.7}
 .dim::before{content:"";position:absolute;left:0;right:0;top:50%;border-top:1px solid var(--on-cover-2)}
 .dim span{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);background:var(--cover);padding:0 8px;color:var(--on-cover-2);font:500 11px/1 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;white-space:nowrap}
 @media (max-width:860px){
-  .cover .wrap{grid-template-columns:minmax(0,1fr)}
-  .portrait{max-width:420px;width:100%;margin:12px auto 0}
-  .facts{margin-bottom:8px}
+  .cover .wrap{grid-template-columns:minmax(0,1fr);padding-bottom:0}
+  .portrait{max-width:420px;width:100%;margin:34px auto 0}
+  .portrait img{border-radius:2px 2px 0 0;border-bottom:0}
 }
 
 /* sheets */
@@ -114,21 +114,21 @@ section.sheet{padding-block:clamp(56px,8vw,104px);border-bottom:1px solid var(--
 @media (max-width:760px){.head{grid-template-columns:minmax(0,1fr)}}
 
 /* spec */
-.spec{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));background:var(--sheet);border:1px solid var(--rule);box-shadow:var(--shadow)}
-.spec div{padding:24px 22px 26px;border-right:1px solid var(--rule);border-bottom:1px solid var(--rule);display:flex;flex-direction:column;gap:10px;min-width:0}
-.spec div:nth-child(4n){border-right:0}
-.spec div:nth-last-child(-n+4){border-bottom:0}
+.spec{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule);box-shadow:var(--shadow)}
+.spec > div{background:var(--sheet);padding:24px 22px 26px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.spec > .wide{grid-column:span 2}
 .spec b{font:700 clamp(30px,3.4vw,44px)/1 var(--f-display);letter-spacing:-.02em;font-variant-numeric:tabular-nums;color:var(--ink)}
 .spec b small{font-size:.55em;color:var(--ink-2);font-weight:600}
-.spec span{color:var(--ink-2);font-size:15px;line-height:1.45}
+.spec > div > span{color:var(--ink-2);font-size:15px;line-height:1.45}
+.spec > .wide > span{color:var(--ink);font-size:clamp(16px,1.5vw,18px);font-weight:500;max-width:44ch}
 .spec .hl b{color:var(--accent)}
-.note{margin-top:14px;color:var(--ink-2);font-size:13px}
-@media (max-width:900px){
-  .spec{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .spec div{border-right:1px solid var(--rule)!important;border-bottom:1px solid var(--rule)!important}
-  .spec div:nth-child(2n){border-right:0!important}
-  .spec div:nth-last-child(-n+2){border-bottom:0!important}
-}
+.bars{display:grid;gap:9px;margin-top:auto;padding-top:8px}
+.bars p{display:grid;grid-template-columns:150px minmax(0,1fr) 44px;align-items:center;gap:12px;font:500 12px/1.2 var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2)}
+.bars i{display:block;height:10px;background:color-mix(in srgb,var(--rule) 70%,transparent);border-radius:5px;position:relative;overflow:hidden}
+.bars i::after{content:"";position:absolute;left:0;top:0;bottom:0;width:var(--w);background:var(--c);border-radius:5px}
+.bars em{font-style:normal;text-align:right;color:var(--ink);font-weight:500}
+@media (max-width:900px){.spec{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:480px){.spec > div{padding:20px 16px 22px}.spec > div > span{font-size:14px}.bars p{grid-template-columns:minmax(0,1fr) 40px}.bars i{grid-column:1/-1;grid-row:2}}
 
 /* funnel */
 .funnel{background:var(--sheet);border:1px solid var(--rule);box-shadow:var(--shadow);padding:clamp(20px,3vw,36px)}
@@ -170,14 +170,22 @@ section.sheet{padding-block:clamp(56px,8vw,104px);border-bottom:1px solid var(--
 .steps dd.res{font-weight:600}
 .steps dd.res em{font-style:normal;color:var(--accent)}
 @media (max-width:860px){.case{grid-template-columns:minmax(0,1fr)} .steps div{grid-template-columns:minmax(0,1fr);gap:2px}}
-.ba{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
-.ba figure{margin:0}
-.ba figcaption{margin-bottom:8px;color:var(--ink-2)}
-.ba figcaption b{color:var(--accent);font-weight:500}
-.shots{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
 .shot{display:block;padding:0;border:1px solid var(--rule);background:var(--sheet);cursor:zoom-in;border-radius:3px;overflow:hidden;width:100%}
-.shot img{width:100%;height:280px;object-fit:cover;object-position:top}
-.shot.wide img{height:auto;aspect-ratio:auto}
+.shot img{width:100%;height:auto}
+.case-wide{grid-template-columns:minmax(0,1fr)}
+.case-text{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:16px clamp(24px,4vw,56px);align-items:start}
+@media (max-width:860px){.case-text{grid-template-columns:minmax(0,1fr)}}
+.phones{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;align-items:start}
+.phones figure{margin:0}
+.phones figcaption{margin-bottom:8px;color:var(--ink-2)}
+.phones figcaption b{color:var(--accent);font-weight:500}
+@media (max-width:760px){.phones{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 10px}}
+.links{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+.lnk{display:inline-flex;align-items:center;gap:8px;font:600 14px/1.2 var(--f-body);text-decoration:none;color:var(--accent);background:var(--sheet);border:1px solid var(--rule);border-radius:999px;padding:11px 16px}
+.lnk:hover{border-color:var(--accent)}
+.gallery{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;align-items:start}
+.gallery figure{margin:0}
+.gallery .g-main{grid-column:1/-1}
 .stack{display:grid;gap:12px}
 .cap{color:var(--ink-2);font-size:13px;margin-top:6px}
 .price{align-self:start;display:flex;align-items:center;gap:18px;flex-wrap:wrap;background:var(--sheet);border:1px solid var(--rule);padding:28px;box-shadow:var(--shadow)}
@@ -249,17 +257,40 @@ blockquote::before{content:"“";position:absolute;left:22px;top:10px;font:700 6
 @media (max-width:860px){.plan{grid-template-columns:minmax(0,1fr)} .phase{border-right:0;border-bottom:1px solid var(--rule)} .phase:last-child{border-bottom:0} .gauge{display:none}}
 
 /* experience */
-.gantt{background:var(--sheet);border:1px solid var(--rule);padding:20px 22px 12px;box-shadow:var(--shadow);margin-bottom:36px}
-.grow{display:grid;grid-template-columns:200px minmax(0,1fr);gap:16px;align-items:center;padding:7px 0}
-.grow .who{font-weight:600;font-size:14px;line-height:1.3}
-.grow .who small{display:block;font-weight:400;color:var(--ink-2)}
-.lane{position:relative;height:18px;background:repeating-linear-gradient(90deg,var(--rule) 0 1px,transparent 1px calc(100%/15.75*3))}
-.lane i{position:absolute;top:2px;bottom:2px;border-radius:2px;background:var(--line)}
-.lane i.now{background:var(--accent)}
-.years{position:relative;height:18px;margin-left:216px;color:var(--ink-2);font:400 12px/1 var(--f-mono)}
-.years span{position:absolute;transform:translateX(-50%)}
-.years span:first-child{transform:none}
-@media (max-width:640px){.grow{grid-template-columns:minmax(0,1fr);gap:4px}.years{margin-left:0}}
+.floors{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,.75fr);gap:clamp(24px,4vw,56px);align-items:start;margin-bottom:40px}
+@media (max-width:900px){.floors{grid-template-columns:minmax(0,1fr)}}
+.tower{position:relative;padding-left:84px}
+.t-roof{height:16px;margin:0 -12px;border:1.5px solid var(--ink);border-bottom:0;background:repeating-linear-gradient(90deg,var(--ink) 0 2px,transparent 2px 10px)}
+.t-body{border:1.5px solid var(--ink);background:var(--sheet);box-shadow:var(--shadow)}
+.fl{position:relative;display:flex;flex-direction:column;justify-content:center;gap:4px;padding:16px 20px;min-height:92px}
+.fl + .fl{border-top:1.5px solid var(--ink)}
+.fl .mono{color:var(--ink-2)}
+.fl h3{font-size:17px}
+.fl p.d{color:var(--ink-2);font-size:15px;line-height:1.45}
+.fl.top{min-height:250px;padding:26px 24px 26px 28px;gap:8px;background:color-mix(in srgb,var(--accent) 8%,var(--sheet));box-shadow:inset 4px 0 0 var(--accent)}
+.fl.top .mono{color:var(--accent)}
+.fl.top h3{font-size:clamp(22px,2.6vw,30px)}
+.fl.top p.d{color:var(--ink);font-size:16px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.chips span{font:500 13px/1.2 var(--f-body);border:1px solid color-mix(in srgb,var(--accent) 45%,var(--rule));background:var(--sheet);color:var(--ink);padding:7px 11px;border-radius:999px}
+.chips span b{color:var(--accent);font-weight:700}
+.t-ground{height:14px;margin:0 -12px;border-top:2px solid var(--ink);background:repeating-linear-gradient(45deg,var(--rule) 0 2px,transparent 2px 8px)}
+.fl.found{border:1.5px dashed var(--ink-2);border-top:0;background:repeating-linear-gradient(135deg,transparent 0 9px,color-mix(in srgb,var(--rule) 70%,transparent) 9px 10px)}
+.fl.found > :not(.lvl){background:var(--paper);align-self:flex-start;padding:0 4px}
+.lvl{position:absolute;left:-84px;width:84px;bottom:-8px;display:flex;align-items:center;gap:6px;font:500 12px/16px var(--f-mono);color:var(--ink-2);pointer-events:none}
+.lvl::before{content:"";width:0;height:0;border-left:5px solid transparent;border-right:5px solid transparent;border-top:7px solid var(--ink-2)}
+.lvl::after{content:"";flex:1;border-top:1px dashed var(--ink-2);margin-right:4px}
+.lvl.up{top:-8px;bottom:auto}
+.lvl.hl{color:var(--accent)}
+.lvl.hl::before{border-top-color:var(--accent)}
+.lvl.hl::after{border-top-color:var(--accent)}
+.found .lvl{left:-85.5px}
+.tstats{margin-top:16px;display:grid;gap:1px;background:var(--rule);border:1px solid var(--rule);box-shadow:var(--shadow)}
+.tstats div{background:var(--sheet);padding:20px 22px;display:flex;flex-direction:column;gap:6px}
+.tstats b{font:700 clamp(28px,3vw,38px)/1 var(--f-display);color:var(--ink)}
+.tstats div:first-child b{color:var(--accent)}
+.tstats span{color:var(--ink-2);font-size:15px;line-height:1.45}
+@media (max-width:560px){.tower{padding-left:62px}.lvl{left:-62px;width:62px;font-size:11px;gap:4px}.found .lvl{left:-63.5px}.fl{padding:14px 16px}.fl.top{padding:22px 18px}.t-roof{margin:0 -8px}.t-ground{margin:0 -12px}}
 .jobs{display:grid;gap:0}
 .job{display:grid;grid-template-columns:220px minmax(0,1fr);gap:8px 32px;padding:24px 0;border-top:1px solid var(--rule)}
 .job .when{color:var(--ink-2)}
@@ -302,12 +333,13 @@ blockquote::before{content:"“";position:absolute;left:22px;top:10px;font:700 6
 .lb .in{max-width:100%;max-height:100%;overflow:auto}
 .lb img{max-width:none;width:min(1800px, 160vw);height:auto}
 .lb img.tall{width:auto;max-height:88vh;max-width:100%}
+.lb img.pano{width:2436px;max-width:none;max-height:none}
 .lb button{position:fixed;top:calc(14px + env(safe-area-inset-top, 0px));right:calc(14px + env(safe-area-inset-right, 0px));font:600 14px/1 var(--f-body);background:#E9EEF4;color:#0B1628;border:0;border-radius:999px;padding:12px 16px;cursor:pointer}
 </style>
 
 <header class="bar">
   <div class="wrap">
-    <a class="brand" href="#top">А.&nbsp;ЧЕПУРИШКІН<span class="hide-sm"> <b>/</b> HEAD OF MARKETING</span></a>
+    <a class="brand" href="#top">АНТОН ЧЕПУРИШКІН<span class="hide-sm"> <b>/</b> HEAD OF MARKETING</span></a>
     <nav class="nav" aria-label="Розділи">
       <a href="#results">Результати</a>
       <a href="#cases">Кейси</a>
@@ -323,7 +355,7 @@ blockquote::before{content:"“";position:absolute;left:22px;top:10px;font:700 6
 <section class="cover">
   <div class="wrap">
     <div>
-      <p class="mono eyebrow">Head of Marketing · заміська нерухомість і high-ticket</p>
+      <p class="mono eyebrow">Head of Marketing · заміська нерухомість · довгий цикл угоди</p>
       <h1>Побудував <em>5&nbsp;будинків.</em> Тепер будую маркетинг, який продає нерухомість.</h1>
       <p class="lead"><strong>9 років будував сам</strong>, 3 роки вів performance у найконкурентнішій ніші за трафік, з грудня 2025 по вересень 2026 — <strong>Head of Marketing у DFD</strong>, девелопері трьох котеджних містечок під Києвом. Поєдную рекламу, контент, що формує попит, і бренд засновника в одну систему, яка звітує угодами.</p>
       <div class="cta">
@@ -332,13 +364,13 @@ blockquote::before{content:"“";position:absolute;left:22px;top:10px;font:700 6
         <a class="btn btn-ghost" href="Anton_Chepuryshkin_Head_of_Marketing.pdf" download>Завантажити PDF</a>
       </div>
       <div class="facts mono">
-        <span>Київ</span>
+        <span>Віддалено, виїзди на об'єкти за потреби</span>
         <span>Команда 6 + 2 підрядники</span>
         <span>3 містечка: комфорт+, бізнес, преміум</span>
       </div>
     </div>
     <figure class="portrait">
-      <div class="dim" aria-hidden="true"><span>Антон Чепуришкін · Київ</span></div>
+      <div class="dim" aria-hidden="true"><span>Антон Чепуришкін · Head of Marketing</span></div>
       <img src="img/anton.jpg" alt="Антон Чепуришкін, портрет у темно-синьому костюмі" width="960" height="1200">
     </figure>
   </div>
@@ -352,14 +384,20 @@ blockquote::before{content:"“";position:absolute;left:22px;top:10px;font:700 6
       <p>Три котеджні містечка під Києвом: Montana City, Zoloche Provance, Золочів Ліс. Я працював там з грудня 2025 по вересень 2026 року.</p>
     </div>
     <div class="spec">
-      <div class="hl"><b>80%</b><span>річного плану продажів на 2026 рік виконано до кінця вересня</span></div>
-      <div><b>60%</b><span>річного маркетингового бюджету витрачено на це</span></div>
-      <div><b>−25%</b><span>вартість угоди для маркетингу проти плану</span></div>
-      <div><b>$0</b><span>замість $3–5k за участь засновника в конференціях: тепер його запрошують спікером</span></div>
-      <div class="hl"><b>×4</b><span>лід → кваліфікований лід: з 5% до 20%</span></div>
-      <div class="hl"><b>×6</b><span>кваліфікований лід → перегляд: з 2% до 12%</span></div>
-      <div><b>65<small> тис.</small></b><span>органічних переглядів найкращого відео на YouTube</span></div>
-      <div><b>2&nbsp;000+</b><span>органічних підписників у Telegram-воронках</span></div>
+      <div class="wide hl">
+        <b>80%</b>
+        <span>Виконав 80% річного плану продажів на 2026 рік до кінця вересня, витративши 60% річного маркетингового бюджету.</span>
+        <div class="bars" role="img" aria-label="План продажів виконано на 80%, бюджет витрачено на 60%">
+          <p>План продажів<i style="--w:80%;--c:var(--accent)"></i><em>80%</em></p>
+          <p>Бюджет<i style="--w:60%;--c:var(--before)"></i><em>60%</em></p>
+        </div>
+      </div>
+      <div><b>−25%</b><span>Знизив вартість угоди для маркетингу на 25% проти плану.</span></div>
+      <div><b>$0</b><span>Вибудував бренд засновника: тепер його запрошують спікером безкоштовно, а не за $3–5k.</span></div>
+      <div class="hl"><b>×4</b><span>Збільшив конверсію ліда в кваліфікований лід: з 5% до 20%.</span></div>
+      <div class="hl"><b>×6</b><span>Збільшив конверсію кваліфікованого ліда в перегляд: з 2% до 12%.</span></div>
+      <div><b>65<small> тис.</small></b><span>Побудував YouTube-канал компанії: стільки органічних переглядів набрало найкраще відео.</span></div>
+      <div><b>2&nbsp;000+</b><span>Побудував Telegram-воронки: стільки органічних підписників у теплій базі.</span></div>
     </div>
   </div>
 </section>
@@ -393,27 +431,51 @@ blockquote::before{content:"“";position:absolute;left:22px;top:10px;font:700 6
   <div class="wrap">
     <div class="head">
       <p class="mono">Об'єкти</p>
-      <h2>Три кейси DFD</h2>
-      <p>Кожен — у форматі «задача → що зробив → результат». Скріни відкриваються на весь екран.</p>
+      <h2>Чотири кейси DFD</h2>
+      <p>Кожен — у форматі «задача → що зробив → результат». Скріни і фото відкриваються на весь екран.</p>
     </div>
 
-    <article class="case">
-      <div>
-        <p class="mono tag">Ребренд і запуск</p>
-        <h3>Gran Montaña → Montana City</h3>
+    <article class="case case-wide">
+      <div class="case-text">
+        <div>
+          <p class="mono tag">Ребренд і запуск</p>
+          <h3>Gran Montaña → Montana City</h3>
+          <div class="links">
+            <a class="lnk" href="https://montana.city" target="_blank" rel="noopener">Відкрити сайт montana.city →</a>
+            <a class="lnk" href="https://www.instagram.com/montanacity.dfd/" target="_blank" rel="noopener">Instagram @montanacity.dfd →</a>
+          </div>
+        </div>
         <dl class="steps">
           <div><dt>Задача</dt><dd>Містечко розширюється з 5 до 20 га. Старі назва, сайт і Instagram продавали невеликий проєкт, а не місто з власною інфраструктурою.</dd></div>
-          <div><dt>Що зробив</dt><dd>Ребренд і нова назва. Новий сайт. Комунікація запланованої інфраструктури: садок і школа, басейн, парк з озером, спорт, коворкінг. Кампанія запуску: борди в місцях, де найчастіше буває цільова аудиторія, таргет, контент-серія про зміни на території. Візуал на AI-генераціях — Instagram виглядає преміально.</dd></div>
+          <div><dt>Що зробив</dt><dd>Провів ребренд і дав містечку нову назву. Запустив новий сайт. Вибудував комунікацію запланованої інфраструктури: садок і школа, басейн, парк з озером, спорт, коворкінг. Спланував кампанію запуску: борди в місцях, де найчастіше буває цільова аудиторія, таргет, контент-серія про зміни на території. Перевів візуал на AI-генерації — Instagram виглядає преміально.</dd></div>
           <div><dt>Результат</dt><dd class="res">Один бренд для розширеного містечка: сайт, Instagram і борди говорять однаково.</dd></div>
         </dl>
       </div>
-      <div class="stack">
-        <div class="ba">
-          <figure><figcaption class="mono">Сайт · було</figcaption><button class="shot" data-zoom="img/site-before.jpg" data-tall aria-label="Відкрити скрін старого сайту Gran Montaña"><img src="img/site-before.jpg" alt="Старий сайт Gran Montaña"></button></figure>
-          <figure><figcaption class="mono"><b>Сайт · стало</b></figcaption><button class="shot" data-zoom="img/site-after.jpg" data-tall aria-label="Відкрити скрін нового сайту Montana City"><img src="img/site-after.jpg" alt="Новий сайт Montana City"></button></figure>
-          <figure><figcaption class="mono">Instagram · було</figcaption><button class="shot" data-zoom="img/ig-before.jpg" data-tall aria-label="Відкрити скрін Instagram до ребренду"><img src="img/ig-before.jpg" alt="Instagram до ребренду"></button></figure>
-          <figure><figcaption class="mono"><b>Instagram · стало</b></figcaption><button class="shot" data-zoom="img/ig-after.jpg" data-tall aria-label="Відкрити скрін Instagram після ребренду"><img src="img/ig-after.jpg" alt="Instagram після ребренду"></button></figure>
+      <div class="phones">
+        <figure><figcaption class="mono">Сайт · було</figcaption><button class="shot" data-zoom="img/site-before.jpg" data-tall aria-label="Відкрити скрін старого сайту Gran Montaña"><img src="img/site-before.jpg" alt="Старий сайт Gran Montaña" width="520" height="1126"></button></figure>
+        <figure><figcaption class="mono"><b>Сайт · стало</b></figcaption><button class="shot" data-zoom="img/site-after.jpg" data-tall aria-label="Відкрити скрін нового сайту Montana City"><img src="img/site-after.jpg" alt="Новий сайт Montana City" width="520" height="1141"></button></figure>
+        <figure><figcaption class="mono">Instagram · було</figcaption><button class="shot" data-zoom="img/ig-before.jpg" data-tall aria-label="Відкрити скрін Instagram до ребренду"><img src="img/ig-before.jpg" alt="Instagram до ребренду" width="520" height="1090"></button></figure>
+        <figure><figcaption class="mono"><b>Instagram · стало</b></figcaption><button class="shot" data-zoom="img/ig-after.jpg" data-tall aria-label="Відкрити скрін Instagram після ребренду"><img src="img/ig-after.jpg" alt="Instagram після ребренду" width="520" height="1075"></button></figure>
+      </div>
+    </article>
+
+    <article class="case">
+      <div>
+        <p class="mono tag">Офлайн-івент</p>
+        <h3>Благодійне барбекю із засновником у Montana City</h3>
+        <dl class="steps">
+          <div><dt>Задача</dt><dd>Покупець не вірить рекламі. Йому треба побачити містечко наживо і зрозуміти, хто стоїть за проєктом.</dd></div>
+          <div><dt>Що зробив</dt><dd>Організував благодійне барбекю із засновником на території містечка. Гості наживо подивилися благоустрій та інфраструктуру і поспілкувалися із засновником: він сам відповідав на питання про строки, якість будівництва і життя в містечку. Такі зустрічі якісно закривають заперечення, які реклама не закриває.</dd></div>
+          <div><dt>Результат</dt><dd class="res"><em>25+ гостей</em>, збір на дрони-перехоплювачі і <em>одна угода</em> після івенту.</dd></div>
+        </dl>
+        <div class="links">
+          <a class="lnk" href="https://youtu.be/s3m04HpTL3A" target="_blank" rel="noopener">Дивитися відео з івенту →</a>
         </div>
+      </div>
+      <div class="gallery">
+        <figure class="g-main"><button class="shot" data-zoom="img/event-board.jpg" data-tall aria-label="Відкрити фото: засновник презентує генплан"><img src="img/event-board.jpg" alt="Засновник презентує гостям генплан Montana City біля стенда" width="1600" height="901"></button><figcaption class="cap">Засновник презентує гостям генплан Montana City</figcaption></figure>
+        <figure><button class="shot" data-zoom="img/event-terrace.jpg" data-tall aria-label="Відкрити фото: розмова із засновником на терасі"><img src="img/event-terrace.jpg" alt="Гості слухають засновника на терасі містечка" width="1600" height="901"></button><figcaption class="cap">Розмова із засновником на терасі містечка</figcaption></figure>
+        <figure><button class="shot" data-zoom="img/event-test.jpg" data-tall aria-label="Відкрити фото: тест будинку на герметичність"><img src="img/event-test.jpg" alt="Засновник пояснює тест будинку на герметичність" width="1600" height="901"></button><figcaption class="cap">Тест будинку на герметичність — засновник пояснює наживо</figcaption></figure>
       </div>
     </article>
 
@@ -423,14 +485,14 @@ blockquote::before{content:"“";position:absolute;left:22px;top:10px;font:700 6
         <h3>Контент, що знімає заперечення до першого дзвінка</h3>
         <dl class="steps">
           <div><dt>Задача</dt><dd>Покупець боїться, що не добудують, і довго порівнює. На перегляд доходили 2% кваліфікованих лідів.</dd></div>
-          <div><dt>Що зробив</dt><dd>Карта шляху клієнта від життєвого тригера до угоди — з задачею для кожної точки дотику. Telegram-воронки: 12-денний курс засновника (щодня о 19:00 — повідомлення і відео) і ланцюжок про ринок нерухомості країн, які пережили війну. YouTube-канал компанії.</dd></div>
+          <div><dt>Що зробив</dt><dd>Побудував Telegram-воронки — 12-денний курс засновника (щодня о 19:00 — повідомлення і відео) і ланцюжок «Кейс будівництва» — та YouTube-канал компанії. Склав карту шляху клієнта від життєвого тригера до угоди, з задачею для кожної точки дотику.</dd></div>
           <div><dt>Результат</dt><dd class="res">Кваліфікований лід → перегляд: <em>з 2% до 12%</em>. 2&nbsp;000+ органічних підписників у теплій базі, найкраще відео — 65&nbsp;000 органічних переглядів.</dd></div>
         </dl>
       </div>
       <div class="stack">
-        <figure style="margin:0"><button class="shot wide" data-zoom="img/cjm.jpg" aria-label="Відкрити карту шляху клієнта"><img src="img/cjm.jpg" alt="Карта шляху клієнта з точками дотику"></button><figcaption class="cap">Карта шляху клієнта: тригер → знайомство із забудовником → дослідження і порівняння</figcaption></figure>
-        <figure style="margin:0"><button class="shot wide" data-zoom="img/bot-course.jpg" aria-label="Відкрити сценарій 12-денного курсу"><img src="img/bot-course.jpg" alt="Сценарій 12-денної Telegram-воронки"></button><figcaption class="cap">12-денний курс засновника в Telegram, щодня о 19:00</figcaption></figure>
-        <figure style="margin:0"><button class="shot wide" data-zoom="img/bot-chain.jpg" aria-label="Відкрити сценарій ланцюжка про ринки після війни"><img src="img/bot-chain.jpg" alt="Сценарій чат-бота про ринки нерухомості після війни" style="max-height:300px;object-fit:cover;object-position:top"></button><figcaption class="cap">Ланцюжок «Досвід військових дій в інших країнах»</figcaption></figure>
+        <figure style="margin:0"><button class="shot" data-zoom="img/bot-course.jpg" aria-label="Відкрити сценарій 12-денного курсу"><img src="img/bot-course.jpg" alt="Сценарій 12-денної Telegram-воронки" width="2200" height="626"></button><figcaption class="cap">12-денний курс засновника в Telegram, щодня о 19:00</figcaption></figure>
+        <figure style="margin:0"><button class="shot" data-zoom="img/bot-build.jpg" data-pano aria-label="Відкрити сценарій ланцюжка «Кейс будівництва»"><img src="img/bot-build.jpg" alt="Сценарій Telegram-ланцюжка «Кейс будівництва»" width="2436" height="414"></button><figcaption class="cap">Ланцюжок «Кейс будівництва»</figcaption></figure>
+        <figure style="margin:0"><button class="shot" data-zoom="img/cjm.jpg" aria-label="Відкрити карту шляху клієнта"><img src="img/cjm.jpg" alt="Карта шляху клієнта з точками дотику" width="2000" height="700"></button><figcaption class="cap">Карта шляху клієнта: тригер → знайомство із забудовником → дослідження і порівняння</figcaption></figure>
       </div>
     </article>
 
@@ -531,19 +593,19 @@ blockquote::before{content:"“";position:absolute;left:22px;top:10px;font:700 6
       <div class="phase">
         <p class="mono days">Дні 1–30</p>
         <h3>Фундамент</h3>
-        <p>Аудит і ресерч: воронка від кліку до угоди і комунікація на кожному її етапі в CRM, канали, бюджет і команда; цільова аудиторія, її заперечення і конкуренти.</p>
+        <p>Аудит і ресерч: воронка від кліку до угоди, комунікація на кожному її етапі в CRM, аудит каналів комунікації, бюджет і команда; сегментація ЦА, її заперечення і конкуренти.</p>
         <p class="out"><span>На виході</span>Карта втрат і список гіпотез з оцінкою ефекту</p>
       </div>
       <div class="phase">
         <p class="mono days">Дні 31–60</p>
         <h3>Стіни</h3>
-        <p>Визначаю SQL і SLA для відділу продажу. Покращую комунікацію з лідом на кожному етапі воронки в CRM. Ставлю цілі й KPI кожному напряму.</p>
+        <p>Узгоджую SQL і SLA для відділу продажу. Покращую комунікацію з потенційним клієнтом на кожному етапі воронки. Ставлю цілі й KPI кожному напряму.</p>
         <p class="out"><span>На виході</span>Цілі й KPI по кожному напряму, погоджені з власником, і щотижневий звіт по воронці: ліди → SQL → перегляди → угоди</p>
       </div>
       <div class="phase">
         <p class="mono days">Дні 61–90</p>
         <h3>Дах</h3>
-        <p>Оргструктура під цілі, OKR і звітність для кожного напряму. Медіаплан і контент-план воронок, які формують попит і закривають заперечення цільової аудиторії.</p>
+        <p>Оргструктура відділу під цілі, OKR і звітність для кожного напряму. Медіаплан і контент-план воронок, які формують попит і закривають заперечення ЦА.</p>
         <p class="out"><span>На виході</span>План на рік з прогнозом лідів, переглядів і угод</p>
       </div>
     </div>
@@ -555,14 +617,45 @@ blockquote::before{content:"“";position:absolute;left:22px;top:10px;font:700 6
     <div class="head">
       <p class="mono">Етапи</p>
       <h2>Досвід</h2>
-      <p>Від будівельного майданчика до керівника маркетингу девелопера.</p>
+      <p>Від будівельного майданчика до керівника маркетингу девелопера. Висота поверху — масштаб відповідальності.</p>
     </div>
-    <div class="gantt" role="img" aria-label="Шкала досвіду: будівельний бізнес 2011–2020, Дом еко-хутра 2020–2022, Slots City 2022–2025, DFD грудень 2025 — вересень 2026">
-      <div class="grow"><div class="who">Будівельний бізнес<small>2011–2020</small></div><div class="lane"><i style="left:0;width:57.1%"></i></div></div>
-      <div class="grow"><div class="who">«Дом еко-хутра»<small>2020–2022</small></div><div class="lane"><i style="left:57.1%;width:12.7%"></i></div></div>
-      <div class="grow"><div class="who">Slots City<small>2022–2025</small></div><div class="lane"><i style="left:69.8%;width:19%"></i></div></div>
-      <div class="grow"><div class="who">DFD<small>12.2025–09.2026</small></div><div class="lane"><i class="now" style="left:94.7%;width:5.3%"></i></div></div>
-      <div class="years" aria-hidden="true"><span style="left:0">2011</span><span style="left:19%">2014</span><span style="left:38.1%">2017</span><span style="left:57.1%">2020</span><span style="left:76.2%">2023</span><span style="left:95.2%">2026</span></div>
+    <div class="floors">
+      <div class="tower">
+        <div class="t-roof" aria-hidden="true"></div>
+        <div class="t-body">
+          <div class="fl top">
+            <span class="lvl up hl" aria-hidden="true">2026</span><span class="lvl hl" aria-hidden="true">2025</span>
+            <p class="mono">Верхній поверх · грудень 2025 — вересень 2026</p>
+            <h3>Head of Marketing · DFD</h3>
+            <p class="d">Керував маркетингом девелопера трьох котеджних містечок: стратегія, бюджет, команда, продажі в зв'язці з комерційним відділом, бренд засновника.</p>
+            <div class="chips"><span><b>3</b> містечка: комфорт+, бізнес, преміум</span><span>Команда <b>6 + 2</b></span><span><b>80%</b> плану за <b>60%</b> бюджету</span><span>Конверсія в перегляд <b>×6</b></span></div>
+          </div>
+          <div class="fl">
+            <span class="lvl" aria-hidden="true">2022</span>
+            <p class="mono">2-й поверх · 2022 — 2025</p>
+            <h3>Slots City — Traffic Manager</h3>
+            <p class="d">Performance в iGaming: 110&nbsp;000+ підписників у Telegram, срібна кнопка YouTube.</p>
+          </div>
+          <div class="fl">
+            <span class="lvl" aria-hidden="true">2020</span>
+            <p class="mono">1-й поверх · 2020 — 2022</p>
+            <h3>«Дом еко-хутра» — засновник</h3>
+            <p class="d">Власний e-commerce: маркетинг з нуля, CPL −40%.</p>
+          </div>
+        </div>
+        <div class="t-ground" aria-hidden="true"></div>
+        <div class="fl found">
+          <span class="lvl" aria-hidden="true">2011</span>
+          <p class="mono">Фундамент · 2011 — 2020</p>
+          <h3>Будівельний бізнес — власник</h3>
+          <p class="d">5 будинків і 2 квартири під ключ.</p>
+        </div>
+      </div>
+      <div class="tstats">
+        <div><b>6 років</b><span>у маркетингу: e&#8209;commerce, performance, девелопер</span></div>
+        <div><b>11 років</b><span>власником бізнесу: будівництво й e&#8209;commerce</span></div>
+        <div><b>9 років</b><span>у будівництві — знаю продукт зсередини</span></div>
+      </div>
     </div>
 
     <div class="jobs">
@@ -571,11 +664,14 @@ blockquote::before{content:"“";position:absolute;left:22px;top:10px;font:700 6
         <div>
           <h3>DFD (Diachuk Family Development) — Head of Marketing<span>Девелопер котеджних містечок під Києвом: Montana City (комфорт+), Zoloche Provance (бізнес), Золочів Ліс (преміум)</span></h3>
           <ul>
-            <li>80% річного плану продажів на 2026 рік — до кінця вересня, витративши 60% річного маркетингового бюджету; вартість угоди для маркетингу на 25% нижча за планову.</li>
-            <li>Конверсія лід → кваліфікований з 5% до 20%, кваліфікований → перегляд з 2% до 12%.</li>
-            <li>Перезапуск Gran Montaña → Montana City під розширення з 5 до 20 га: ребренд, сайт, кампанія запуску.</li>
-            <li>Бренд засновника і власні медіа: YouTube, Telegram-воронки, чат-боти.</li>
-            <li>Команда 6 людей і 2 постійні підрядники: оргструктура, OKR і звітність по кожному напряму, наскрізна аналітика, план-факт.</li>
+            <li>Виконав 80% річного плану продажів на 2026 рік до кінця вересня, витративши 60% річного маркетингового бюджету. Знизив вартість угоди для маркетингу на 25% проти плану.</li>
+            <li>Збільшив конверсію воронки: лід → кваліфікований лід з 5% до 20% (×4), кваліфікований лід → перегляд з 2% до 12% (×6). Досяг цього через контент, що формує попит: воронки в чат-ботах, YouTube, Telegram, Instagram.</li>
+            <li>Синхронізував маркетинг і продажі: спільний критерій якісного ліда і теги причин відмови в CRM. Впровадив наскрізну аналітику від джерела трафіку до угоди і бюджетування план-факт для всього відділу.</li>
+            <li>Спланував і провів перезапуск Gran Montaña → Montana City під розширення містечка з 5 до 20 га: ребренд, новий сайт, комунікація запланованої інфраструктури і кампанія запуску — борди в місцях, де найчастіше буває цільова аудиторія, таргет, контент-серія.</li>
+            <li>Організував благодійне барбекю із засновником у Montana City: 25+ гостей, збір на дрони-перехоплювачі, одна угода після івенту.</li>
+            <li>Вибудував особистий бренд засновника: раніше участь у галузевих конференціях коштувала $3–5k, тепер його запрошують спікером безкоштовно.</li>
+            <li>Побудував власні медіа компанії: найкраще відео на YouTube набрало 65&nbsp;000 органічних переглядів, Telegram-воронки зібрали 2&nbsp;000+ органічних підписників.</li>
+            <li>Керував командою з 6 людей і 2 постійних підрядників. Перебудував оргструктуру: переглянув ролі, профілі посад і KPI, запровадив OKR і звітність для кожного напряму. Команда стала дешевшою.</li>
           </ul>
         </div>
       </div>
@@ -584,9 +680,9 @@ blockquote::before{content:"“";position:absolute;left:22px;top:10px;font:700 6
         <div>
           <h3>Slots City — Traffic Manager<span>iGaming — одна з найконкурентніших ніш performance-маркетингу</span></h3>
           <ul>
-            <li>110&nbsp;000+ цільових підписників у Telegram-канал; найкращі рекламні зв'язки давали підписника по $0,3.</li>
-            <li>ERR каналу понад 25% — через ігрові механіки й ситуативний контент.</li>
-            <li>Срібна кнопка YouTube: 20&nbsp;000+ нових підписників на місяць, вартість підписника знижена з $2 до $1,2.</li>
+            <li>Залучив 110&nbsp;000+ цільових підписників у Telegram-канал; найкращі рекламні зв'язки давали підписника по $0,3.</li>
+            <li>Утримував ERR каналу понад 25% — найвищий серед конкурентів — через ігрові механіки й ситуативний контент.</li>
+            <li>Отримав срібну кнопку YouTube: 20&nbsp;000+ нових підписників на місяць. Знизив вартість підписника з $2 до $1,2 (−40%).</li>
           </ul>
         </div>
       </div>
@@ -595,9 +691,9 @@ blockquote::before{content:"“";position:absolute;left:22px;top:10px;font:700 6
         <div>
           <h3>«Дом еко-хутра» — засновник<span>Власний e-commerce проєкт</span></h3>
           <ul>
-            <li>Запустив з нуля: аналіз попиту й конкурентів, сегментація ЦА, лендінг з інтернет-магазином, Instagram і Facebook.</li>
+            <li>Запустив проєкт з нуля: аналіз попиту й конкурентів, сегментація ЦА, лендінг з інтернет-магазином, Instagram і Facebook.</li>
             <li>Знизив CPL на 40% через багатоетапний прогрів і нативні креативи в Meta.</li>
-            <li>З першого сезону став другим за обсягом закупівель у постачальника — обігнав магазини, які працюють по 10 років.</li>
+            <li>Вийшов на друге місце за обсягом закупівель у постачальника з першого сезону — обігнав магазини, які працюють по 10 років.</li>
           </ul>
         </div>
       </div>
@@ -606,8 +702,8 @@ blockquote::before{content:"“";position:absolute;left:22px;top:10px;font:700 6
         <div>
           <h3>Власний бізнес — будівництво будинків і ремонт квартир під ключ<span>Власник</span></h3>
           <ul>
-            <li>Найбільші проєкти: 5 збудованих будинків і 2 квартири під ключ.</li>
-            <li>Сам вибудував лідогенерацію: лендінг з квізом для кваліфікації лідів знизив вартість ліда.</li>
+            <li>Побудував 5 будинків і зробив 2 квартири під ключ — найбільші проєкти.</li>
+            <li>Сам вибудував лідогенерацію: запустив лендінг з квізом для кваліфікації лідів і знизив вартість ліда.</li>
           </ul>
         </div>
       </div>
@@ -630,7 +726,7 @@ blockquote::before{content:"“";position:absolute;left:22px;top:10px;font:700 6
       <li>Спершу продаю довіру, потім мрію.</li>
     </ul>
     <h2>Обговоримо ваш проєкт</h2>
-    <p class="lead">Шукаю роль Head of Marketing у девелопера заміської нерухомості або в компанії з дорогим продуктом і довгим циклом угоди.</p>
+    <p class="lead">Шукаю роль Head of Marketing у девелопера заміської нерухомості.</p>
     <div class="cta">
       <a class="btn btn-primary" href="https://t.me/Anton_lucky_man" target="_blank" rel="noopener">Написати в Telegram →</a>
       <a class="btn btn-ghost" href="Anton_Chepuryshkin_Head_of_Marketing.pdf" download>Завантажити PDF</a>
@@ -638,7 +734,7 @@ blockquote::before{content:"“";position:absolute;left:22px;top:10px;font:700 6
     <div class="stamp">
       <div class="s2"><span class="k">Розробив</span><span class="val">Чепуришкін Антон</span></div>
       <div class="s2"><span class="k">Посада</span><span class="val">Head of Marketing</span></div>
-      <div class="s2"><span class="k">Місто</span><span class="val">Київ</span></div>
+      <div class="s2"><span class="k">Формат роботи</span><span class="val">Віддалено, виїзди на об'єкти за потреби</span></div>
       <div class="s2"><span class="k">Телефон</span><span class="val"><a id="phone" href="tel:+380674579726">+38 067 457 97 26</a><button class="copy" type="button" data-copy="phone">копіювати</button></span></div>
       <div class="s2"><span class="k">Email</span><span class="val"><a id="email" href="mailto:antonchepuryshkin@gmail.com">antonchepuryshkin@gmail.com</a><button class="copy" type="button" data-copy="email">копіювати</button></span></div>
       <div class="s2"><span class="k">Telegram</span><span class="val"><a href="https://t.me/Anton_lucky_man" target="_blank" rel="noopener">@Anton_lucky_man</a></span></div>
@@ -656,7 +752,7 @@ blockquote::before{content:"“";position:absolute;left:22px;top:10px;font:700 6
 <script>
 (function(){
   var lb=document.getElementById('lb'), img=document.getElementById('lbimg'), last=null;
-  function open(btn){ last=btn; img.src=btn.getAttribute('data-zoom'); img.alt=btn.querySelector('img').alt; img.className=btn.hasAttribute('data-tall')?'tall':''; lb.hidden=false; document.getElementById('lbclose').focus(); }
+  function open(btn){ last=btn; img.src=btn.getAttribute('data-zoom'); img.alt=btn.querySelector('img').alt; img.className=btn.hasAttribute('data-pano')?'pano':(btn.hasAttribute('data-tall')?'tall':''); lb.hidden=false; document.getElementById('lbclose').focus(); }
   function close(){ lb.hidden=true; img.removeAttribute('src'); if(last) last.focus(); }
   document.querySelectorAll('[data-zoom]').forEach(function(b){ b.addEventListener('click', function(){ open(b); }); });
   document.getElementById('lbclose').addEventListener('click', close);
