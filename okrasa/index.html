@@ -42,8 +42,7 @@ a{color:var(--forest)}
 .backbtn:hover{border-color:#C6C9D1;background:#FAFAF7}
 .backbtn svg{width:18px;height:18px}
 .backbtn[hidden]{display:none}
-.brand{font-weight:300;font-size:23px;letter-spacing:-.01em}
-.brand b{font-weight:600}
+.brand{display:block;height:40px;width:auto}
 .count{font-size:13.5px;color:var(--muted)}
 .bar{height:2px;background:var(--line);margin:18px 48px 0}
 .bar i{display:block;height:100%;background:var(--green);width:0;transition:width .3s ease}
@@ -195,6 +194,7 @@ h2{font-weight:300;font-size:33px;line-height:1.15;letter-spacing:-.015em;margin
   .media.hide-m{display:none}
   .panel{min-height:auto}
   .top{padding:18px 20px 0}
+  .brand{height:32px}
   .gal{margin:-18px -18px 16px}
   .house{padding:18px}
   .alt{flex-wrap:wrap}
@@ -224,7 +224,7 @@ h2{font-weight:300;font-size:33px;line-height:1.15;letter-spacing:-.015em;margin
     <div class="top">
       <div class="top-l">
         <button class="backbtn" id="backBtn" aria-label="Назад" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></button>
-        <div class="brand">О.<b>Краса</b></div>
+        <img class="brand" src="img/logo.png?v=5" alt="О.Краса" width="164" height="40">
       </div>
       <div class="count" id="count"></div>
     </div>
