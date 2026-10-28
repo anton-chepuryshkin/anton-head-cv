@@ -1,0 +1,615 @@
+/* Квіз О.Краса — спільна логіка підбору і тексти повідомлень.
+   Один і той самий файл працює на сайті (logic.js) і в Google Apps Script (частина Code.gs).
+   Демо-концепт Антона Чепуришкіна для О.Краси. */
+
+var S = {ans:{}, loyalty:false, name:'', phone:'', email:''};
+
+/* ---------- Дані: будинки у продажу на okrasa.city/3d станом на 27.10.2026 ----------
+   номер|черга|модель|тип(1 котедж,3 таунхаус,4 сітіхаус)|площа|ціна $|ділянка га|поверх */
+const RAW = `22|1|140|1|166.5|335000|0.0763|1
+19|1|170|1|191.01|385000|0.08|1
+50.3|1|120|3|126.1|170000|0.02|1
+50.4|1|120|3|126.1|170000|0.02|1
+50.5|1|120|3|126.1|170000|0.02|1
+50.6|1|120|3|126.1|170000|0.02|1
+50.7|1|120|3|126.1|170000|0.02|1
+50.8|1|120|3|126.1|179000|0.03|1
+46.6|1|120|3|126.1|179000|0.03|1
+46.5|1|120|3|126.1|170000|0.02|1
+41.6|1|120|3|126.1|170000|0.02|1
+41.2|1|120|3|126.1|170000|0.02|1
+42.3|1|120|3|126.1|170000|0.02|1
+42.4|1|120|3|126.1|170000|0.02|1
+42.5|1|120|3|126.1|170000|0.02|1
+40.7|1|120|3|126.1|170000|0.02|1
+40.6|1|120|3|126.1|170000|0.02|1
+40.5|1|120|3|126.1|170000|0.02|1
+40.4|1|120|3|126.1|170000|0.02|1
+40.3|1|120|3|126.1|170000|0.02|1
+40.2|1|120|3|126.1|170000|0.02|1
+40.1|1|120|3|126.1|179000|0.03|1
+37.1|1|120|3|126.1|179000|0.03|1
+37.2|1|120|3|126.1|170000|0.02|1
+37.3|1|120|3|126.1|170000|0.02|1
+37.4|1|120|3|126.1|170000|0.02|1
+37.5|1|120|3|126.1|170000|0.02|1
+37.6|1|120|3|126.1|170000|0.02|1
+37.7|1|120|3|126.1|170000|0.02|1
+37.8|1|120|3|126.1|179000|0.03|1
+49.8|1|100|3|99.53|155000|0.02|1
+51.3|1|100|3|105.03|149000|0.01|1
+51.4|1|100|3|108.17|155000|0.02|1
+51.5|1|100|3|104.2|150000|0.02|1
+51.6|1|100|3|105.03|149000|0.01|1
+45.5|1|100|3|105.03|149000|0.02|1
+45.4|1|100|3|104.2|150000|0.02|1
+45.2|1|100|3|105.03|149000|0.02|1
+70|2|110|1|108.49|279000|0.11|1
+66|2|170|1|206.55|419000|0.09|1
+65|2|185|1|220.07|439000|0.09|1
+68|2|185|1|220.07|439000|0.1|1
+59|2|210|1|233.99|459000|0.09|1
+69|2|210|1|233.99|459000|0.1|1
+73.1|2|120|3|136.85|185000||1
+73.2|2|120|3|126.1|170000||1
+73.3|2|120|3|126.1|170000||1
+73.4|2|120|3|126.1|170000||1
+73.5|2|120|3|126.1|170000||1
+73.6|2|120|3|126.1|170000||1
+73.7|2|120|3|126.1|170000||1
+73.8|2|120|3|126.1|170000||1
+73.9|2|120|3|126.1|185000|0.0302|1
+74.4|2|120|3|108.2|155000||1
+74.5|2|120|3|105.03|150000||1
+74.6|2|120|3|104.2|152000||1
+74.7|2|120|3|108.2|155000||1
+74.8|2|120|3|105.03|150000||1
+74.9|2|120|3|104.8|159000|0.03|1
+76.1|2|120|3|104.8|159000|0.0325|1
+76.2|2|120|3|105.03|150000||1
+76.4|2|120|3|104.2|152000||1
+76.5|2|120|3|105.03|150000||1
+76.6|2|120|3|108.2|155000||1
+76.7|2|120|3|104.2|152000||1
+76.8|2|120|3|108.6|162000|0.0283|1
+77.2|2|120|3|126.1|170000||1
+77.3|2|120|3|126.1|170000||1
+77.4|2|120|3|126.1|170000||1
+77.5|2|120|3|126.1|170000||1
+77.6|2|120|3|126.1|170000||1
+77.7|2|120|3|126.1|170000||1
+77.8|2|120|3|126.1|185000|0.0319|1
+80.2|2|120|3|125.33|175000||1
+80.3|2|120|3|125.97|175000||1
+80.4|2|120|3|125.33|175000||1
+80.5|2|120|3|125.97|175000||1
+80.6|2|120|3|125.33|175000||1
+80.7|2|120|3|125.97|175000||1
+81.1|2|120|3|126.1|185000||1
+81.2|2|120|3|126.1|170000||1
+81.3|2|120|3|126.1|170000||1
+81.4|2|120|3|126.1|170000||1
+79.2|2|100|3|105.03|150000||1
+79.3|2|100|3|104.2|152000||1
+79.4|2|100|3|108.18|155000||1
+79.5|2|100|3|105.03|150000||1
+79.6|2|100|3|104.8|159000||1
+79.7|2|100|3|108.63|162000||1
+79.8|2|100|3|105.03|150000||1
+79.9|2|100|3|104.2|152000||1
+79.10|2|100|3|108.18|155000||1
+79.11|2|100|3|105.03|150000||1
+75.1.1|2|73|4|87.6|120000||1
+75.2.1|2|73|4|87.6|120000||1
+75.3.1|2|73|4|87.6|120000||1
+75.4.1|2|73|4|87.6|120000||1
+75.5.1|2|77|4|87.6|120000||1
+75.6.1|2|77|4|87.6|120000||1
+75.7.1|2|77|4|87.6|120000||1
+75.8.1|2|73|4|87.6|120000||1
+75.9.1|2|73|4|87.6|120000||1
+75.10.1|2|73|4|87.6|120000||1
+75.11.1|2|77|4|87.6|120000||1
+75.12.1|2|77|4|87.6|120000||1
+75.13.1|2|77|4|87.6|120000||1
+75.14.1|2|77|4|87.6|120000||1
+78.1.1|2|73|4|87.6|120000||1
+78.2.1|2|73|4|87.6|120000||1
+78.3.1|2|73|4|87.6|120000||1
+78.4.1|2|73|4|87.6|120000||1
+78.5.1|2|77|4|87.6|120000||1
+78.6.1|2|77|4|87.6|120000||1
+78.7.1|2|77|4|87.6|120000||1
+78.8.1|2|77|4|87.6|120000||1
+75.1.2|2|80|4|89.2|120000||2
+75.2.2|2|80|4|89.2|120000||2
+75.3.2|2|80|4|89.2|120000||2
+75.4.2|2|80|4|89.2|120000||2
+75.5.2|2|109|4|89.2|120000||2
+75.6.2|2|109|4|89.2|120000||2
+75.7.2|2|109|4|89.2|120000||2
+75.8.2|2|80|4|89.2|120000||2
+75.9.2|2|80|4|89.2|120000||2
+75.10.2|2|80|4|89.2|120000||2
+75.11.2|2|109|4|89.2|120000||2
+75.12.2|2|109|4|89.2|120000||2
+75.13.2|2|109|4|89.2|120000||2
+75.14.2|2|109|4|89.2|120000||2
+78.1.2|2|80|4|89.2|120000||2
+78.2.2|2|80|4|89.2|120000||2
+78.3.2|2|80|4|89.2|120000||2
+78.4.2|2|80|4|89.2|120000||2
+78.5.2|2|109|4|89.2|120000||2
+78.6.2|2|109|4|89.2|120000||2
+78.7.2|2|109|4|89.2|120000||2
+78.8.2|2|109|4|89.2|120000||2`;
+
+const MODELS = {
+  '73': {kind:'city', bed:2, bath:1, levels:1},
+  '77': {kind:'city', bed:2, bath:1, levels:1},
+  '80': {kind:'city', bed:2, bath:2, levels:1, extra:'тераса і балкон'},
+  '109':{kind:'city', bed:2, bath:null, levels:1, extra:'планування уточнюється'},
+  '100':{kind:'town', bed:3, bath:2, levels:2},
+  '120':{kind:'town', bed:3, bath:2, levels:2},
+  '110':{kind:'cottage', bed:2, bath:2, levels:1},
+  '140':{kind:'cottage', bed:2, bath:2, levels:1},
+  '170':{kind:'cottage', bed:3, cab:1, bath:2, levels:2, extra:'окремий кабінет'},
+  '185':{kind:'cottage', bed:4, bath:3, levels:2, extra:'атріум другого світла'},
+  '210':{kind:'cottage', bed:4, bath:3, levels:2, extra:'атріум другого світла'}
+};
+const KIND = {city:'Сітіхаус', town:'Таунхаус', cottage:'Котедж'};
+const KIND_PHOTO = {city:'territory', town:'townhouses', cottage:'cottage'};
+
+/* Візуалізації, планування і 3D-тури моделей — з okrasa.city/3d (28.10.2026). Підвантажуються з сайту О.Краси */
+const SITE = 'https://okrasa.city/wp-content/themes/okrasa/assets/';
+const GAL_DIR = {'73':'city-house','77':'city-house','80':'city-house','109':'city-house','100':'100-townhouse','110':'110-townhouse','120':'150-townhouse','140':'135-house','170':'150-house','185':'179-house','210':'208-house'};
+const GAL_IDX = {'140':[1], '185':[2,3,1]}; // для O.140 лише кадр без басейну: басейн не входить у будинок
+const renders = model => (GAL_IDX[model] || [1,2,3]).map(i => `${SITE}s3d/images/build-types-gallery/${GAL_DIR[model]}/${i}.jpg`);
+const PLANS = {
+  '77':['1/1/CITI_HAUS-Mebli-02.jpg'],
+  '100':['1/1/O110-Mebli-01.jpg','1/1/O110-Mebli-02.jpg'],
+  '120':['1/1/O120-Mebli-01.jpg','1/1/O120-Mebli-02.jpg'],
+  '110':['1/2/O110_z_meblyami-02-1741331992.jpg'],
+  '140':['1/1/O135-Mebli-1.jpg'],
+  '170':['1/1/O165-Mebli-01.jpg','1/1/O165-Mebli-02.jpg'],
+  '185':['1/1/179-Mebli--01.jpg','1/1/179-Mebli--02.jpg'],
+  '210':['1/1/208-Mebli--01.jpg','1/1/208-Mebli--02.jpg']
+};
+const plans = model => (PLANS[model] || []).map(p => `${SITE}img/projects/${p}`);
+const TOURS = {'77':'okrasa77/?scene=0','100':'okrasa100/','120':'okrasa120/','140':'okrasa140/','170':'okrasa170/','185':'okrasa185/','210':'okrasa210/'};
+const tour = model => TOURS[model] ? 'https://apartment-tours.smartorange.com.ua/' + TOURS[model] : null;
+const CV = 'https://anton-chepuryshkin.github.io/anton-head-cv/';
+const USD_UAH = 45.85; // курс, який вказує ЛУН 21.10.2026
+
+/* Каталог. За замовчуванням — вбудований знімок; на сайті й на сервері його замінює живий з okrasa.city */
+const lotFrom = l => MODELS[String(l.model)] ? Object.assign({num:String(l.num), queue:+l.queue, model:String(l.model), area:+l.area, price:+l.price, land: l.land ? +l.land : null, floor:+l.floor||0}, MODELS[String(l.model)]) : null;
+var LOTS = RAW.trim().split('\n').map(s => { const [num,queue,model,type,area,price,land,floor] = s.split('|'); return lotFrom({num,queue,model,area,price,land,floor}); }).filter(Boolean);
+var CAT = {free: LOTS.length, q1total: 200, q1sold: 126, live: false};
+function setCatalog(data){
+  if(!data || !Array.isArray(data.lots)) return false;
+  const lots = data.lots.map(lotFrom).filter(l => l && l.price > 0);
+  if(lots.length < 10) return false; // щось пішло не так — лишаємо вбудований знімок
+  LOTS = lots;
+  CAT = Object.assign({}, CAT, data.stats || {}, {free: lots.length, live: true});
+  return true;
+}
+
+/* ---------- Питання ---------- */
+const Q = {
+  q1:{n:1, photo:'territory', title:'Хто проходить тест?', why:'Щоб звертатися до вас правильно.', type:'single', opts:[
+    {id:'m', t:'Я — чоловік'}, {id:'f', t:'Я — жінка'}]},
+  qa:{n:2, photo:'river', title:'Скільки вам років?', why:'Так я краще зрозумію, який будинок вам потрібен: перший для молодої сім’ї чи такий, де буде зручно і через двадцять років.', type:'single', opts:[
+    {id:'a20', t:'До 30'}, {id:'a30', t:'30–39'}, {id:'a40', t:'40–49'}, {id:'a50', t:'50–59'}, {id:'a60', t:'60 і більше'}]},
+  q2:{n:3, photo:'townhouses', title:'Хто житиме в будинку?', why:'Від складу сім’ї залежить кількість спалень і формат: від сітіхаусу до котеджу на 4 спальні.', type:'single', opts:[
+    {id:'single', t:{m:'Живу сам', f:'Живу сама'}},
+    {id:'couple', t:'Нас двоє'},
+    {id:'kid1', t:'Ми з однією дитиною'},
+    {id:'kid2', t:'Ми з двома дітьми'},
+    {id:'kid3', t:'Троє і більше дітей'},
+    {id:'multi', t:'Кілька поколінь, разом з батьками'},
+    {id:'parents', t:'Купую для батьків або як інвестицію'}]},
+  q3:{n:4, photo:'nature', title:'Що вас найбільше втомлює в поточному форматі життя?', why:'Хочу почути реальні болі, а не те, що прийнято казати. Далі говоритиму саме про них, а не про абстрактні плюси життя за містом.', type:'multi', max:3, hint:'Оберіть до 3 найкритичніших для вас', opts:[
+    {id:'noise', t:'Шум і сусіди за стіною'},
+    {id:'privacy', t:'Немає приватності'},
+    {id:'traffic', t:'Затори й дорога'},
+    {id:'nature', t:'Мало природи, брудне повітря'},
+    {id:'space', t:'Мало простору для сім’ї й дітей'},
+    {id:'blackout', t:'Відключення світла, відчуття небезпеки'},
+    {id:'ok', t:'Загалом усе ок, просто розглядаю варіанти', solo:true}]},
+  q4:{n:5, photo:'cottage', title:'Що для вас найважливіше у майбутньому будинку?', why:'Ваш вибір покаже, на чому в жодному разі не можна економити саме у вашому випадку.', type:'multi', max:3, opts:[
+    {id:'autonomy', t:'Автономність і безпека: блекаути, укриття', k:1},
+    {id:'quality', t:'Якість будівництва і матеріалів', k:1},
+    {id:'kids', t:'Простір і безпечний двір для дітей', j:1},
+    {id:'cabinet', t:'Кабінет або гостьова кімната'},
+    {id:'bigplot', t:'Велика ділянка: сад, барбекю', j:1},
+    {id:'minimal', t:'Мінімум клопоту з ділянкою', k:1},
+    {id:'onefloor', t:'Один поверх, без сходів'},
+    {id:'neighbors', t:'Сусіди свого кола, спільнота', k:1},
+    {id:'water', t:'Природа і вода поруч', j:1}]},
+  q5:{n:6, photo:'road', title:'Наскільки для вас важливо швидко діставатися до Києва?', why:'Від О.Краси до метро Житомирська — 6 км, близько 10 хвилин. Перевірю, чи це працює для вашого ритму життя.', type:'single', opts:[
+    {id:'right', t:'Дуже: щодня їжджу на правий берег'},
+    {id:'left', t:'Дуже: щодня їжджу на лівий берег'},
+    {id:'weekly', t:'Важливо: у Києві кілька разів на тиждень'},
+    {id:'remote', t:'Не критично: працюю віддалено або в Ірпені, Бучі'},
+    {id:'far', t:'Не важливо: живу в іншому місті або за кордоном'}]},
+  q6:{n:7, photo:'paths', title:'Скільки котеджних містечок ви вже подивилися наживо?', why:'Якщо ви тільки починаєте, розповім, на що дивитися. Якщо бачили багато, не повторюватиму очевидне.', type:'single', opts:[
+    {id:'none', t:'Жодного, тільки починаю'},
+    {id:'few', t:'1–3'},
+    {id:'many', t:'4 і більше'},
+    {id:'lived', t:{m:'Уже жив у будинку, знаю, що шукаю', f:'Уже жила в будинку, знаю, що шукаю'}}]},
+  q7:{n:8, photo:'evening', title:'Як ви зазвичай ухвалюєте великі рішення?', why:'Комусь треба відчути атмосферу, комусь — побачити кошторис. Надішлю підбір у тому вигляді, який вам зручніше читати.', type:'single', opts:[
+    {id:'feel', t:'Мені важливо побачити й відчути. Якщо «моє» — вирішую швидко'},
+    {id:'numbers', t:'Спершу цифри: ціна, графік оплат, документи, строки'},
+    {id:'compare', t:'Порівнюю кілька варіантів і раджуся з тими, хто вже купив'},
+    {id:'mixed', t:'Довіряю інтуїції, але перевіряю деталі'}]},
+  q8:{n:9, photo:'garden', title:'Що досі стримує від переїзду у власний будинок?', why:'Чому ви досі не переїхали? Назвіть це чесно — і я покажу факти саме по ваших сумнівах.', type:'multi', max:3, hint:'Оберіть до 3', opts:[
+    {id:'fear', t:'Боюся, що забудовник підведе або не добудує'},
+    {id:'burned', t:{m:'Уже обпікся на забудовнику', f:'Уже обпеклася на забудовнику'}},
+    {id:'infra', t:{m:'Не впевнений, що поруч буде вся інфраструктура', f:'Не впевнена, що поруч буде вся інфраструктура'}},
+    {id:'price', t:'Ціна: не розумію, чи вона адекватна ринку'},
+    {id:'upkeep', t:'Незрозуміло, скільки коштує утримувати будинок'},
+    {id:'sell', t:'Спершу треба продати нерухомість'},
+    {id:'war', t:'Війна і невизначеність'},
+    {id:'notfound', t:{m:'Не знайшов варіант, який підходить', f:'Не знайшла варіант, який підходить'}},
+    {id:'info', t:'Бракує інформації, не знаю, з чого почати'}]},
+  q9:{n:10, photo:'facade', title:'Який бюджет ви розглядаєте?', why:'Щоб показати лише те, що реально у вашому діапазоні. Ціни — з сайту на сьогодні.', type:'single', opts:[
+    {id:'b150', t:'$150 000–200 000'},
+    {id:'b200', t:'$200 000–300 000'},
+    {id:'b300', t:'$300 000–400 000'},
+    {id:'b400', t:'Від $400 000'},
+    {id:'lt150', t:'Менше $150 000'},
+    {id:'unknown', t:'Хочу спершу зрозуміти реальні ціни'}]},
+  q10:{n:11, photo:'sunset', title:'Як плануєте оплату?', why:'Розрахую платіж саме під ваш сценарій.', type:'single', manual:true, opts:[
+    {id:'full', t:'Повна оплата власними коштами'},
+    {id:'install', t:'Розтермінування від забудовника'},
+    {id:'trade', t:'Продам або обміняю нерухомість'},
+    {id:'mortgage', t:'Іпотека або єОселя'},
+    {id:'undecided', t:{m:'Ще не визначився', f:'Ще не визначилася'}}]},
+  q11:{n:12, photo:'aerial', title:'Коли хотіли б переїхати?', why:'Перша черга вже збудована, друга будується. Підберу те, що встигне до вашої дати.', type:'single', opts:[
+    {id:'m3', t:{m:'Протягом 1–3 місяців, готовий до рішення', f:'Протягом 1–3 місяців, готова до рішення'}},
+    {id:'m6', t:'Через 3–6 місяців'},
+    {id:'m12', t:'Через 6–12 місяців'},
+    {id:'y1', t:'Через рік і пізніше'},
+    {id:'browse', t:'Поки просто вивчаю'}]}
+};
+const TOTAL_Q = 12;
+
+
+const g = () => S.ans.q1 === 'f' ? 'f' : 'm';
+const tx = t => typeof t === 'string' ? t : t[g()];
+const has = (q, id) => Array.isArray(S.ans[q]) && S.ans[q].includes(id);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+// Форматування без Intl: однаково в браузері і в Apps Script
+const num = (n, d=0) => { const f = Math.pow(10, d), v = Math.round(n*f)/f; const parts = String(Math.abs(v)).split('.'); const i = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '\u00a0'); return (v < 0 ? '−' : '') + i + (parts[1] ? ',' + parts[1] : ''); };
+const usd = n => '$' + num(Math.round(n));
+const plural = (n, one, few, many) => { const a=Math.abs(n)%100, b=a%10; if(!Number.isInteger(n)) return few; if(a>10&&a<20) return many; if(b===1) return one; if(b>=2&&b<=4) return few; return many; };
+const sotky = ha => { const v = Math.round(ha*1000)/10; return num(v,1) + ' ' + plural(v,'сотка','сотки','соток'); };
+const beds = n => n + ' ' + plural(n,'спальня','спальні','спалень');
+const houses = n => n + ' ' + plural(n,'будинок','будинки','будинків');
+
+/* ---------- Підбір ---------- */
+const NEED = {single:1, couple:2, kid1:3, kid2:3, kid3:4, multi:4, parents:2};
+const BUDGET = {b150:[150000,200000], b200:[200000,300000], b300:[300000,400000], b400:[400000,Infinity], lt150:[0,150000]};
+const rooms = l => l.bed + (l.cab||0);
+const oneFloor = l => (l.kind==='cottage' && l.levels===1) || (l.kind==='city' && l.floor===1);
+
+function stage(){
+  const q6 = S.ans.q6;
+  let s = q6==='none' ? 'Турист' : q6==='few' ? 'Підготовлений' : 'Експерт';
+  if(has('q8','info') || S.ans.q11==='browse') s = 'Турист';
+  return s;
+}
+function psycho(){
+  let j=0, k=0;
+  ({feel:()=>j+=2, numbers:()=>k+=2, compare:()=>k+=2, mixed:()=>{j++;k++;}}[S.ans.q7]||(()=>{}))();
+  (S.ans.q4||[]).forEach(id=>{ const o = Q.q4.opts.find(x=>x.id===id); if(o && o.j) j++; if(o && o.k) k++; });
+  return j>k ? 'Життєлюб' : k>j ? 'Кар’єрист' : 'Змішаний';
+}
+
+function match(){
+  const q2 = S.ans.q2, q9 = S.ans.q9, q11 = S.ans.q11;
+  const base = NEED[q2]||2;
+  const need = Math.min(4, base + (has('q4','cabinet') ? 1 : 0));
+  const [lo, hi] = BUDGET[q9] || [0, Infinity];
+  const noBudget = q9 === 'unknown' || !q9;
+  const one = has('q4','onefloor');
+  const urgent = q11 === 'm3';
+  // Жорсткі умови. Якщо повного збігу немає, вони стають штрафами, а не відсікають усе
+  const viol = l => ({
+    budget: !noBudget && l.price > hi*1.1,
+    rooms: rooms(l) < need,
+    onefloor: one && !oneFloor(l),
+    urgent: urgent && l.queue !== 1
+  });
+  const clean = l => { const v = viol(l); return !v.budget && !v.rooms && !v.onefloor && !v.urgent; };
+  const exact = LOTS.filter(clean);
+  const count = exact.length;
+  const fallback = count ? null : 'soft';
+  const cand = count ? exact : LOTS.slice();
+  const cityOk = q9==='lt150' || q2==='parents' || ((q2==='single'||q2==='couple') && !has('q4','bigplot'));
+  const score = l => {
+    let s = 0;
+    if(noBudget) s += 10; else if(l.price >= lo*0.95 && l.price <= hi) s += 30; else if(l.price < lo) s += 12; else s += 8;
+    if(l.kind==='city' && !cityOk) s -= 25;
+    if(has('q4','bigplot') && l.kind==='cottage') s += 20 + Math.min(10, Math.round(((l.land||0)*100) - 7));
+    if(has('q4','minimal')) s += l.kind==='town' ? 20 : l.kind==='city' ? 10 : 0;
+    if(has('q4','cabinet') && l.cab && l.bed >= base) s += 15;
+    if(has('q3','noise') && l.kind==='cottage') s += 15;
+    if(has('q3','privacy') && l.kind==='cottage') s += 10;
+    if((has('q4','kids') || has('q3','space')) && l.kind!=='city') s += 8;
+    if(has('q4','water') && l.kind==='cottage') s += 4;
+    if(q2==='parents' && oneFloor(l)) s += 15;
+    if(['a50','a60'].includes(S.ans.qa) && oneFloor(l)) s += 10;
+    if(q11==='m6') s += l.queue===1 ? 15 : 8;
+    if(q11==='m12') s += l.queue===2 ? 12 : 8;
+    const extra = rooms(l) - need; if(extra > 1) s -= 5*(extra-1);
+    const v = viol(l);
+    if(v.rooms) s -= 30*(need - rooms(l));
+    if(v.onefloor) s -= 30;
+    if(v.urgent) s -= 20;
+    if(v.budget) s -= Math.round((l.price - hi)/hi*100);
+    return s;
+  };
+  cand.forEach(l => l._s = score(l));
+  // При однаковому балі: без бюджету — дешевший, з бюджетом — просторіший
+  const areaBucket = l => Math.round(l.area/5);
+  cand.sort((a,b) => b._s - a._s || (noBudget ? 0 : areaBucket(b) - areaBucket(a)) || (a.price - b.price) || (b.land||0) - (a.land||0));
+  const main = cand[0];
+  const others = cand.filter(l => l.model !== main.model);
+  const otherKind = others.find(l => l.kind !== main.kind);
+  const alt = (otherKind && otherKind._s >= main._s - 15) ? otherKind : (others[0] || null);
+  return {main, alt, count, fallback, viol: viol(main), need, base, lo, hi, noBudget};
+}
+
+function reasonsFor(h, m){
+  const r = [];
+  const q2 = S.ans.q2;
+  const roomTxt = {single:'вистачить і на спальню, і на кабінет', couple:'є місце для гостей або кабінету', kid1:'дитяча, ваша спальня і ще одна кімната', kid2:'кожній дитині своя кімната', kid3:'вистачить на всю сім’ю', multi:'вистачить на кілька поколінь', parents:'зручно для батьків'}[q2];
+  r.push(rooms(h) >= m.need ? `${beds(h.bed)}${h.cab?' і кабінет':''} — ${roomTxt || 'простору вистачить'}` : `${beds(h.bed)}${h.cab?' і кабінет':''}`);
+  if(has('q4','onefloor') && oneFloor(h)) r.push('Один рівень, без сходів');
+  if(has('q4','cabinet') && h.cab) r.push('Окремий кабінет — можна працювати з дому');
+  else if(has('q4','cabinet') && h.bed > m.base) r.push('Зайва спальня — під кабінет або гостьову');
+  if(has('q4','bigplot') && h.kind==='cottage' && h.land) r.push(`Ділянка ${sotky(h.land)} — під сад і барбекю`);
+  if(has('q4','minimal') && h.kind==='town') r.push('Невелика ділянка, яка не забирає вихідних');
+  if(has('q4','minimal') && h.kind==='city') r.push('Без ділянки, яку треба доглядати');
+  if((has('q3','noise') || has('q3','privacy')) && h.kind==='cottage') r.push('Окремий будинок — без сусідів за стіною');
+  if(h.queue===1) r.push('Перша черга, будинок уже збудований');
+  else r.push('Друга черга, будується. Строк здачі назве менеджер');
+  if(!m.noBudget && h.price < m.lo*0.95) r.push(`Дешевше за ваш бюджет на ${usd(m.lo - h.price)}`);
+  else if(!m.noBudget && h.price <= m.hi) r.push('Вкладається у ваш бюджет');
+  else if(!m.noBudget && h.price > m.hi) r.push(`На ${usd(h.price - m.hi)} вище верхньої межі бюджету`);
+  return r.slice(0,4);
+}
+
+
+function paymentFor(h){
+  const p = S.ans.q10;
+  const lines = [];
+  const full = () => `Повна оплата: ${usd(h.price*0.98)} замість ${usd(h.price)} — знижка 2% і бонус до комплектації.`;
+  const inst = () => `Розтермінування: внесок 20% — ${usd(h.price*0.2)}, далі ${usd(h.price*0.8/24)} на місяць протягом 24 місяців, без переплати.`;
+  const trade = () => 'Трейд-ін: ціна будинку фіксується на час продажу вашої нерухомості, продаж бере на себе О.Краса.';
+  const mort = () => 'Іпотека або єОселя: менеджер перевірить, чи підходите ви під умови програми і банку.';
+  let title = 'Як можна оплатити';
+  if(p==='full'){ title='Ваш варіант оплати'; lines.push(full()); }
+  else if(p==='install'){ title='Ваш варіант оплати'; lines.push(inst()); }
+  else if(p==='trade'){ title='Ваш варіант оплати'; lines.push(trade()); lines.push(inst()); }
+  else if(p==='mortgage'){ title='Ваш варіант оплати'; lines.push(mort()); }
+  else { lines.push(full(), inst(), trade(), mort()); }
+  if(S.loyalty) lines.push('Є програми для військових, ВПО і великих сімей — менеджер розповість, що підходить вам.');
+  return {title, lines};
+}
+
+function barrierBlocks(h, fallback){
+  const picked = S.ans.q8||[];
+  const q1 = h.queue===1;
+  const ppm = num(Math.round(h.price*USD_UAH/h.area/100)/10,1);
+  const B = {
+    fear:['Ваше питання «чи добудують»', `Перша черга, ${houses(CAT.q1total)}, уже збудована, ${CAT.q1sold} з них продано. ${q1 ? 'Будинок, який я підібрав, уже стоїть — приїжджайте подивитися саме на нього.' : 'Будинок, який я підібрав, — у другій черзі. Приїжджайте подивитися готову першу, а строк здачі другої назве менеджер.'}`],
+    burned:['Не вірте на слово', `Перша черга, ${houses(CAT.q1total)}, уже збудована, ${CAT.q1sold} продано. ${q1 ? 'Ваш будинок уже стоїть — приїжджайте, покажу його і познайомлю з тим, як тут живуть.' : 'Покажу готову першу чергу і поясню, на якому етапі друга.'}`],
+    infra:['Ваше питання про інфраструктуру', 'Уже працюють застосунок мешканця, каршеринг, спортивні й дитячі майданчики, прокат електроінструменту. Садочок — за 500 м. Школа Midgard — у планах.'],
+    price:['Ваше питання про ціну', `Метр у цьому будинку — приблизно ${ppm} тис. грн. Для порівняння: у новобудовах Києва в середньому 60 200 грн/м², у бізнес-класі близько 80 000. Тут до метра додаються власний вхід${h.land?' і ділянка':''}.`],
+    upkeep:['Ваше питання про утримання', 'Реальні витрати на утримання цього будинку менеджер розрахує на перегляді.'],
+    sell:['Ваше питання про продаж нерухомості', 'Трейд-ін: ціна будинку фіксується на час продажу вашої нерухомості, продаж бере на себе О.Краса.'],
+    war:['Ваше питання про безпеку', 'Власний сонячний парк для внутрішньої інфраструктури, генератори, артезіанські свердловини, укриття в будинках і на території.'],
+    notfound:['Чому саме ці будинки', `Я підібрав їх з тих ${CAT.free}, що є в продажу сьогодні, — під ваш склад сім’ї, бюджет і терміни.`],
+    info:['З чого почати', 'Надсилаю чек-лист «9 питань забудовнику до підписання договору» — пройдіться по ньому на перегляді.']
+  };
+  if(fallback) B.notfound = ['Чому саме ці будинки', `Я перебрав усі ${houses(CAT.free)}, що є в продажу сьогодні. Повного збігу немає, тому показую найближчі й одразу називаю компроміс. З’явиться точніший варіант — повідомимо.`];
+  // Пріоритет: спершу довіра, потім безпека, інфраструктура, гроші
+  const ORDER = ['burned','fear','war','infra','price','sell','upkeep','notfound','info'];
+  return ORDER.filter(id => picked.includes(id) && !(id==='fear' && picked.includes('burned'))).map(id => [...B[id], id]);
+}
+
+function buildResult(){
+  const m = match();
+  const main = m.main;
+  const reasons = reasonsFor(main, m);
+  const pay = paymentFor(main);
+  // Чесно називаємо, яку саме умову не вдалося виконати
+  const v = m.viol, gaps = [];
+  if(m.fallback){
+    if(v.rooms) gaps.push(has('q4','cabinet')
+      ? `${rooms(main)} ${plural(rooms(main),'кімната','кімнати','кімнат')} замість ${m.need} (зі спальнями й кабінетом)`
+      : `${rooms(main)} ${plural(rooms(main),'спальня','спальні','спалень')} замість ${m.need}`);
+    if(v.onefloor) gaps.push(main.kind==='city' ? `${main.floor}-й поверх замість першого` : 'два рівні замість одного');
+    if(v.urgent) gaps.push('друга черга, тож заїхати за 1–3 місяці не вийде, строк здачі назве менеджер');
+    if(v.budget) gaps.push(`на ${usd(main.price - m.hi)} вище вашого бюджету`);
+  }
+  const compromise = gaps.join('; ');
+  const fallbackNote = m.fallback ? `Будинку, який відповідає всім вашим умовам одразу, зараз у продажу немає. Найближчий варіант має компроміс: ${compromise}.` : '';
+  return {...m, reasons, payTitle:pay.title, payLines:pay.lines, fallbackNote, compromise, barriers:barrierBlocks(main, m.fallback), stage:stage(), psy:psycho()};
+}
+
+function grade(R){
+  const fast = ['m3','m6'].includes(S.ans.q11);
+  const fits = R.noBudget || R.main.price <= R.hi;
+  if(R.stage==='Турист' || ['y1','browse'].includes(S.ans.q11)) return 'C';
+  if(fast && fits && R.stage!=='Турист' && !R.fallback) return 'A';
+  return 'B';
+}
+const partnerWord = () => g()==='f' ? 'чоловікові' : 'дружині';
+const isFamily = () => ['couple','kid1','kid2','kid3','multi'].includes(S.ans.q2);
+
+function storyLine(h){
+  if((has('q3','noise') || has('q3','privacy')) && h.kind==='cottage') return 'Уявіть вечір без сусідів за стіною: тиша, тераса, своє подвір’я.';
+  if(has('q4','kids') || has('q3','space')) return 'Уявіть суботу: діти гуляють на закритій території, а ви п’єте каву на терасі.';
+  if(has('q4','water') || has('q3','nature')) return 'Уявіть ранок: річка за 100 метрів, парк замість парковки.';
+  return 'Уявіть, як ви повертаєтеся додому — у тишу, а не в під’їзд.';
+}
+
+
+/* ---------- Чек-лист «9 питань забудовнику» ---------- */
+const CHECKLIST = [
+  'Яка черга вже збудована і чи можна зайти в готовий будинок?',
+  'Що з інфраструктури працює сьогодні, а що лише в планах — і коли?',
+  'Скільки об’єктів компанія вже здала і хто відповідає за проєкт?',
+  'На кого оформлена земля, чи є дозвіл на будівництво і які документи покажуть до підписання?',
+  'Що саме входить у ціну: комунікації, потужність електрики, вода, каналізація, дороги, оздоблення?',
+  'Скільки коштуватиме утримання території після заселення: охорона, прибирання, сміття, освітлення?',
+  'Що прописано в договорі, якщо строк здачі зірветься: штрафи, компенсація, право розірвати?',
+  'Що буде з вашими грошима, якщо ви захочете розірвати договір або продати будинок до завершення?',
+  'Чи можна поговорити з мешканцями, які вже живуть у збудованій черзі?'
+];
+
+/* ---------- Повідомлення: однакові для прев’ю на сайті і для реальної відправки ---------- */
+const small = (url, w, h) => 'https://wsrv.nl/?url=' + encodeURIComponent(url.replace(/^https?:\/\//, '')) + '&w=' + w + (h ? '&h=' + h + '&fit=cover' : '') + '&output=jpg&q=82';
+const lc1 = x => x.charAt(0).toLowerCase() + x.slice(1);
+const specsLine = h => `${num(h.area,1)} м², ${beds(h.bed)}${h.cab?' і кабінет':''}${h.land?`, ділянка ${sotky(h.land)}`:''}`;
+const ROAD = 'Дорога: 6 км до метро Житомирська, близько 10 хвилин.';
+const DEMO_INTRO = 'Це демо-концепт квізу для О.Краси. Ось ваш підбір.';
+const deepLink = (ctx, suffix) => (ctx && ctx.bot && ctx.leadId) ? `https://t.me/${ctx.bot}?start=${ctx.leadId}${suffix||''}` : '';
+const ansText = id => { const q = Q[id], v = S.ans[id]; if(!q || v === undefined || v === null || v === '') return '—'; const ids = Array.isArray(v) ? v : [v]; return ids.map(x => { const o = q.opts.find(o => o.id === x); return o ? tx(o.t) : x; }).join('; '); };
+const madeVerb = () => g()==='f' ? 'підібрала' : 'підібрав';
+
+function shareText(){
+  return `Подивись, який будинок я ${madeVerb()} для нас в О.Красі: фото, планування і ціна.`;
+}
+
+/* Telegram: фото → планування → текст із кнопками. Текст — у форматі Telegram HTML (b, i, a; переноси рядків) */
+function tgParts(R, ctx){
+  const h = R.main, a = R.alt;
+  const pMain = plans(h.model), pAlt = a ? plans(a.model).slice(0,1) : [];
+  const planList = pMain.concat(pAlt);
+  const story = storyLine(h);
+  const mainP = `<b>1. ${KIND[h.kind]} O.${h.model}</b>, черга ${h.queue}, будинок № ${esc(h.num)}\n${specsLine(h)}\n<b>${usd(h.price)}</b>\n\nЧому він: ${R.reasons.slice(0,3).map(lc1).join('; ')}.`;
+  const altP = a ? `<b>2. Альтернатива: ${KIND[a.kind].toLowerCase()} O.${a.model}</b>\n${num(a.area,1)} м², ${beds(a.bed)}${a.cab?' і кабінет':''}, ${usd(a.price)}` : '';
+  const payP = `<b>${R.payTitle}</b>\n${R.payLines.join('\n')}`;
+  const barP = R.barriers.slice(0,2).map(b => `<b>${b[0]}</b>\n${b[1]}`);
+  const noPlan = pMain.length ? '' : `Планування O.${h.model} надішле менеджер окремо.`;
+  const head = [`<b>${esc(S.name)}, ваш підбір в О.Красі готовий.</b>`].concat(R.fallbackNote ? [R.fallbackNote] : []);
+  const body = R.psy !== 'Життєлюб'
+    ? [mainP, payP, altP, noPlan].concat(barP, [ROAD])
+    : [story, mainP, altP, noPlan].concat(barP, [payP, ROAD]);
+  const t = tour(h.model);
+  const buttons = [[{text:`Записатися на перегляд O.${h.model}`, data:'view'}]];
+  if(t) buttons.push([{text:`3D-тур по O.${h.model}`, url:t}]);
+  if(isFamily()){
+    const link = deepLink(ctx, '_p');
+    buttons.push([{text:`Переслати ${partnerWord()}`, url: link ? `https://t.me/share/url?url=${encodeURIComponent(link)}&text=${encodeURIComponent(shareText())}` : ''}]);
+  }
+  buttons.push([{text:'Поставити питання', data:'ask'}]);
+  return {
+    intro: DEMO_INTRO,
+    photos: renders(h.model).slice(0,3),
+    plans: planList,
+    planCaption: planList.length ? `Планування O.${h.model}${pAlt.length ? ` і O.${a.model}` : ''}` : '',
+    text: head.concat(body.filter(Boolean)).join('\n\n'),
+    buttons
+  };
+}
+
+/* Те, що отримує дружина / чоловік за кнопкою «Переслати»: аргументи для іншого типу людини */
+function partnerParts(R, ctx){
+  const h = R.main;
+  const who = esc(S.name);
+  const pMain = plans(h.model);
+  const lead = `<b>${who} ${madeVerb()} для вашої сім’ї ${KIND[h.kind].toLowerCase()} O.${h.model} в О.Красі, Ірпінь.</b>`;
+  const ready = h.queue===1 ? 'Будинок уже збудований — приїдьте подивитися разом.' : 'Будинок у другій черзі. Готову першу чергу можна подивитися вже зараз — приїдьте разом.';
+  const forFeelings = R.psy !== 'Життєлюб'; // хто пройшов тест «через цифри» — партнерові даємо атмосферу, і навпаки
+  const body = forFeelings
+    ? [storyLine(h), [specsLine(h)].concat(R.reasons.slice(1).filter(x => !/черга/.test(x)).slice(0,2)).join('. ') + '.', ready]
+    : [`${specsLine(h)}\n<b>${usd(h.price)}</b>`, `<b>${R.payTitle}</b>\n${R.payLines.join('\n')}`, h.queue===1 ? `Перша черга, ${houses(CAT.q1total)}, уже збудована, ${CAT.q1sold} з них продано.` : '', ROAD, ready];
+  const t = tour(h.model);
+  const buttons = [[{text:'Записатися на перегляд разом', data:'view'}]];
+  if(t) buttons.push([{text:`3D-тур по O.${h.model}`, url:t}]);
+  return {
+    intro: `Це демо-концепт квізу для О.Краси. ${who} поділи${g()==='f'?'лася':'вся'} з вами підбором.`,
+    photos: renders(h.model).slice(0,3),
+    plans: pMain,
+    planCaption: pMain.length ? `Планування O.${h.model}` : '',
+    text: [lead].concat(body.filter(Boolean)).join('\n\n'),
+    buttons
+  };
+}
+
+/* Email: проста верстка таблицями з інлайн-стилями, щоб однаково виглядало в Gmail, Apple Mail і Outlook */
+function mailParts(R, ctx){
+  const h = R.main, a = R.alt;
+  const F = 'font-family:Arial,Helvetica,sans-serif;color:#1F2026;';
+  const P = (html, extra) => `<p style="${F}font-size:15px;line-height:1.55;margin:0 0 14px;${extra||''}">${html}</p>`;
+  const img = (src, plan) => `<img src="${plan ? small(src, 1100) : small(src, 1100, 760)}" width="270" alt="" style="display:block;width:100%;max-width:270px;height:auto;border-radius:6px;${plan?'border:1px solid #E3E2DC;':''}">`;
+  const grid = list => {
+    if(!list.length) return '';
+    const rows = [];
+    for(let i=0; i<list.length; i+=2){
+      rows.push(`<tr><td width="50%" style="padding:0 6px 12px 0;vertical-align:top">${list[i]}</td><td width="50%" style="padding:0 0 12px 6px;vertical-align:top">${list[i+1]||''}</td></tr>`);
+    }
+    return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse">${rows.join('')}</table>`;
+  };
+  const pMain = plans(h.model), pAlt = a ? plans(a.model).slice(0,1) : [];
+  const link = deepLink(ctx);
+  const t = tour(h.model);
+  const cta = link ? `<table role="presentation" cellpadding="0" cellspacing="0" style="margin:4px 0 18px"><tr><td style="background:#277137;border-radius:8px"><a href="${link}" style="${F}display:inline-block;padding:13px 22px;color:#ffffff;font-weight:bold;font-size:15px;text-decoration:none">Отримати підбір і планування в Telegram</a></td></tr></table>` : '';
+  const html = `<div style="background:#F3EFE2;padding:24px 12px">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:600px;margin:0 auto;background:#ffffff;border-radius:12px;border-collapse:separate">
+<tr><td style="padding:26px 26px 8px">
+${P('<span style="font-size:22px;font-weight:300">О.<b>Краса</b></span>', 'margin-bottom:18px')}
+${P(`${esc(S.name)}, дякую, що пройшли тест. Ось ваш підбір.`)}
+${R.fallbackNote ? P(R.fallbackNote) : ''}
+${P(`<b>${KIND[h.kind]} O.${h.model}</b>, черга ${h.queue}, будинок № ${esc(h.num)}<br>${specsLine(h)}<br><span style="font-size:22px">${usd(h.price)}</span>`)}
+${grid(renders(h.model).slice(0,2).map(s => img(s)).concat(pMain.map(s => img(s, true))))}
+${P(R.reasons.map(x => '— ' + x).join('<br>'))}
+${pMain.length ? '' : P(`Планування O.${h.model} надішле менеджер окремо.`)}
+${t ? P(`<a href="${t}" style="color:#277137">Подивитися 3D-тур по O.${h.model}</a>`) : ''}
+${cta}
+${a ? P(`<b>Альтернатива: ${KIND[a.kind].toLowerCase()} O.${a.model}</b> — ${num(a.area,1)} м², ${beds(a.bed)}${a.cab?' і кабінет':''}, ${usd(a.price)}`) + grid([img(renders(a.model)[0])].concat(pAlt.map(s => img(s, true)))) : ''}
+${R.barriers.map(b => P(`<b>${b[0]}.</b> ${b[1]}`)).join('')}
+${P(`<b>${R.payTitle}.</b> ${R.payLines.join(' ')}`)}
+${P('<b>9 питань, які варто поставити будь-якому забудовнику до підписання договору</b>', 'margin-bottom:6px')}
+<ol style="${F}font-size:14px;line-height:1.5;margin:0 0 18px;padding-left:20px">${CHECKLIST.map(q => `<li style="margin:0 0 6px">${q}</li>`).join('')}</ol>
+${P('Сергій Крикун<br><span style="color:#626776">керуючий партнер О.Краси</span>')}
+</td></tr>
+<tr><td style="padding:14px 26px 22px;border-top:1px solid #E3E2DC">${P(`Демо-концепт квізу для О.Краси від <a href="${CV}" style="color:#626776">Антона Чепуришкіна</a>. Ви отримали цей лист, бо пройшли тест і залишили email.`, 'font-size:12px;color:#626776;margin:0')}</td></tr>
+</table></div>`;
+  return {subject: `${S.name}, ${a ? '2 будинки' : 'будинок'} в О.Красі під вашу сім’ю`, html};
+}
+
+/* Картка ліда для менеджера — Telegram HTML */
+function cardText(R){
+  const h = R.main, gr = grade(R);
+  const rest = R.barriers.slice(2);
+  const L = [
+    `<b>${gr} · Новий лід із квізу (демо)</b>`,
+    `${esc(S.name)}, +380 ${esc(S.phone)}, ${esc(S.email)}`,
+    '',
+    `<b>Вік:</b> ${ansText('qa')}`,
+    `<b>Стадія:</b> ${R.stage}${has('q8','burned') ? ', травматолог — обпікся на іншому забудовнику' : ''}`,
+    `<b>Психотип:</b> ${R.psy}${R.psy==='Кар’єрист' ? ' — починайте з цифр і графіка оплат' : R.psy==='Життєлюб' ? ' — починайте з атмосфери і фото' : ''}`,
+    `<b>Сім’я:</b> ${ansText('q2')}`,
+    `<b>Втомлює:</b> ${ansText('q3')}`,
+    `<b>Важливо:</b> ${ansText('q4')}`,
+    `<b>Стримує:</b> ${ansText('q8')}`
+  ];
+  if(rest.length) L.push(`<b>Не розкрито в Telegram:</b> ${rest.map(b => lc1(tx(Q.q8.opts.find(o => o.id===b[2]).t))).join('; ')} — підніміть на дзвінку.`);
+  L.push(`<b>Бюджет і оплата:</b> ${ansText('q9')}; ${ansText('q10')}${S.loyalty ? '; цікавлять програми лояльності' : ''}`);
+  L.push(`<b>Терміни:</b> ${ansText('q11')}`);
+  L.push(`<b>Поїздки в Київ:</b> ${ansText('q5')}`);
+  if(S.ans.q5==='left') L.push('<b>Ризик:</b> щодня їздить на лівий берег — дорога довша, проговоріть це.');
+  if(R.fallback) L.push(`<b>Компроміс:</b> повного збігу немає — ${R.compromise}. Обговоріть це першим.`);
+  L.push(`<b>Підібрано:</b> O.${h.model}, № ${esc(h.num)}, черга ${h.queue}, ${usd(h.price)}${R.alt ? ` · O.${R.alt.model}, № ${esc(R.alt.num)}, ${usd(R.alt.price)}` : ''}`);
+  L.push('');
+  L.push(`<b>Почати дзвінок:</b> ${h.queue===1
+    ? `«${esc(S.name)}, за вашими відповідями ми підібрали O.${h.model} у першій черзі — він уже збудований. Коли вам зручно приїхати${isFamily()?' разом':''} подивитися саме на нього?»`
+    : `«${esc(S.name)}, за вашими відповідями ми підібрали O.${h.model} у другій черзі. Покажу вам готову першу чергу і розповім про строки другої. Коли зручно приїхати?»`}`);
+  return L.join('\n');
+}

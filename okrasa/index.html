@@ -1,0 +1,717 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<meta property="og:title" content="Який заміський будинок підходить саме вашій сім’ї?">
+<meta property="og:description" content="Демо-концепт квізу для О.Краси: підбір 1–2 будинків із цінами й розрахунком оплати.">
+<meta property="og:image" content="https://anton-chepuryshkin.github.io/anton-head-cv/okrasa/img/start.jpg">
+<title>Квіз О.Краса — демо-концепт</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#1F2026;
+  --muted:#626776;
+  --line:#E3E2DC;
+  --paper:#FFFFFF;
+  --cream:#F3EFE2;
+  --green:#71A700;
+  --forest:#277137;
+  --forest-tint:#F2F6EA;
+  --tg:#DCE6EE;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--paper);color:var(--ink);font-family:Manrope,system-ui,-apple-system,"Segoe UI",sans-serif;font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
+button,input{font:inherit;color:inherit}
+img{display:block;max-width:100%}
+a{color:var(--forest)}
+
+.app{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);min-height:100vh}
+.media{position:sticky;top:0;height:100vh;overflow:hidden;background:var(--cream)}
+.media img{width:100%;height:100%;object-fit:cover;object-position:center 42%;transition:opacity .35s ease}
+.media img.contain{object-fit:contain;padding:12%;background:var(--cream)}
+.media .cap{position:absolute;left:20px;bottom:20px;background:rgba(31,32,38,.74);color:#fff;font-size:12.5px;line-height:1.3;padding:7px 11px;border-radius:6px;max-width:calc(100% - 40px)}
+
+.panel{min-height:100vh;display:flex;flex-direction:column}
+.top{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:26px 48px 0}
+.top-l{display:flex;align-items:center;gap:12px}
+.backbtn{appearance:none;width:38px;height:38px;border:1px solid var(--line);border-radius:50%;background:var(--paper);display:grid;place-items:center;cursor:pointer;color:var(--ink);padding:0;transition:border-color .15s,background .15s}
+.backbtn:hover{border-color:#C6C9D1;background:#FAFAF7}
+.backbtn svg{width:18px;height:18px}
+.backbtn[hidden]{display:none}
+.brand{font-weight:300;font-size:23px;letter-spacing:-.01em}
+.brand b{font-weight:600}
+.count{font-size:13.5px;color:var(--muted)}
+.bar{height:2px;background:var(--line);margin:18px 48px 0}
+.bar i{display:block;height:100%;background:var(--green);width:0;transition:width .3s ease}
+.body{flex:1;width:100%;max-width:660px;padding:44px 48px 40px;margin:0 auto 0 0}
+.foot{padding:0 48px 22px;font-size:12px;color:var(--muted)}
+.foot a{color:var(--muted);text-underline-offset:2px}
+.foot a:hover{color:var(--ink)}
+
+.fade{animation:fade .22s ease}
+@keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+
+h1{font-weight:300;font-size:46px;line-height:1.08;letter-spacing:-.02em;margin:0 0 20px}
+h2{font-weight:300;font-size:33px;line-height:1.15;letter-spacing:-.015em;margin:0 0 18px}
+.qt{font-weight:400;font-size:29px;line-height:1.2;letter-spacing:-.01em;margin:0 0 16px}
+.lead{font-size:18px;color:var(--ink);max-width:52ch;margin:0 0 14px}
+.sub{color:var(--muted);max-width:56ch;margin:0 0 12px}
+
+.why{display:flex;gap:12px;align-items:flex-start;margin:0 0 26px;color:var(--muted);max-width:58ch}
+.why img{width:34px;height:34px;border-radius:50%;object-fit:cover;object-position:38% 22%;flex:none;margin-top:2px}
+.why span{font-size:15px}
+
+.opts{display:grid;gap:10px;margin:0;padding:0;list-style:none}
+.opt{width:100%;display:flex;gap:14px;align-items:center;text-align:left;padding:15px 18px;border:1px solid var(--line);border-radius:10px;background:var(--paper);cursor:pointer;font-size:16px;line-height:1.35;transition:border-color .15s,background .15s}
+.opt:hover{border-color:#C6C9D1}
+.opt .mk{flex:none;width:20px;height:20px;border:1.5px solid #B4B8C2;border-radius:50%;display:grid;place-items:center}
+.opt.multi .mk{border-radius:5px}
+.opt[aria-pressed="true"]{border-color:var(--forest);background:var(--forest-tint)}
+.opt[aria-pressed="true"] .mk{background:var(--forest);border-color:var(--forest)}
+.opt[aria-pressed="true"] .mk::after{content:"";width:9px;height:5px;border-left:2px solid #fff;border-bottom:2px solid #fff;transform:translateY(-1px) rotate(-45deg)}
+.opt:disabled{opacity:.45;cursor:not-allowed}
+.hint{font-size:13.5px;color:var(--muted);margin:-12px 0 16px}
+.check{display:flex;gap:10px;align-items:flex-start;margin-top:18px;font-size:15px;color:var(--ink);cursor:pointer}
+.check input{width:18px;height:18px;margin:3px 0 0;accent-color:var(--forest)}
+
+.nav{display:flex;align-items:center;gap:16px;margin-top:30px}
+.pains{font-size:19px}
+.sign{font-size:14px;color:var(--muted);margin:18px 0 0}
+.btn{appearance:none;border:0;border-radius:8px;background:var(--forest);color:#fff;font-weight:600;font-size:15.5px;padding:14px 24px;cursor:pointer}
+.btn:hover{background:#1F5E2D}
+.btn:disabled{background:#AEB9AF;cursor:not-allowed}
+.link{appearance:none;border:0;background:none;color:var(--muted);font-size:15px;padding:10px 0;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+:focus-visible{outline:2px solid var(--green);outline-offset:3px}
+
+.facts{margin:6px 0 0;padding:0;list-style:none;border-top:1px solid var(--line)}
+.facts li{padding:15px 0;border-bottom:1px solid var(--line)}
+.facts b{font-weight:600}
+.source{font-size:12.5px;color:var(--muted);margin-top:22px}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-top:8px}
+.cols h3{font-size:15px;font-weight:600;margin:0 0 10px}
+.cols ul{margin:0;padding:0;list-style:none}
+.cols li{position:relative;padding:0 0 10px 18px;font-size:15px}
+.cols li::before{content:"";position:absolute;left:0;top:.55em;width:8px;height:8px;border-radius:50%;background:var(--forest)}
+.cols .plan li::before{background:none;border:1.5px solid var(--forest)}
+.ol{margin:4px 0 0;padding-left:22px}
+.ol li{padding:6px 0}
+
+.bars{margin:14px 0 6px;display:grid;gap:16px}
+.br .lb{display:flex;justify-content:space-between;gap:12px;font-size:14.5px;margin-bottom:6px}
+.br .tr{height:12px;background:#EEEDE8;border-radius:6px;overflow:hidden}
+.br .tr i{display:block;height:100%;background:#B9BEC9;border-radius:6px}
+.br.ok .tr i{background:var(--forest)}
+.br.ok .lb b{color:var(--forest)}
+
+.counter{font-weight:300;font-size:72px;line-height:1;letter-spacing:-.03em;margin:10px 0 14px}
+
+.field{display:grid;gap:6px;margin-bottom:16px}
+.field label{font-size:14px;font-weight:600}
+.field input{border:1px solid var(--line);border-radius:8px;padding:13px 14px;font-size:16px;background:#fff}
+.field input:focus{border-color:var(--forest)}
+.phone{display:flex}
+.phone span{border:1px solid var(--line);border-right:0;border-radius:8px 0 0 8px;padding:13px 12px;background:#FAFAF7;color:var(--muted)}
+.phone input{border-radius:0 8px 8px 0;flex:1;min-width:0}
+.err{font-size:13.5px;color:#B3261E;min-height:0}
+
+.house{border:1px solid var(--line);border-radius:14px;padding:22px;margin:22px 0 16px;overflow:hidden}
+.gal{position:relative;margin:-22px -22px 18px;background:var(--cream)}
+.gal-track{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none}
+.gal-track::-webkit-scrollbar{display:none}
+.gal figure{flex:0 0 100%;margin:0;scroll-snap-align:start;position:relative;aspect-ratio:16/10}
+.gal img{width:100%;height:100%;object-fit:cover}
+.gal .tag{position:absolute;left:12px;top:12px;background:rgba(255,255,255,.88);color:var(--ink);font-size:11.5px;padding:3px 8px;border-radius:5px}
+.gal-btn{position:absolute;top:50%;transform:translateY(-50%);width:36px;height:36px;border-radius:50%;border:0;background:rgba(255,255,255,.9);display:grid;place-items:center;cursor:pointer;padding:0;color:var(--ink)}
+.gal-btn svg{width:16px;height:16px}
+.gal-btn.prev{left:12px}.gal-btn.next{right:12px}
+.gal-n{position:absolute;right:12px;bottom:12px;background:rgba(31,32,38,.7);color:#fff;font-size:12px;padding:3px 8px;border-radius:5px}
+.alt-in{display:flex;gap:14px;align-items:center;min-width:0}
+.alt-in img{width:84px;height:58px;object-fit:cover;border-radius:7px;flex:none;background:var(--cream)}
+.teaser{position:relative;border-radius:12px;overflow:hidden;margin:0 0 22px;border:1px solid var(--line);background:#FAFAF7}
+.teaser .ghost{position:absolute;inset:0;background-size:cover;background-position:center;filter:blur(7px) grayscale(1);opacity:.35;transform:scale(1.08)}
+.teaser .in{position:relative;padding:22px 22px 20px}
+.teaser h4{margin:0 0 6px;font-size:17px;font-weight:600}
+.teaser p{margin:0 0 14px;font-size:15px;color:var(--muted)}
+.album{display:grid;grid-template-columns:1fr 1fr;gap:3px;border-radius:12px 12px 12px 4px;overflow:hidden;max-width:480px;margin-bottom:6px;background:#fff}
+.album img{width:100%;aspect-ratio:4/3;object-fit:cover;background:var(--cream)}
+.album.one{grid-template-columns:1fr}
+.album.three img:first-child{grid-column:1/-1;aspect-ratio:16/9}
+.album.plans.three img:first-child{aspect-ratio:4/3}
+.album.plans img{object-fit:contain;background:#fff}
+.album-cap{font-size:13px;color:#5C6370;max-width:480px;margin:0 0 8px}
+.mail .pics{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin:10px 0 12px}
+.mail .pics img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:6px;background:var(--cream)}
+.mail .pics img.plan{object-fit:contain;background:#fff;border:1px solid var(--line)}
+.house .kind{font-size:13.5px;color:var(--muted);margin-bottom:4px}
+.house h3{font-size:22px;font-weight:600;margin:0}
+.house .price{font-weight:300;font-size:30px;letter-spacing:-.015em;margin:6px 0 16px}
+.specs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px 18px;margin:0 0 16px}
+.specs div{font-size:14.5px}
+.specs dt{color:var(--muted);font-size:12.5px}
+.specs dd{margin:0;font-weight:600}
+.why-list{margin:0;padding:0;list-style:none}
+.why-list li{position:relative;padding:0 0 8px 18px;font-size:15px}
+.why-list li::before{content:"";position:absolute;left:0;top:.6em;width:7px;height:7px;border-radius:50%;background:var(--green)}
+.alt{display:flex;justify-content:space-between;gap:16px;align-items:center;border:1px dashed #CFCFC8;border-radius:12px;padding:14px 18px;margin-bottom:16px;font-size:15px}
+.alt b{font-weight:600}
+.pay{background:var(--cream);border-radius:12px;padding:16px 18px;margin-bottom:22px;font-size:15px}
+.pay h4{margin:0 0 6px;font-size:15px}
+.pay p{margin:0 0 4px}
+.note{font-size:13px;color:var(--muted);margin:10px 0 0}
+
+.tabs{display:flex;gap:2px;margin:30px 0 14px;border-bottom:1px solid var(--line);overflow-x:auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{appearance:none;border:0;background:none;padding:10px 12px;font-size:14.5px;white-space:nowrap;flex:none;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px}
+.tab[aria-selected="true"]{color:var(--ink);font-weight:600;border-bottom-color:var(--forest)}
+.tg{background:var(--tg);border-radius:14px;padding:18px}
+.bubble{background:#fff;border-radius:12px 12px 12px 4px;padding:14px 16px;font-size:14.5px;line-height:1.5;max-width:480px;box-shadow:0 1px 0 rgba(0,0,0,.06)}
+.bubble p{margin:0 0 10px}
+.bubble p:last-child{margin:0}
+.bubble .dim{color:#8A8F9A;font-size:12.5px}
+.kb{display:grid;gap:6px;margin-top:8px;max-width:480px}
+.tg .bubble{margin-bottom:8px}
+.tg .bubble+.kb{margin-top:0}
+.behind{margin-top:30px;border-top:1px solid var(--line);padding-top:6px}
+.behind summary{cursor:pointer;color:var(--muted);font-size:14.5px;padding:12px 0}
+.behind .tabs{margin-top:8px}
+.btn{display:inline-block;text-decoration:none;text-align:center}
+.kb span,.kb a{display:block;text-decoration:none;text-align:center;background:rgba(255,255,255,.7);border-radius:8px;padding:9px;font-size:14px;font-weight:500;color:#2A6FA8}
+.mail{border:1px solid var(--line);border-radius:12px;font-size:14.5px;overflow:hidden}
+.mail .mail-body{margin:0}
+.mail .hd{color:var(--muted);font-size:13px;border-bottom:1px solid var(--line);padding:14px 18px}
+.mail .hd b{color:var(--ink)}
+.card{border:1px solid var(--line);border-left:4px solid var(--forest);border-radius:10px;padding:16px 18px;font-size:14.5px}
+.card p{margin:0 0 6px}
+.grade{display:inline-block;font-weight:700;color:#fff;background:var(--forest);border-radius:6px;padding:0 8px;margin-right:6px}
+
+@media (max-width:860px){
+  .app{grid-template-columns:1fr}
+  .media{position:relative;height:34vh;min-height:220px}
+  .media.tall{height:44vh}
+  .media.hide-m{display:none}
+  .panel{min-height:auto}
+  .top{padding:18px 20px 0}
+  .gal{margin:-18px -18px 16px}
+  .house{padding:18px}
+  .alt{flex-wrap:wrap}
+  .bar{margin:14px 20px 0}
+  .body{padding:28px 20px 28px;max-width:none}
+  .foot{padding:0 20px 20px}
+  h1{font-size:34px}
+  h2{font-size:27px}
+  .qt{font-size:24px}
+  .counter{font-size:56px}
+  .cols{grid-template-columns:1fr;gap:14px}
+  .specs{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .nav .btn{flex:1}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="media" id="media" aria-hidden="true">
+    <img id="mediaImg" src="img/start.jpg" alt="">
+    <div class="cap" id="mediaCap" hidden></div>
+  </aside>
+  <main class="panel">
+    <div class="top">
+      <div class="top-l">
+        <button class="backbtn" id="backBtn" aria-label="Назад" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></button>
+        <div class="brand">О.<b>Краса</b></div>
+      </div>
+      <div class="count" id="count"></div>
+    </div>
+    <div class="bar"><i id="barFill"></i></div>
+    <div class="body" id="view" aria-live="polite"></div>
+    <div class="foot">Концепт <a href="https://anton-chepuryshkin.github.io/anton-head-cv/" target="_blank" rel="noopener">Антона Чепуришкіна</a> для О.Краси</div>
+  </main>
+</div>
+
+<script src="config.js"></script>
+<script src="logic.js"></script>
+<script>
+/* Дані, питання, підбір і тексти повідомлень — у logic.js (спільний із сервером) */
+const ARROW = d => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${d==='l'?'M15 6l-6 6 6 6':'M9 6l6 6-6 6'}"/></svg>`;
+const SIGN = `Концепт <a href="${CV}" target="_blank" rel="noopener">Антона Чепуришкіна</a> для О.Краси`;
+
+/* ---------- Порядок кроків. # — слот для слайда, що залежить від відповідей ---------- */
+const SEQ = ['start','intro','q1','qa','q2','q3','empathy','q4','#after4','q5','q6','builders','q7','q8','#after8','q9','#after9','q10','q11','analysis','form','result'];
+
+Object.assign(S, {pos:0, step:'start', hist:[], consent:false, tab:'tg', leadId:'', sent:''});
+const CFG = Object.assign({api:'', bot:''}, window.QUIZ_CONFIG || {});
+const LIVE = !!CFG.api;
+
+const $ = s => document.querySelector(s);
+const view = $('#view');
+const shown = () => [...S.hist.map(h=>h.step), S.step];
+
+/* ---------- Навігація ---------- */
+function resolve(slot){
+  const seen = shown();
+  if(slot === '#after4'){
+    if((has('q4','autonomy') || has('q3','blackout')) && !seen.includes('autonomy')) return 'autonomy';
+    if(has('q4','kids') && !seen.includes('kids')) return 'kids';
+    return null;
+  }
+  if(slot === '#after8'){
+    const map = {burned:'firstqueue_burned', fear:'firstqueue', war:'autonomy', infra:'infra', price:'price', info:'checklist'};
+    const order = ['firstqueue_burned','firstqueue','autonomy','infra','price','checklist'];
+    const cand = (S.ans.q8||[]).map(x=>map[x]).filter(Boolean);
+    for(const id of order){ if(cand.includes(id) && !seen.includes(id) && !(id==='firstqueue' && seen.includes('firstqueue_burned'))) return id; }
+    // Спершу довіра: якщо жоден сумнів не дав слайда, все одно показуємо збудовану першу чергу
+    if(!seen.includes('firstqueue') && !seen.includes('firstqueue_burned')) return 'firstqueue';
+    return null;
+  }
+  if(slot === '#after9'){
+    if(S.ans.q9 === 'unknown' && !seen.includes('price')) return 'price';
+    return null;
+  }
+  return null;
+}
+let navLock = false;
+function next(){
+  if(navLock) return;
+  navLock = true; setTimeout(()=>navLock=false, 300);
+  S.hist.push({pos:S.pos, step:S.step});
+  for(let j=S.pos+1; j<SEQ.length; j++){
+    const key = SEQ[j];
+    if(key.startsWith('#')){ const id = resolve(key); if(id){ S.pos=j; S.step=id; break; } continue; }
+    S.pos=j; S.step=key; break;
+  }
+  render(true);
+}
+function back(){
+  const h = S.hist.pop(); if(!h) return;
+  S.pos=h.pos; S.step=h.step; render(true);
+}
+function restart(){
+  Object.assign(S, {pos:0, step:'start', hist:[], ans:{}, loyalty:false, consent:false, tab:'tg', leadId:'', sent:''});
+  render(true);
+}
+
+/* ---------- Рендер ---------- */
+function setMedia(name, cap, opts={}){
+  const img = $('#mediaImg');
+  img.classList.toggle('contain', !!opts.contain);
+  img.style.objectPosition = opts.pos || '';
+  const src = /^https?:/.test(name) ? name : 'img/'+name+'.jpg';
+  if(img.getAttribute('src') !== src) img.setAttribute('src', src);
+  // Підпис лишаємо тільки на візуалізаціях, щоб рендер не виглядав як готовий об’єкт
+  const cp = $('#mediaCap'); cp.hidden = cap !== 'Візуалізація'; cp.textContent = cap === 'Візуалізація' ? cap : '';
+  $('#media').classList.toggle('tall', !!opts.tall);
+  $('#media').classList.toggle('hide-m', !!opts.hideMobile);
+}
+function lastQn(){
+  const steps = shown().filter(s=>Q[s]);
+  return steps.length ? Q[steps[steps.length-1]].n : 0;
+}
+function setProgress(){
+  const n = Q[S.step] ? Q[S.step].n : lastQn();
+  const inQuiz = !['start','intro','analysis','form','result'].includes(S.step) || S.step==='analysis';
+  $('#count').textContent = S.step==='start' ? '12 питань, 3 хвилини' : (S.step==='result' ? 'Ваш підбір' : (S.step==='form' ? 'Останній крок' : (S.step==='intro' ? 'Знайомство' : 'Питання ' + n + ' з ' + TOTAL_Q)));
+  const pct = S.step==='start' ? 0 : S.step==='intro' ? 3 : ['analysis','form'].includes(S.step) ? 96 : S.step==='result' ? 100 : Math.round(n/TOTAL_Q*92);
+  $('#barFill').style.width = pct + '%';
+}
+function render(anim){
+  setProgress();
+  $('#backBtn').hidden = !S.hist.length || S.step==='start';
+  const r = RENDER[S.step] || RENDER[Q[S.step] ? 'question' : 'start'];
+  view.innerHTML = r();
+  if(anim){ view.classList.remove('fade'); void view.offsetWidth; view.classList.add('fade'); }
+  if(AFTER[S.step]) AFTER[S.step]();
+  if(Q[S.step]) bindQuestion();
+  const f = view.querySelector('[data-focus]'); if(f && anim) f.focus({preventScroll:true});
+  window.scrollTo({top:0});
+}
+const why = text => `<div class="why"><img src="img/krykun.jpg" alt=""><span>${text}</span></div>`;
+const navBack = () => ''; // назад — стрілкою вгорі
+
+const RENDER = {
+  start(){
+    setMedia('start','');
+    return `<h1 data-focus tabindex="-1">Який заміський будинок підходить саме вашій сім’ї?</h1>
+      <p class="lead">Пройдіть тест за 3 хвилини та отримайте підбір 1–2 будинків у Telegram з цінами та розрахунком оплати саме для вас.</p>
+      <p class="sub">Разом із підбором — чек-лист «9 питань забудовнику до підписання договору».</p>
+      <div class="nav"><button class="btn" data-act="next">Почати</button><span></span></div>`;
+  },
+  intro(){
+    setMedia('krykun','', {pos:'38% 30%', tall:true});
+    return `<h2 data-focus tabindex="-1">Вітаю!</h2>
+      <p class="lead">Мене звати Сергій Крикун. Я співзасновник і керуючий партнер О.Краси.</p>
+      <p class="lead">За плечима моєї команди Svitlo Development — 14 років на ринку нерухомості і 6 котеджних містечок. 30% наших продажів — за рекомендаціями тих, хто вже купив. Перша черга О.Краси, ${houses(CAT.q1total)}, уже збудована, і в ній живуть люди.</p>
+      <p class="lead">Пройдіть короткий тест — і я підберу 1–2 будинки під вашу сім’ю з тих, що зараз у продажу.</p>
+      <div class="nav">${navBack()}<button class="btn" data-act="next">Почнімо</button></div>`;
+  },
+  question(){
+    const q = Q[S.step];
+    setMedia(q.photo, '');
+    const val = S.ans[S.step];
+    const multi = q.type === 'multi';
+    const sel = multi ? (val||[]) : [val];
+    const full = multi && sel.length >= q.max;
+    const items = q.opts.map(o=>{
+      const on = sel.includes(o.id);
+      const dis = multi && !on && full;
+      return `<li><button class="opt ${multi?'multi':''}" data-opt="${o.id}" aria-pressed="${on}" ${dis?'disabled':''}><span class="mk"></span><span>${tx(o.t)}</span></button></li>`;
+    }).join('');
+    const showNext = multi || q.manual;
+    const canNext = multi ? sel.length>0 : !!val;
+    const extra = S.step==='q10' ? `<label class="check"><input type="checkbox" id="loyalty" ${S.loyalty?'checked':''}> Мені актуальні програми для військових, ВПО або великих сімей</label>` : '';
+    return `<h2 class="qt" data-focus tabindex="-1">${q.title}</h2>
+      ${why(q.why)}
+      ${multi ? `<p class="hint">${q.hint || 'Можна обрати до ' + q.max}</p>` : ''}
+      <ul class="opts">${items}</ul>${extra}
+      ${showNext ? `<div class="nav"><button class="btn" data-act="next" ${canNext?'':'disabled'}>Далі</button></div>` : ''}`;
+  },
+  empathy(){
+    setMedia('krykun2','', {pos:'42% 28%', tall:true});
+    const P = {noise:'шум і сусіди за стіною', privacy:'брак приватності', traffic:'затори й дорога', nature:'брак природи і брудне повітря', space:'брак простору для сім’ї й дітей', blackout:'відключення світла і відчуття небезпеки'};
+    const picked = (S.ans.q3||[]).filter(id => P[id]).map(id => `«${P[id]}»`);
+    const list = picked.length===1 ? picked[0] : picked.slice(0,-1).join(', ') + ' і ' + picked[picked.length-1];
+    const body = picked.length
+      ? `<p class="lead pains">${'«' + list.charAt(1).toUpperCase() + list.slice(2)} — саме про це багато наших мешканців говорили до переїзду.</p>
+         <p class="lead">Я добре розумію ці відчуття і хочу допомогти вам розібратися, чи заміський формат справді про вас.</p>`
+      : `<p class="lead">Добре, коли переїзд — не втеча від проблем, а свідомий вибір. Багато наших мешканців прийшли саме так.</p>
+         <p class="lead">Допоможу розібратися, чи заміський формат справді про вас.</p>`;
+    return `<h2 data-focus tabindex="-1">Розумію вас!</h2>
+      ${body}
+      <p class="sign">Сергій Крикун, керуючий партнер О.Краси</p>
+      <div class="nav"><button class="btn" data-act="next">Далі</button></div>`;
+  },
+  builders(){
+    setMedia('builders','');
+    return `<h2 data-focus tabindex="-1">Я будую не сам: місто створює команда команд</h2>
+      <ul class="facts">
+        <li><b>Concorde Capital</b> — інвестиційна компанія, на ринку з 2004 року, $4 млрд залучених інвестицій.</li>
+        <li><b>Товариство Відважних</b> — будівельна група: 16 житлових комплексів і 0 затримок у будівництві.</li>
+        <li><b>Svitlo Development</b> — моя команда: низькоповерхове будівництво, 6 котеджних містечок.</li>
+      </ul>
+      <div class="nav">${navBack()}<button class="btn" data-act="next">Далі</button></div>`;
+  },
+  autonomy(){
+    setMedia('solar','', {pos:'78% 22%'});
+    return `<h2 data-focus tabindex="-1">Місто, яке готувалося до блекаутів</h2>
+      <p class="lead">Скільки годин без світла було у вашому домі минулої зими? В О.Красі на такий випадок є:</p>
+      <ul class="facts">
+        <li>Власний сонячний парк для внутрішньої інфраструктури</li>
+        <li>Мережа генераторів і резервна каналізація</li>
+        <li>Артезіанські свердловини</li>
+        <li>Укриття в будинках і на території</li>
+      </ul>
+      <div class="nav">${navBack()}<button class="btn" data-act="next">Далі</button></div>`;
+  },
+  kids(){
+    setMedia('kids','');
+    return `<h2 data-focus tabindex="-1">Дитинство у дворі, а не на парковці</h2>
+      <ul class="facts">
+        <li>Садочок — за 500 м від містечка</li>
+        <li>Дитячі й спортивні майданчики на території</li>
+        <li>Закрита територія з охороною</li>
+        <li>Школа і садок Midgard — у планах, триває проєктування</li>
+      </ul>
+      <div class="nav">${navBack()}<button class="btn" data-act="next">Далі</button></div>`;
+  },
+  firstqueue(){
+    setMedia('firstqueue','');
+    return `<h2 data-focus tabindex="-1">${houses(CAT.q1total)} першої черги вже стоять</h2>
+      <p class="lead">${CAT.q1sold} з них уже продано, у будинках живуть люди.</p>
+      <p class="lead">Я покажу вам не шоурум, а будинок, який підберу саме під вашу сім’ю.</p>
+      <div class="nav">${navBack()}<button class="btn" data-act="next">Далі</button></div>`;
+  },
+  firstqueue_burned(){
+    setMedia('firstqueue','');
+    return `<h2 data-focus tabindex="-1">Не вірте на слово — приїжджайте подивитися</h2>
+      <p class="lead">Перша черга, ${houses(CAT.q1total)}, уже збудована, ${CAT.q1sold} продано.</p>
+      <p class="lead">Покажу будинок, який підберу саме вам, і поясню, на якому етапі наступні черги.</p>
+      <div class="nav">${navBack()}<button class="btn" data-act="next">Далі</button></div>`;
+  },
+  infra(){
+    setMedia('app','', {contain:true});
+    return `<h2 data-focus tabindex="-1">Що працює сьогодні, а що з’явиться</h2>
+      <div class="cols">
+        <div><h3>Працює вже</h3><ul>
+          <li>Застосунок мешканця: няня, садівник, перевірений майстер</li>
+          <li>Каршеринг для резидентів</li>
+          <li>Спортивні й дитячі майданчики</li>
+          <li>Прокат електроінструменту</li>
+          <li>Поруч: садочок за 500 м, Сільпо за 5 км, річка за 100 м</li>
+        </ul></div>
+        <div class="plan"><h3>У планах</h3><ul>
+          <li>Школа і садок Midgard на ~400 дітей — триває проєктування</li>
+        </ul></div>
+      </div>
+      <div class="nav">${navBack()}<button class="btn" data-act="next">Далі</button></div>`;
+  },
+  price(){
+    setMedia('facade','');
+    const max = 80000;
+    const bar = (label, val, txt, ok) => `<div class="br ${ok?'ok':''}"><div class="lb"><span>${label}</span><b>${txt}</b></div><div class="tr"><i style="width:${Math.round(val/max*100)}%"></i></div></div>`;
+    return `<h2 data-focus tabindex="-1">Таунхаус з ділянкою дешевше за метр бізнес-класу в Києві</h2>
+      <div class="bars">
+        ${bar('Новобудови Києва, бізнес-клас', 80000, '≈ 80 000 грн/м²')}
+        ${bar('Таунхаус O.100 в О.Красі', 66500, '65–68 тис. грн/м²', true)}
+        ${bar('Новобудови Києва, в середньому', 60200, '60 200 грн/м²')}
+      </div>
+      <p class="lead">До метра в О.Красі додаються власний вхід, тераса й ділянка. Точну суму порахую для будинку, який вам підберу.</p>
+      <p class="source">ЛУН Статистика, червень 2026; ЛУН, 21.10.2026, курс 45,85 грн/$</p>
+      <div class="nav">${navBack()}<button class="btn" data-act="next">Далі</button></div>`;
+  },
+  checklist(){
+    setMedia('paths','');
+    return `<h2 data-focus tabindex="-1">9 питань, які варто поставити будь-якому забудовнику</h2>
+      <p class="sub">Ось перші три:</p>
+      <ol class="ol">
+        <li>Яка черга вже збудована і чи можна зайти в готовий будинок?</li>
+        <li>Що з інфраструктури працює сьогодні, а що лише в планах — і коли?</li>
+        <li>Скільки об’єктів компанія вже здала і хто відповідає за проєкт?</li>
+      </ol>
+      <p class="lead" style="margin-top:14px">Решту шість надішлю разом із підбором.</p>
+      <div class="nav">${navBack()}<button class="btn" data-act="next">Далі</button></div>`;
+  },
+  analysis(){
+    setMedia('start','');
+    const m = match();
+    return `<h2 data-focus tabindex="-1">Аналізую ваші відповіді</h2>
+      <div class="counter" id="counter">${CAT.free}</div>
+      <p class="lead" id="anTxt">Зараз у продажу ${houses(CAT.free)}. Відбираю ті, що підходять саме вам.</p>
+      <div class="nav">${navBack()}<button class="btn" data-act="next" id="anBtn" hidden>Отримати підбір</button></div>`;
+  },
+  form(){
+    setMedia('territory','');
+    return `<h2 data-focus tabindex="-1">Ваш підбір готовий. Куди надіслати?</h2>
+      <form id="lead" novalidate>
+        <div class="field"><label for="fName">Ім’я</label><input id="fName" autocomplete="given-name" value="${esc(S.name)}"></div>
+        <div class="field"><label for="fPhone">Телефон</label><div class="phone"><span>+380</span><input id="fPhone" inputmode="tel" autocomplete="tel-national" placeholder="67 123 45 67" value="${esc(S.phone)}"></div></div>
+        <div class="field"><label for="fEmail">Email</label><input id="fEmail" type="email" autocomplete="email" value="${esc(S.email)}"></div>
+        <label class="check"><input type="checkbox" id="fConsent" ${S.consent?'checked':''}> Погоджуюсь на обробку даних. Це демо-концепт: дані не передаються О.Красі.</label>
+        <p class="err" id="fErr" role="alert"></p>
+        <div class="nav">${navBack()}<button class="btn" type="submit">Отримати підбір</button></div>
+      </form>`;
+  },
+  result(){
+    const R = buildResult();
+    setMedia(renders(R.main.model)[0], 'Візуалізація', {hideMobile:true});
+    const h = R.main;
+    return `<h2 data-focus tabindex="-1">${esc(S.name)}, ${R.fallback ? 'найближчий варіант для вас —' : (S.ans.q2==='parents' ? 'під ваш запит підходить' : 'вашій сім’ї підходить')} ${KIND[h.kind].toLowerCase()} O.${h.model}</h2>
+      ${R.fallbackNote ? `<p class="sub">${R.fallbackNote}</p>` : ''}
+      ${houseCard(h, R.reasons)}
+      ${R.alt ? `<div class="alt"><span class="alt-in"><img src="${renders(R.alt.model)[0]}" alt="" loading="lazy" onerror="this.remove()"><span>Альтернатива: <b>${KIND[R.alt.kind].toLowerCase()} O.${R.alt.model}</b>, ${num(R.alt.area,1)} м², ${beds(R.alt.bed)}${R.alt.cab?' і кабінет':''}</span></span><b>${usd(R.alt.price)}</b></div>` : ''}
+      <div class="pay"><h4>${R.payTitle}</h4>${R.payLines.map(l=>`<p>${l}</p>`).join('')}</div>
+      ${teaser(R)}
+      <p class="note" id="sendNote">${sendNoteHtml()}</p>
+      ${LIVE ? `<details class="behind" id="behind"><summary>Як це працює зсередини: що отримують людина і менеджер</summary>${previewBlock(R)}</details>` : previewBlock(R)}
+      <div class="nav"><button class="link" data-act="restart">Пройти ще раз</button><span></span></div>`;
+  }
+};
+
+const AFTER = {
+  analysis(){
+    const m = match();
+    const el = $('#counter'), txt = $('#anTxt'), btn = $('#anBtn');
+    const end = m.count || (m.alt ? 2 : 1);
+    const finish = () => {
+      el.textContent = end;
+      txt.textContent = m.count
+        ? `Зараз у продажу ${houses(CAT.free)}. Під ваші відповіді ${plural(m.count,'підходить','підходять','підходять')} ${m.count}. Обираю ${m.alt ? 'два найточніші' : 'найточніший'}.`
+        : `Зараз у продажу ${houses(CAT.free)}. Повного збігу з усіма вашими умовами немає, тому обираю ${m.alt ? 'два найближчі варіанти' : 'найближчий варіант'} і чесно скажу, в чому компроміс.`;
+      btn.hidden = false; btn.focus({preventScroll:true});
+    };
+    if(matchMedia('(prefers-reduced-motion: reduce)').matches){ finish(); return; }
+    const t0 = performance.now(), dur = 1600;
+    const tick = t => { const p = Math.min(1,(t-t0)/dur); const e = 1-Math.pow(1-p,3); el.textContent = Math.round(CAT.free - (CAT.free-end)*e); if(p<1) requestAnimationFrame(tick); else finish(); };
+    requestAnimationFrame(tick);
+  },
+  form(){
+    $('#lead').addEventListener('submit', e=>{
+      e.preventDefault();
+      S.name = $('#fName').value.trim(); S.phone = $('#fPhone').value.trim(); S.email = $('#fEmail').value.trim(); S.consent = $('#fConsent').checked;
+      const digits = S.phone.replace(/\D/g,'');
+      let err = '';
+      if(!S.name) err = 'Вкажіть ім’я.';
+      else if(digits.length !== 9) err = 'Перевірте номер: після +380 потрібно 9 цифр.';
+      else if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(S.email)) err = 'Перевірте email: схоже, в адресі помилка.';
+      else if(!S.consent) err = 'Без згоди на обробку даних я не зможу надіслати підбір.';
+      $('#fErr').textContent = err;
+      if(!err){ sendLead(); next(); }
+    });
+  },
+  result(){
+    const tr = view.querySelector('.gal-track'), n = view.querySelector('.gal-n');
+    if(tr){
+      const upd = () => { const k = tr.children.length; const i = Math.round(tr.scrollLeft / Math.max(1, tr.clientWidth)); n.textContent = `${Math.min(i+1,k)} / ${k}`; n.hidden = k < 2; view.querySelectorAll('.gal-btn').forEach(b => b.hidden = k < 2); };
+      tr.addEventListener('scroll', () => requestAnimationFrame(upd), {passive:true});
+      view.querySelectorAll('[data-gal-step]').forEach(b => b.addEventListener('click', () => {
+        const k = tr.children.length, i = Math.round(tr.scrollLeft / tr.clientWidth), j = (i + (+b.dataset.galStep) + k) % k;
+        tr.scrollTo({left: j * tr.clientWidth, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'});
+      }));
+      setTimeout(upd, 400);
+    }
+    view.querySelectorAll('[data-tab]').forEach(b=>b.addEventListener('click',()=>{ S.tab=b.dataset.tab; view.querySelectorAll('[data-tab]').forEach(x=>x.setAttribute('aria-selected', x===b)); $('#prev').innerHTML = PREVIEW[S.tab](buildResult()); }));
+    if(LIVE && S.sent==='') sendLead();
+  }
+};
+
+$('#backBtn').addEventListener('click', back);
+view.addEventListener('click', e=>{
+  const a = e.target.closest('[data-act]'); if(!a) return;
+  const act = a.dataset.act;
+  if(act==='next') next();
+  if(act==='back') back();
+  if(act==='restart') restart();
+  if(act==='tg'){ S.tab='tg'; const d = $('#behind'); if(d) d.open = true; const t = view.querySelector('[data-tab="tg"]'); t.click(); $('#prev').scrollIntoView({behavior:'smooth', block:'start'}); }
+  if(act==='resend'){ S.sent=''; sendLead(); }
+});
+
+function bindQuestion(){
+  const q = Q[S.step];
+  view.querySelectorAll('[data-opt]').forEach(b=>b.addEventListener('click',()=>{
+    const id = b.dataset.opt;
+    if(q.type==='multi'){
+      let cur = S.ans[S.step] || [];
+      const o = q.opts.find(x=>x.id===id);
+      if(cur.includes(id)) cur = cur.filter(x=>x!==id);
+      else if(o.solo) cur = [id];
+      else { cur = cur.filter(x=>!q.opts.find(y=>y.id===x).solo); if(cur.length < q.max) cur = [...cur, id]; }
+      S.ans[S.step] = cur;
+      render(false);
+      const again = view.querySelector(`[data-opt="${id}"]`); if(again) again.focus();
+    } else {
+      S.ans[S.step] = id;
+      view.querySelectorAll('[data-opt]').forEach(x=>x.setAttribute('aria-pressed', x===b));
+      if(q.manual){ render(false); view.querySelector(`[data-opt="${id}"]`).focus(); }
+      else setTimeout(next, 260);
+    }
+  }));
+  const l = $('#loyalty'); if(l) l.addEventListener('change',()=>{ S.loyalty = l.checked; });
+}
+
+function gallery(h){
+  // Тільки зображення цієї моделі: загальне фото містечка показувало б інший тип будинку
+  const pics = renders(h.model).map(src => ({src, tag:'Візуалізація'}));
+  return `<div class="gal">
+    <div class="gal-track">${pics.map((p,i)=>`<figure><img src="${p.src}" alt="${KIND[h.kind]} O.${h.model}, зображення ${i+1}" loading="lazy" onerror="this.closest('figure').remove()">${p.tag?`<span class="tag">${p.tag}</span>`:''}</figure>`).join('')}</div>
+    <button class="gal-btn prev" data-gal-step="-1" aria-label="Попереднє зображення">${ARROW('l')}</button>
+    <button class="gal-btn next" data-gal-step="1" aria-label="Наступне зображення">${ARROW('r')}</button>
+    <span class="gal-n">1 / ${pics.length}</span>
+  </div>`;
+}
+function teaser(R){
+  const h = R.main, pl = plans(h.model), t = tour(h.model);
+  const altPl = R.alt && plans(R.alt.model).length;
+  const title = pl.length ? `Планування O.${h.model} з розмірами кімнат надішлю в Telegram` : `Фото і розрахунок оплати O.${h.model} надішлю в Telegram`;
+  const sub = pl.length
+    ? `Разом із ${t ? '3D-туром по будинку, ' : ''}розрахунком оплати${altPl ? ` і плануванням O.${R.alt.model}` : ''}.`
+    : 'Планування цієї моделі менеджер надішле окремо.';
+  return `<div class="teaser">${pl.length ? `<div class="ghost" style="background-image:url('${small(pl[0], 700)}')"></div>` : ''}
+    <div class="in"><h4>${title}</h4><p>${sub}</p>${tgButton(pl.length ? 'Отримати планування' : 'Отримати в Telegram')}</div>
+  </div>`;
+}
+function houseCard(h, reasons){
+  return `<div class="house">${gallery(h)}
+    <div class="kind">${KIND[h.kind]}, черга ${h.queue}, будинок № ${h.num}</div>
+    <h3>O.${h.model}</h3>
+    <div class="price">${usd(h.price)}</div>
+    <dl class="specs">
+      <div><dt>Площа</dt><dd>${num(h.area,1)} м²</dd></div>
+      <div><dt>Спальні</dt><dd>${h.bed}${h.cab?' + кабінет':''}</dd></div>
+      <div><dt>Санвузли</dt><dd>${h.bath ?? 'уточнюється'}</dd></div>
+      <div><dt>${h.kind==='city'?'Поверх':'Поверхів'}</dt><dd>${h.kind==='city' ? h.floor + '-й' : h.levels}</dd></div>
+      <div><dt>Ділянка</dt><dd>${h.land ? sotky(h.land) : (h.kind==='city' ? 'немає' : 'уточнюється')}</dd></div>
+      <div><dt>Ціна за м²</dt><dd>≈ ${num(Math.round(h.price*USD_UAH/h.area/100)/10,1)} тис. грн</dd></div>
+    </dl>
+    <ul class="why-list">${reasons.map(x=>`<li>${x}</li>`).join('')}</ul>
+  </div>`;
+}
+
+const imgTag = (src, cls='') => `<img src="${src}" alt="" loading="lazy" class="${cls}" onerror="this.style.visibility='hidden'">`;
+const photosFor = h => renders(h.model).slice(0,3);
+
+const botName = () => CFG.bot || CAT.bot || '';
+const ctxNow = () => ({bot: botName(), leadId: S.leadId});
+const nl2br = t => t.replace(/\n/g, '<br>');
+const kbHtml = buttons => `<div class="kb">${buttons.map(row => row.map(b => b.url ? `<a href="${b.url}" target="_blank" rel="noopener">${b.text}</a>` : `<span>${b.text}</span>`).join('')).join('')}</div>`;
+const albumHtml = (list, cls) => list.length ? `<div class="album ${cls||''} ${list.length===1 ? 'one' : list.length===3 ? 'three' : ''}">${list.map(src => imgTag(src)).join('')}</div>` : '';
+const partnerNoun = () => g()==='f' ? 'чоловік' : 'дружина';
+function tgHtml(T){
+  return `<div class="tg"><div class="bubble">${T.intro}</div>
+    ${albumHtml(T.photos)}
+    ${T.plans.length ? albumHtml(T.plans.map(u => small(u, 900)), 'plans') + `<p class="album-cap">${T.planCaption}</p>` : ''}
+    <div class="bubble">${nl2br(T.text)}</div>${kbHtml(T.buttons)}</div>`;
+}
+const PREVIEW = {
+  tg(R){
+    return tgHtml(tgParts(R, ctxNow())) +
+      `<p class="note">Планування${tour(R.main.model) ? ' і 3D-тур' : ''} — тільки в Telegram. Це причина відкрити бота: без неї більшість людей зупиняється на екрані результату.</p>`;
+  },
+  partner(R){
+    return tgHtml(partnerParts(R, ctxNow())) +
+      `<p class="note">Це отримує ${partnerNoun()} за кнопкою «Переслати ${partnerWord()}»: аргументи для іншого типу людини — ${R.psy==='Життєлюб' ? 'цифри, графік оплат, факти' : 'атмосфера, сценарій життя, фото'}.</p>`;
+  },
+  mail(R){
+    const M = mailParts(R, ctxNow());
+    return `<div class="mail"><div class="hd">Від: <b>apple108anton@gmail.com</b><br>Тема: <b>${esc(M.subject)}</b></div><div class="mail-body">${M.html}</div></div>`;
+  },
+  card(R){
+    return `<div class="card">${nl2br(cardText(R))}</div>
+      <p class="note">Картка приходить менеджеру в Telegram одразу після форми. Окремими повідомленнями — коли людина відкрила бота, записалася на перегляд або поставила питання.</p>`;
+  }
+};
+function previewBlock(R){
+  if(S.tab==='partner' && !isFamily()) S.tab = 'tg';
+  const tabs = [['tg','Telegram'], ...(isFamily() ? [['partner', `Що отримає ${partnerNoun()}`]] : []), ['mail','Email'], ['card','Картка для менеджера']];
+  return `<div class="tabs" role="tablist">${tabs.map(([k,l]) => `<button class="tab" role="tab" data-tab="${k}" aria-selected="${S.tab===k}">${l}</button>`).join('')}</div>
+    <div id="prev">${PREVIEW[S.tab](R)}</div>`;
+}
+
+/* ---------- Живий режим: каталог і відправка ліда ---------- */
+function tgButton(label){
+  const link = LIVE && botName() && S.leadId ? `https://t.me/${botName()}?start=${S.leadId}` : '';
+  return link ? `<a class="btn" href="${link}" target="_blank" rel="noopener">${label}</a>` : `<button class="btn" data-act="tg">${label}</button>`;
+}
+function newLeadId(){
+  const A = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789';
+  const r = new Uint8Array(12); (window.crypto || window.msCrypto).getRandomValues(r);
+  return Array.from(r, x => A[x % A.length]).join('');
+}
+function utm(){
+  const p = new URLSearchParams(location.search), o = {};
+  ['utm_source','utm_medium','utm_campaign','utm_content','utm_term'].forEach(k => { if(p.get(k)) o[k] = p.get(k).slice(0,100); });
+  return o;
+}
+function sendNoteHtml(){
+  if(!LIVE) return 'У прототипі повідомлення не надсилаються. Нижче — що отримає людина і менеджер.';
+  if(S.sent==='ok') return `Підбір надіслано на ${esc(S.email)}. Планування${tour(buildResult().main.model) ? ' і 3D-тур' : ''} — у Telegram.`;
+  if(S.sent==='fail') return `Не вдалося надіслати підбір. <button class="link" data-act="resend">Спробувати ще раз</button>`;
+  return `Надсилаю підбір на ${esc(S.email)}…`;
+}
+function updateSendNote(){ const n = $('#sendNote'); if(n) n.innerHTML = sendNoteHtml(); }
+function sendLead(){
+  if(!LIVE) return;
+  const body = {action:'lead', name:S.name, phone:S.phone.replace(/\D/g,''), email:S.email, ans:S.ans, loyalty:!!S.loyalty};
+  const key = JSON.stringify(body);
+  if(S.sentKey === key && (S.sent==='ok' || S.sent==='pending')) return;
+  if(!S.leadId || (S.sentKey && S.sentKey !== key)) S.leadId = newLeadId(); // змінили відповіді — це новий підбір
+  S.sentKey = key; S.sent = 'pending'; updateSendNote();
+  fetch(CFG.api, {method:'POST', headers:{'Content-Type':'text/plain;charset=utf-8'}, body: JSON.stringify(Object.assign({leadId:S.leadId, utm:utm(), ref:document.referrer.slice(0,200)}, body))})
+    .then(r => r.json())
+    .then(d => { S.sent = d && d.ok ? 'ok' : 'fail'; if(d && d.bot) CAT.bot = d.bot; updateSendNote(); })
+    .catch(() => { S.sent = 'fail'; updateSendNote(); });
+}
+if(LIVE){
+  fetch(CFG.api + '?action=catalog')
+    .then(r => r.json())
+    .then(d => { if(d && d.bot) CAT.bot = d.bot; if(setCatalog(d) && ['intro','firstqueue','firstqueue_burned','analysis'].includes(S.step)) render(false); })
+    .catch(() => {});
+}
+
+render(false);
+</script>
+</body>
+</html>
