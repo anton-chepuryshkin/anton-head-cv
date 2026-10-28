@@ -412,7 +412,7 @@ function barrierBlocks(h, fallback){
     sell:['Ваше питання про продаж нерухомості', 'Трейд-ін: ціна будинку фіксується на час продажу вашої нерухомості, продаж бере на себе О.Краса.'],
     war:['Ваше питання про безпеку', 'Власний сонячний парк для внутрішньої інфраструктури, генератори, артезіанські свердловини, укриття в будинках і на території.'],
     notfound:['Чому саме ці будинки', `Я підібрав їх з тих ${CAT.free}, що є в продажу сьогодні, — під ваш склад сім’ї, бюджет і терміни.`],
-    info:['З чого почати', 'Надсилаю чек-лист «9 питань забудовнику до підписання договору» — пройдіться по ньому на перегляді.']
+    info:['З чого почати', 'Нижче — чек-лист «9 питань забудовнику до підписання договору». Пройдіться по ньому на перегляді.']
   };
   if(fallback) B.notfound = ['Чому саме ці будинки', `Я перебрав усі ${houses(CAT.free)}, що є в продажу сьогодні. Повного збігу немає, тому показую найближчі й одразу називаю компроміс. З’явиться точніший варіант — повідомимо.`];
   // Пріоритет: спершу довіра, потім безпека, інфраструктура, гроші
@@ -471,6 +471,9 @@ const CHECKLIST = [
   'Чи можна поговорити з мешканцями, які вже живуть у збудованій черзі?'
 ];
 
+const CHECKLIST_TITLE = '9 питань забудовнику до підписання договору';
+const checklistTg = () => `<b>Чек-лист: ${CHECKLIST_TITLE}</b>\n\n${CHECKLIST.map((q, i) => `${i+1}. ${q}`).join('\n')}\n\nПройдіться по ньому на перегляді — в будь-якому містечку, не лише в О.Красі.`;
+
 /* ---------- Повідомлення: однакові для прев’ю на сайті і для реальної відправки ---------- */
 const small = (url, w, h) => 'https://wsrv.nl/?url=' + encodeURIComponent(url.replace(/^https?:\/\//, '')) + '&w=' + w + (h ? '&h=' + h + '&fit=cover' : '') + '&output=jpg&q=82';
 const lc1 = x => x.charAt(0).toLowerCase() + x.slice(1);
@@ -514,7 +517,8 @@ function tgParts(R, ctx){
     plans: planList,
     planCaption: planList.length ? `Планування O.${h.model}${pAlt.length ? ` і O.${a.model}` : ''}` : '',
     text: head.concat(body.filter(Boolean)).join('\n\n'),
-    buttons
+    buttons,
+    extra: [checklistTg()]
   };
 }
 
@@ -575,7 +579,7 @@ ${cta}
 ${a ? P(`<b>Альтернатива: ${KIND[a.kind].toLowerCase()} O.${a.model}</b> — ${num(a.area,1)} м², ${beds(a.bed)}${a.cab?' і кабінет':''}, ${usd(a.price)}`) + grid([img(renders(a.model)[0])].concat(pAlt.map(s => img(s, true)))) : ''}
 ${R.barriers.map(b => P(`<b>${b[0]}.</b> ${b[1]}`)).join('')}
 ${P(`<b>${R.payTitle}.</b> ${R.payLines.join(' ')}`)}
-${P('<b>9 питань, які варто поставити будь-якому забудовнику до підписання договору</b>', 'margin-bottom:6px')}
+${P(`<b>Чек-лист: ${CHECKLIST_TITLE}</b>`, 'margin-bottom:6px')}
 <ol style="${F}font-size:14px;line-height:1.5;margin:0 0 18px;padding-left:20px">${CHECKLIST.map(q => `<li style="margin:0 0 6px">${q}</li>`).join('')}</ol>
 ${P('Сергій Крикун<br><span style="color:#626776">керуючий партнер О.Краси</span>')}
 </td></tr>
