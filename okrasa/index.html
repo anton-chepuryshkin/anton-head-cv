@@ -175,6 +175,9 @@ h2{font-weight:300;font-size:33px;line-height:1.15;letter-spacing:-.015em;margin
 .bubble .dim{color:#8A8F9A;font-size:12.5px}
 .kb{display:grid;gap:6px;margin-top:8px;max-width:480px}
 .tg .bubble{margin-bottom:8px}
+.tg .doc{display:flex;gap:12px;align-items:flex-start;margin-top:8px;text-decoration:none;color:var(--ink)}
+.tg .doc b{font-weight:600;word-break:break-all}
+.doc-ic{flex:none;width:42px;height:42px;border-radius:50%;background:#3E8ED0;color:#fff;font-size:11px;font-weight:700;display:grid;place-items:center}
 .tg .bubble+.kb{margin-top:0}
 .behind{margin-top:30px;border-top:1px solid var(--line);padding-top:6px}
 .behind summary{cursor:pointer;color:var(--muted);font-size:14.5px;padding:12px 0}
@@ -236,8 +239,8 @@ h2{font-weight:300;font-size:33px;line-height:1.15;letter-spacing:-.015em;margin
   </main>
 </div>
 
-<script src="config.js?v=6"></script>
-<script src="logic.js?v=6"></script>
+<script src="config.js?v=7"></script>
+<script src="logic.js?v=7"></script>
 <script>
 /* Дані, питання, підбір і тексти повідомлень — у logic.js (спільний із сервером) */
 const ARROW = d => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${d==='l'?'M15 6l-6 6 6 6':'M9 6l6 6-6 6'}"/></svg>`;
@@ -648,7 +651,8 @@ function tgHtml(T){
     ${albumHtml(T.photos)}
     ${T.plans.length ? albumHtml(T.plans.map(u => small(u, 900)), 'plans') + `<p class="album-cap">${T.planCaption}</p>` : ''}
     <div class="bubble">${nl2br(T.text)}</div>${kbHtml(T.buttons)}
-    ${(T.extra || []).map(t => `<div class="bubble" style="margin-top:8px">${nl2br(t)}</div>`).join('')}</div>`;
+    ${(T.extra || []).map(t => `<div class="bubble" style="margin-top:8px">${nl2br(t)}</div>`).join('')}
+    ${(T.docs || []).map(d => `<a class="bubble doc" href="${d.url}" target="_blank" rel="noopener"><span class="doc-ic">PDF</span><span><b>${d.url.split('/').pop()}</b><br>${d.caption}</span></a>`).join('')}</div>`;
 }
 const PREVIEW = {
   tg(R){
