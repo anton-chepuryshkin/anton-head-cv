@@ -234,8 +234,8 @@ h2{font-weight:300;font-size:33px;line-height:1.15;letter-spacing:-.015em;margin
   </main>
 </div>
 
-<script src="config.js?v=3"></script>
-<script src="logic.js?v=3"></script>
+<script src="config.js?v=4"></script>
+<script src="logic.js?v=4"></script>
 <script>
 /* Дані, питання, підбір і тексти повідомлень — у logic.js (спільний із сервером) */
 const ARROW = d => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${d==='l'?'M15 6l-6 6 6 6':'M9 6l6 6-6 6'}"/></svg>`;
@@ -300,7 +300,9 @@ function restart(){
 function setMedia(name, cap, opts={}){
   const img = $('#mediaImg');
   img.classList.toggle('contain', !!opts.contain);
-  img.style.objectPosition = opts.pos || '';
+  // Де фокус кадру при обрізанні під вертикальну панель
+  const POS = {start:'15% 50%', park:'45% 50%', aerial2:'50% 50%', birches:'28% 50%', house:'44% 50%', town:'38% 50%', duck:'52% 50%'};
+  img.style.objectPosition = opts.pos || POS[name] || '';
   const src = /^https?:/.test(name) ? name : 'img/'+name+'.jpg';
   if(img.getAttribute('src') !== src) img.setAttribute('src', src);
   // Підпис лишаємо тільки на візуалізаціях, щоб рендер не виглядав як готовий об’єкт
@@ -419,14 +421,14 @@ const RENDER = {
       <div class="nav">${navBack()}<button class="btn" data-act="next">Далі</button></div>`;
   },
   firstqueue(){
-    setMedia('firstqueue','');
+    setMedia('town','');
     return `<h2 data-focus tabindex="-1">${houses(CAT.q1total)} першої черги вже стоять</h2>
       <p class="lead">${CAT.q1sold} з них уже продано, у будинках живуть люди.</p>
       <p class="lead">Я покажу вам не шоурум, а будинок, який підберу саме під вашу сім’ю.</p>
       <div class="nav">${navBack()}<button class="btn" data-act="next">Далі</button></div>`;
   },
   firstqueue_burned(){
-    setMedia('firstqueue','');
+    setMedia('town','');
     return `<h2 data-focus tabindex="-1">Не вірте на слово — приїжджайте подивитися</h2>
       <p class="lead">Перша черга, ${houses(CAT.q1total)}, уже збудована, ${CAT.q1sold} продано.</p>
       <p class="lead">Покажу будинок, який підберу саме вам, і поясню, на якому етапі наступні черги.</p>
@@ -476,7 +478,7 @@ const RENDER = {
       <div class="nav">${navBack()}<button class="btn" data-act="next">Далі</button></div>`;
   },
   analysis(){
-    setMedia('start','');
+    setMedia('duck','');
     const m = match();
     return `<h2 data-focus tabindex="-1">Аналізую ваші відповіді</h2>
       <div class="counter" id="counter">${CAT.free}</div>
