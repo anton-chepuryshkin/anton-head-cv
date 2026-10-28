@@ -6,7 +6,7 @@
 <meta name="robots" content="noindex,nofollow">
 <meta property="og:title" content="Який заміський будинок підходить саме вашій сім’ї?">
 <meta property="og:description" content="Демо-концепт квізу для О.Краси: підбір 1–2 будинків із цінами й розрахунком оплати.">
-<meta property="og:image" content="https://anton-chepuryshkin.github.io/anton-head-cv/okrasa/img/start.jpg">
+<meta property="og:image" content="https://anton-chepuryshkin.github.io/anton-head-cv/okrasa/img/start.jpg?v=4">
 <title>Квіз О.Краса — демо-концепт</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -217,7 +217,7 @@ h2{font-weight:300;font-size:33px;line-height:1.15;letter-spacing:-.015em;margin
 <body>
 <div class="app">
   <aside class="media" id="media" aria-hidden="true">
-    <img id="mediaImg" src="img/start.jpg" alt="">
+    <img id="mediaImg" src="img/start.jpg?v=4" alt="">
     <div class="cap" id="mediaCap" hidden></div>
   </aside>
   <main class="panel">
@@ -303,7 +303,7 @@ function setMedia(name, cap, opts={}){
   // Де фокус кадру при обрізанні під вертикальну панель
   const POS = {start:'15% 50%', park:'45% 50%', aerial2:'50% 50%', birches:'28% 50%', house:'44% 50%', town:'38% 50%', duck:'52% 50%'};
   img.style.objectPosition = opts.pos || POS[name] || '';
-  const src = /^https?:/.test(name) ? name : 'img/'+name+'.jpg';
+  const src = /^https?:/.test(name) ? name : 'img/'+name+'.jpg?v=4'; // версія — щоб браузер не показував старе фото
   if(img.getAttribute('src') !== src) img.setAttribute('src', src);
   // Підпис лишаємо тільки на візуалізаціях, щоб рендер не виглядав як готовий об’єкт
   const cp = $('#mediaCap'); cp.hidden = cap !== 'Візуалізація'; cp.textContent = cap === 'Візуалізація' ? cap : '';
