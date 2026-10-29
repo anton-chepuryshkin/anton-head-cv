@@ -38,9 +38,9 @@ a{color:var(--forest)}
 .panel{min-height:100vh;display:flex;flex-direction:column}
 .top{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:26px 48px 0}
 .top-l{display:flex;align-items:center;gap:12px}
-.backbtn{appearance:none;width:38px;height:38px;border:1px solid var(--line);border-radius:50%;background:var(--paper);display:grid;place-items:center;cursor:pointer;color:var(--ink);padding:0;transition:border-color .15s,background .15s}
+.backbtn{appearance:none;flex:none;width:50px;height:50px;border:1px solid var(--line);border-radius:50%;background:var(--paper);display:grid;place-items:center;cursor:pointer;color:var(--ink);padding:0;transition:border-color .15s,background .15s}
 .backbtn:hover{border-color:#C6C9D1;background:#FAFAF7}
-.backbtn svg{width:18px;height:18px}
+.backbtn svg{width:20px;height:20px}
 .backbtn[hidden]{display:none}
 .brand{display:block;height:40px;width:auto}
 .count{font-size:13.5px;color:var(--muted)}
@@ -229,7 +229,6 @@ h2{font-weight:300;font-size:33px;line-height:1.15;letter-spacing:-.015em;margin
   <main class="panel">
     <div class="top">
       <div class="top-l">
-        <button class="backbtn" id="backBtn" aria-label="Назад" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></button>
         <img class="brand" src="img/logo.png?v=5" alt="О.Краса" width="164" height="40">
       </div>
       <div class="count" id="count"></div>
@@ -329,7 +328,6 @@ function setProgress(){
 }
 function render(anim){
   setProgress();
-  $('#backBtn').hidden = !S.hist.length || S.step==='start';
   const r = RENDER[S.step] || RENDER[Q[S.step] ? 'question' : 'start'];
   view.innerHTML = r();
   if(anim){ view.classList.remove('fade'); void view.offsetWidth; view.classList.add('fade'); }
@@ -339,7 +337,8 @@ function render(anim){
   window.scrollTo({top:0});
 }
 const why = text => `<div class="why"><img src="img/krykun.jpg" alt=""><span>${text}</span></div>`;
-const navBack = () => ''; // назад — стрілкою вгорі
+// Назад — кругла стрілка в нижньому ряду, поруч із зеленою кнопкою
+const navBack = () => (S.hist.length && S.step !== 'start') ? `<button type="button" class="backbtn" data-act="back" aria-label="Назад"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></button>` : '';
 
 const RENDER = {
   start(){
@@ -376,7 +375,7 @@ const RENDER = {
       ${why(q.why)}
       ${multi ? `<p class="hint">${q.hint || 'Можна обрати до ' + q.max}</p>` : ''}
       <ul class="opts">${items}</ul>${extra}
-      ${showNext ? `<div class="nav"><button class="btn" data-act="next" ${canNext?'':'disabled'}>Далі</button></div>` : ''}`;
+      <div class="nav">${navBack()}${showNext ? `<button class="btn" data-act="next" ${canNext?'':'disabled'}>Далі</button>` : ''}</div>`;
   },
   empathy(){
     setMedia('krykun2','', {pos:'42% 28%', tall:true});
@@ -391,7 +390,7 @@ const RENDER = {
     return `<h2 data-focus tabindex="-1">Розумію вас!</h2>
       ${body}
       <p class="sign">Сергій Крикун, керуючий партнер О.Краси</p>
-      <div class="nav"><button class="btn" data-act="next">Далі</button></div>`;
+      <div class="nav">${navBack()}<button class="btn" data-act="next">Далі</button></div>`;
   },
   builders(){
     setMedia('builders','');
@@ -568,7 +567,6 @@ const AFTER = {
   }
 };
 
-$('#backBtn').addEventListener('click', back);
 view.addEventListener('click', e=>{
   const a = e.target.closest('[data-act]'); if(!a) return;
   const act = a.dataset.act;
