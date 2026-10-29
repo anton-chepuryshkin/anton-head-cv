@@ -1,0 +1,601 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231E5A5F'/%3E%3Cpath d='M10 40c7-6 15-6 22 0s15 6 22 0' fill='none' stroke='%23fff' stroke-width='5' stroke-linecap='round'/%3E%3Cpath d='M22 30l10-16 10 16z' fill='%23fff'/%3E%3C/svg%3E">
+<meta property="og:title" content="Який будинок у Riviera Village підходить саме вашій сім’ї?">
+<meta property="og:description" content="Демо-концепт квізу для Riviera Village: підбір вілли або ділянки з цінами й розрахунком оплати.">
+<meta property="og:image" content="https://riviera-village.com.ua/wp-content/uploads/2024/07/4-3.jpg">
+<title>Квіз Riviera Village — демо-концепт</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* Ліворуч — фото Riviera на всю висоту, праворуч — питання. На телефоні фото зверху. */
+:root{
+  --ink:#1C2226;
+  --muted:#5D6A70;
+  --line:#E1E4E2;
+  --paper:#FFFFFF;
+  --mist:#EEF0EC;
+  --water:#1E5A5F;
+  --water-deep:#164448;
+  --tint:#E8F0EF;
+  --sand:#C9A97A;
+  --tg:#DCE6EE;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--paper);color:var(--ink);font-family:Manrope,system-ui,-apple-system,"Segoe UI",sans-serif;font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
+button,input{font:inherit;color:inherit}
+img{display:block;max-width:100%}
+a{color:var(--water)}
+
+.app{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);min-height:100vh}
+.media{position:sticky;top:0;height:100vh;overflow:hidden;background:var(--mist)}
+.media img{width:100%;height:100%;object-fit:cover;transition:opacity .35s ease}
+.media .cap{position:absolute;left:20px;bottom:20px;background:rgba(28,34,38,.74);color:#fff;font-size:12.5px;line-height:1.3;padding:7px 11px;border-radius:6px;max-width:calc(100% - 40px)}
+
+.panel{min-height:100vh;display:flex;flex-direction:column}
+.top{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:28px 48px 0}
+.brand{display:block;height:34px;width:auto;filter:brightness(0) saturate(100%)}
+.count{font-size:13.5px;color:var(--muted)}
+.bar{height:2px;background:var(--line);margin:18px 48px 0}
+.bar i{display:block;height:100%;background:var(--water);width:0;transition:width .3s ease}
+.body{flex:1;width:100%;max-width:660px;padding:44px 48px 40px;margin:0 auto 0 0}
+.foot{padding:0 48px 22px;font-size:12px;color:var(--muted)}
+.foot a{color:var(--muted);text-underline-offset:2px}
+
+.fade{animation:fade .22s ease}
+@keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+
+.eyebrow{font-size:12px;font-weight:600;letter-spacing:.32em;text-transform:uppercase;color:var(--water);margin:0 0 14px}
+h1{font-weight:300;font-size:46px;line-height:1.08;letter-spacing:-.02em;margin:0 0 20px;text-wrap:balance}
+h2{font-weight:300;font-size:33px;line-height:1.15;letter-spacing:-.015em;margin:0 0 18px;text-wrap:balance}
+.qt{font-weight:400;font-size:29px;line-height:1.2;letter-spacing:-.01em;margin:0 0 16px;text-wrap:balance}
+.lead{font-size:18px;max-width:52ch;margin:0 0 14px}
+.sub{color:var(--muted);max-width:56ch;margin:0 0 12px}
+.gift{display:flex;gap:12px;align-items:center}
+.gift svg{flex:none;width:30px;height:30px;color:var(--water)}
+.why{color:var(--muted);max-width:58ch;margin:0 0 26px;font-size:15px;padding-left:14px;border-left:2px solid var(--sand)}
+
+.opts{display:grid;gap:10px;margin:0;padding:0;list-style:none}
+.opt{width:100%;display:flex;gap:14px;align-items:center;text-align:left;padding:15px 18px;border:1px solid var(--line);border-radius:10px;background:var(--paper);cursor:pointer;font-size:16px;line-height:1.35;transition:border-color .15s,background .15s}
+.opt:hover{border-color:#BFC6C6}
+.opt .mk{flex:none;width:20px;height:20px;border:1.5px solid #AEB6B8;border-radius:50%;display:grid;place-items:center}
+.opt.multi .mk{border-radius:5px}
+.opt[aria-pressed="true"]{border-color:var(--water);background:var(--tint)}
+.opt[aria-pressed="true"] .mk{background:var(--water);border-color:var(--water)}
+.opt[aria-pressed="true"] .mk::after{content:"";width:9px;height:5px;border-left:2px solid #fff;border-bottom:2px solid #fff;transform:translateY(-1px) rotate(-45deg)}
+.opt:disabled{opacity:.45;cursor:not-allowed}
+.hint{font-size:13.5px;color:var(--muted);margin:-12px 0 16px}
+
+.nav{display:flex;align-items:center;gap:16px;margin-top:30px}
+.backbtn{appearance:none;flex:none;width:50px;height:50px;border:1px solid var(--line);border-radius:50%;background:var(--paper);display:grid;place-items:center;cursor:pointer;padding:0}
+.backbtn:hover{border-color:#BFC6C6}
+.backbtn svg{width:20px;height:20px}
+.btn{appearance:none;border:0;border-radius:8px;background:var(--water);color:#fff;font-weight:600;font-size:15.5px;padding:14px 24px;cursor:pointer;display:inline-block;text-decoration:none;text-align:center}
+.btn:hover{background:var(--water-deep)}
+.btn:disabled{background:#AEBDBE;cursor:not-allowed}
+.link{appearance:none;border:0;background:none;color:var(--muted);font-size:15px;padding:10px 0;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+:focus-visible{outline:2px solid var(--water);outline-offset:3px}
+
+.facts{margin:6px 0 0;padding:0;list-style:none;border-top:1px solid var(--line)}
+.facts li{padding:15px 0;border-bottom:1px solid var(--line)}
+.facts b{font-weight:600}
+.source{font-size:12.5px;color:var(--muted);margin-top:22px}
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin:8px 0 22px}
+.stats div{border-top:2px solid var(--water);padding-top:10px}
+.stats b{display:block;font-weight:300;font-size:36px;line-height:1.05;letter-spacing:-.02em}
+.stats span{font-size:13.5px;color:var(--muted)}
+.ol{margin:4px 0 0;padding-left:22px}
+.ol li{padding:6px 0}
+.vs{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:8px 0 6px}
+.vs div{border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+.vs div:first-child{border-color:var(--water);background:var(--tint)}
+.vs h3{font-size:15px;font-weight:600;margin:0 0 8px}
+.vs p{margin:0 0 6px;font-size:15px}
+.vs .big{font-weight:300;font-size:26px;letter-spacing:-.01em}
+
+.counter{font-weight:300;font-size:72px;line-height:1;letter-spacing:-.03em;margin:10px 0 14px}
+
+.field{display:grid;gap:6px;margin-bottom:16px}
+.field label{font-size:14px;font-weight:600}
+.field input{border:1px solid var(--line);border-radius:8px;padding:13px 14px;font-size:16px;background:#fff}
+.field input:focus{border-color:var(--water)}
+.phone{display:flex}
+.phone span{border:1px solid var(--line);border-right:0;border-radius:8px 0 0 8px;padding:13px 12px;background:#F7F8F6;color:var(--muted)}
+.phone input{border-radius:0 8px 8px 0;flex:1;min-width:0}
+.check{display:flex;gap:10px;align-items:flex-start;margin-top:18px;font-size:15px;cursor:pointer}
+.check input{width:18px;height:18px;margin:3px 0 0;accent-color:var(--water)}
+.err{font-size:13.5px;color:#B3261E}
+
+.house{border:1px solid var(--line);border-radius:14px;padding:22px;margin:22px 0 16px;overflow:hidden}
+.gal{position:relative;margin:-22px -22px 18px;background:var(--mist)}
+.gal-track{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none}
+.gal-track::-webkit-scrollbar{display:none}
+.gal figure{flex:0 0 100%;margin:0;scroll-snap-align:start;position:relative;aspect-ratio:16/10}
+.gal img{width:100%;height:100%;object-fit:cover}
+.gal-btn{position:absolute;top:50%;transform:translateY(-50%);width:36px;height:36px;border-radius:50%;border:0;background:rgba(255,255,255,.9);display:grid;place-items:center;cursor:pointer;padding:0;color:var(--ink)}
+.gal-btn svg{width:16px;height:16px}
+.gal-btn.prev{left:12px}.gal-btn.next{right:12px}
+.gal-n{position:absolute;right:12px;bottom:12px;background:rgba(28,34,38,.7);color:#fff;font-size:12px;padding:3px 8px;border-radius:5px}
+.pill{display:inline-block;font-size:12px;font-weight:600;letter-spacing:.04em;padding:3px 9px;border-radius:999px;background:var(--tint);color:var(--water);margin-bottom:8px}
+.pill.building{background:#F4EEE3;color:#7A5A2B}
+.pill.project{background:#EEF0F4;color:#4A5568}
+.house h3{font-size:24px;font-weight:600;margin:0}
+.house .price{font-weight:300;font-size:30px;letter-spacing:-.015em;margin:6px 0 16px}
+.specs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px 18px;margin:0 0 16px}
+.specs div{font-size:14.5px}
+.specs dt{color:var(--muted);font-size:12.5px}
+.specs dd{margin:0;font-weight:600}
+.why-list{margin:0;padding:0;list-style:none}
+.why-list li{position:relative;padding:0 0 8px 18px;font-size:15px}
+.why-list li::before{content:"";position:absolute;left:0;top:.6em;width:7px;height:7px;border-radius:50%;background:var(--sand)}
+.alt{display:flex;justify-content:space-between;gap:16px;align-items:center;border:1px dashed #C9CFCE;border-radius:12px;padding:14px 18px;margin-bottom:16px;font-size:15px}
+.alt b{font-weight:600}
+.alt > b{white-space:nowrap}
+.alt-in{display:flex;gap:14px;align-items:center;min-width:0}
+.alt-in img{width:84px;height:58px;object-fit:cover;border-radius:7px;flex:none;background:var(--mist)}
+.pay{background:var(--mist);border-radius:12px;padding:16px 18px;margin-bottom:22px;font-size:15px}
+.pay h4{margin:0 0 6px;font-size:15px}
+.pay p{margin:0 0 4px}
+.note{font-size:13px;color:var(--muted);margin:10px 0 0}
+.teaser{position:relative;border-radius:12px;overflow:hidden;margin:0 0 22px;border:1px solid var(--line);background:#F7F8F6}
+.teaser .ghost{position:absolute;inset:0;background-size:cover;background-position:center;filter:blur(7px) grayscale(1);opacity:.35;transform:scale(1.08)}
+.teaser .in{position:relative;padding:22px 22px 20px}
+.teaser h4{margin:0 0 6px;font-size:17px;font-weight:600}
+.teaser p{margin:0 0 14px;font-size:15px;color:var(--muted)}
+
+.tabs{display:flex;gap:2px;margin:30px 0 14px;border-bottom:1px solid var(--line);overflow-x:auto;scrollbar-width:none}
+.tab{appearance:none;border:0;background:none;padding:10px 12px;font-size:14.5px;white-space:nowrap;flex:none;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px}
+.tab[aria-selected="true"]{color:var(--ink);font-weight:600;border-bottom-color:var(--water)}
+.tg{background:var(--tg);border-radius:14px;padding:18px}
+.bubble{background:#fff;border-radius:12px 12px 12px 4px;padding:14px 16px;font-size:14.5px;line-height:1.5;max-width:480px;box-shadow:0 1px 0 rgba(0,0,0,.06);margin-bottom:8px}
+.kb{display:grid;gap:6px;margin:0 0 8px;max-width:480px}
+.kb span{display:block;text-align:center;background:rgba(255,255,255,.7);border-radius:8px;padding:9px;font-size:14px;font-weight:500;color:#2A6FA8}
+.album{display:grid;grid-template-columns:1fr 1fr;gap:3px;border-radius:12px 12px 12px 4px;overflow:hidden;max-width:480px;margin-bottom:6px;background:#fff}
+.album img{width:100%;aspect-ratio:4/3;object-fit:cover;background:var(--mist)}
+.album.one{grid-template-columns:1fr}
+.album.three img:first-child{grid-column:1/-1;aspect-ratio:16/9}
+.album.plans img{object-fit:contain;background:#fff}
+.album-cap{font-size:13px;color:#5C6370;max-width:480px;margin:0 0 8px}
+.mail{border:1px solid var(--line);border-radius:12px;font-size:14.5px;overflow:hidden}
+.mail .hd{color:var(--muted);font-size:13px;border-bottom:1px solid var(--line);padding:14px 18px}
+.mail .hd b{color:var(--ink)}
+.card{border:1px solid var(--line);border-left:4px solid var(--water);border-radius:10px;padding:16px 18px;font-size:14.5px}
+
+@media (max-width:860px){
+  .app{grid-template-columns:1fr}
+  .media{position:relative;height:34vh;min-height:220px}
+  .media.tall{height:44vh}
+  .media.hide-m{display:none}
+  .panel{min-height:auto}
+  .top{padding:18px 20px 0}
+  .brand{height:28px}
+  .gal{margin:-18px -18px 16px}
+  .house{padding:18px}
+  .alt{flex-wrap:wrap}
+  .bar{margin:14px 20px 0}
+  .body{padding:28px 20px 28px;max-width:none}
+  .foot{padding:0 20px 20px}
+  h1{font-size:34px}
+  h2{font-size:27px}
+  .qt{font-size:24px}
+  .counter{font-size:56px}
+  .stats b{font-size:28px}
+  .vs{grid-template-columns:1fr}
+  .specs{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .nav .btn{flex:1}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="media" id="media" aria-hidden="true">
+    <img id="mediaImg" src="https://riviera-village.com.ua/wp-content/uploads/2024/07/4-3.jpg" alt="">
+    <div class="cap" id="mediaCap" hidden></div>
+  </aside>
+  <main class="panel">
+    <div class="top">
+      <img class="brand" src="https://riviera-village.com.ua/wp-content/themes/cotages/images/logo.svg" alt="Riviera Village" width="120" height="34">
+      <div class="count" id="count"></div>
+    </div>
+    <div class="bar"><i id="barFill"></i></div>
+    <div class="body" id="view" aria-live="polite"></div>
+    <div class="foot">Концепт <a href="https://anton-chepuryshkin.github.io/anton-head-cv/" target="_blank" rel="noopener">Антона Чепуришкіна</a> для Riviera Village</div>
+  </main>
+</div>
+
+<script src="config.js?v=1"></script>
+<script src="logic.js?v=1"></script>
+<script>
+const ARROW = d => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${d==='l'?'M15 6l-6 6 6 6':'M9 6l6 6-6 6'}"/></svg>`;
+
+/* ---------- Порядок кроків. # — слайд, що залежить від відповідей ---------- */
+const SEQ = ['start','intro','qa','q2','q3','empathy','q4','#after4','q5','q6','q7','village','q8','q9','#after9','q10','#after10','q11','q12','analysis','form','result'];
+
+Object.assign(S, {pos:0, step:'start', hist:[], consent:false, tab:'tg'});
+const CFG = Object.assign({api:'', bot:''}, window.QUIZ_CONFIG || {});
+
+const $ = s => document.querySelector(s);
+const view = $('#view');
+const shown = () => [...S.hist.map(h=>h.step), S.step];
+
+function resolve(slot){
+  const seen = shown();
+  const first = ids => ids.find(id => id && !seen.includes(id)) || null;
+  if(slot === '#after4'){
+    return first([
+      has('q4','water') && 'water',
+      has('q4','kids') && 'kids',
+      has('q4','neighbors') && 'community',
+      (has('q4','safety') || has('q3','blackout')) && 'safety'
+    ]);
+  }
+  if(slot === '#after9'){
+    return first([
+      has('q9','resale') && 'resale',
+      has('q9','infra') && 'infra',
+      has('q9','war') && 'safety',
+      has('q9','price') && 'price',
+      has('q9','info') && 'checklist'
+    ]);
+  }
+  if(slot === '#after10'){
+    return S.ans.q10 === 'unknown' ? first(['price']) : null;
+  }
+  return null;
+}
+let navLock = false;
+function next(){
+  if(navLock) return;
+  navLock = true; setTimeout(()=>navLock=false, 300);
+  S.hist.push({pos:S.pos, step:S.step});
+  for(let j=S.pos+1; j<SEQ.length; j++){
+    const key = SEQ[j];
+    if(key.startsWith('#')){ const id = resolve(key); if(id){ S.pos=j; S.step=id; break; } continue; }
+    S.pos=j; S.step=key; break;
+  }
+  render(true);
+}
+function back(){ const h = S.hist.pop(); if(!h) return; S.pos=h.pos; S.step=h.step; render(true); }
+function restart(){ Object.assign(S, {pos:0, step:'start', hist:[], ans:{}, consent:false, tab:'tg'}); render(true); }
+
+/* ---------- Рендер ---------- */
+function setMedia(src, opts={}){
+  const img = $('#mediaImg');
+  const full = /^https?:/.test(src) ? src : RV + src;
+  img.style.objectPosition = opts.pos || '';
+  if(img.getAttribute('src') !== full) img.setAttribute('src', full);
+  const cp = $('#mediaCap'); cp.hidden = !opts.cap; cp.textContent = opts.cap || '';
+  $('#media').classList.toggle('tall', !!opts.tall);
+  $('#media').classList.toggle('hide-m', !!opts.hideMobile);
+}
+function setProgress(){
+  const steps = shown().filter(s=>Q[s]);
+  const n = Q[S.step] ? Q[S.step].n : (steps.length ? Q[steps[steps.length-1]].n : 0);
+  $('#count').textContent = S.step==='start' ? '12 питань, 3 хвилини' : S.step==='result' ? 'Ваш підбір' : S.step==='form' ? 'Останній крок' : S.step==='intro' ? 'Знайомство' : 'Питання ' + n + ' з ' + TOTAL_Q;
+  const pct = S.step==='start' ? 0 : S.step==='intro' ? 3 : ['analysis','form'].includes(S.step) ? 96 : S.step==='result' ? 100 : Math.round(n/TOTAL_Q*92);
+  $('#barFill').style.width = pct + '%';
+}
+function render(anim){
+  setProgress();
+  const r = RENDER[S.step] || RENDER[Q[S.step] ? 'question' : 'start'];
+  view.innerHTML = r();
+  if(anim){ view.classList.remove('fade'); void view.offsetWidth; view.classList.add('fade'); }
+  if(AFTER[S.step]) AFTER[S.step]();
+  if(Q[S.step]) bindQuestion();
+  const f = view.querySelector('[data-focus]'); if(f && anim) f.focus({preventScroll:true});
+  window.scrollTo({top:0});
+}
+const navBack = () => (S.hist.length && S.step !== 'start') ? `<button type="button" class="backbtn" data-act="back" aria-label="Назад"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></button>` : '';
+const nextBtn = (label='Далі') => `<div class="nav">${navBack()}<button class="btn" data-act="next">${label}</button></div>`;
+const slide = (eyebrow, h, body, label) => `<p class="eyebrow">${eyebrow}</p><h2 data-focus tabindex="-1">${h}</h2>${body}${nextBtn(label)}`;
+
+const RENDER = {
+  start(){
+    setMedia('2024/07/4-3.jpg', {tall:true});
+    return `<p class="eyebrow">Riviera Village · підбір будинку</p>
+      <h1 data-focus tabindex="-1">Який будинок у Riviera підходить саме вашій сім’ї?</h1>
+      <p class="lead">Пройдіть тест за 3 хвилини й отримайте підбір вілли або ділянки з цінами та розрахунком оплати саме для вас.</p>
+      <p class="sub gift"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="8.5" width="17" height="4" rx="1"/><path d="M5 12.5v7a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-7M12 8.5v12M12 8.5c-1.2-2.6-3.2-4.2-4.8-3.6-1.4.5-1.3 2.6.6 3.3.9.3 2.6.3 4.2.3zM12 8.5c1.2-2.6 3.2-4.2 4.8-3.6 1.4.5 1.3 2.6-.6 3.3-.9.3-2.6.3-4.2.3z"/></svg><span>Разом із підбором — чек-лист «9 питань забудовнику до підписання договору».</span></p>
+      <div class="nav"><button class="btn" data-act="next">Почати</button></div>`;
+  },
+  intro(){
+    setMedia('2024/07/dji_0075-2-1.jpg', {tall:true});
+    return slide('Знайомство', 'Вітаємо в Riviera Village',
+      `<div class="stats"><div><b>200 га</b><span>соснового лісу на березі Дніпра</span></div><div><b>200+</b><span>будинків уже збудовано</span></div><div><b>20 км</b><span>до Києва</span></div></div>
+       <p class="lead">Понад 100 гектарів у межах містечка — ліс для прогулянок. Є власний клуб із пляжами, марина і садок.</p>
+       <p class="lead">Відповідайте на 12 коротких питань — і ми підберемо 1–2 варіанти з тих, що зараз у продажу: вілли або ділянки під власний проєкт.</p>`, 'Почнімо');
+  },
+  question(){
+    const q = Q[S.step];
+    setMedia(q.photo);
+    const val = S.ans[S.step];
+    const multi = q.type === 'multi';
+    const sel = multi ? (val||[]) : [val];
+    const full = multi && sel.length >= q.max;
+    const items = q.opts.map(o=>{
+      const on = sel.includes(o.id);
+      const dis = multi && !on && full;
+      return `<li><button class="opt ${multi?'multi':''}" data-opt="${o.id}" aria-pressed="${on}" ${dis?'disabled':''}><span class="mk"></span><span>${o.t}</span></button></li>`;
+    }).join('');
+    const canNext = multi ? sel.length>0 : !!val;
+    return `<h2 class="qt" data-focus tabindex="-1">${q.title}</h2>
+      <p class="why">${q.why}</p>
+      ${multi ? `<p class="hint">${q.hint || 'Можна обрати до ' + q.max}</p>` : ''}
+      <ul class="opts">${items}</ul>
+      <div class="nav">${navBack()}${multi ? `<button class="btn" data-act="next" ${canNext?'':'disabled'}>Далі</button>` : ''}</div>`;
+  },
+  empathy(){
+    setMedia('2024/06/15.jpg', {tall:true});
+    const P = {noise:'шум і сусіди за стіною', privacy:'брак приватності', traffic:'затори й дорога', nature:'брак природи і брудне повітря', space:'брак простору для сім’ї й дітей', blackout:'відключення світла і відчуття небезпеки'};
+    const picked = (S.ans.q3||[]).filter(id => P[id]).map(id => P[id]);
+    const body = picked.length
+      ? `<p class="lead">${listUa(picked).charAt(0).toUpperCase() + listUa(picked).slice(1)} — саме про це говорять багато наших резидентів, згадуючи життя до переїзду.</p>
+         <p class="lead">Допоможемо розібратися, чи життя за містом справді про вас.</p>`
+      : `<p class="lead">Добре, коли переїзд — не втеча від проблем, а свідомий вибір. Багато наших резидентів прийшли саме так.</p>
+         <p class="lead">Допоможемо розібратися, чи життя за містом справді про вас.</p>`;
+    return slide('Розуміємо вас', 'Ви не одні з таким запитом', body);
+  },
+  water(){
+    setMedia('2024/06/20.jpg');
+    return slide('Дніпро поруч', 'Пляж, басейн і власна марина — в межах містечка',
+      `<ul class="facts">
+        <li><b>Riviera Club:</b> 2 піщані пляжі, 2 басейни з підігрівом, ресторан і тераса на 700 м² біля Дніпра</li>
+        <li><b>Riviera Marina:</b> власна марина, причал із терасами, оренда човнів, зимовий паркінг для човнів</li>
+        <li><b>На воді:</b> вейксерфінг, каякінг, яхтинг</li>
+      </ul>
+      <p class="source">Інфраструктура клубу — для резидентів Riviera. Джерело: riviera-village.com.ua</p>`);
+  },
+  kids(){
+    setMedia('2024/06/11-2.jpg');
+    return slide('Для дітей', 'Дитинство в лісі, а не на парковці',
+      `<ul class="facts">
+        <li>Дитячий садок <b>Clever Kids від КМДШ</b> на території</li>
+        <li>Мотузковий парк, ігрові майданчики, будинок на дереві</li>
+        <li>Майстеркласи й заняття для дітей</li>
+        <li>Закрита територія, охорона 24/7</li>
+      </ul>`);
+  },
+  community(){
+    setMedia('2024/06/3-5.jpg');
+    return slide('Ком’юніті', '565 подій на рік — і ви серед своїх',
+      `<p class="lead">Резиденти Riviera — не просто сусіди. Свята, турніри, вечірки на терасі клубу й заходи для дітей збирають людей, які обрали схожий спосіб життя.</p>
+       <p class="source">Кількість подій — дані riviera-village.com.ua</p>`);
+  },
+  safety(){
+    setMedia('2026/10/5-2.jpg');
+    return slide('Безпека', 'Закрита територія і свої люди на варті',
+      `<ul class="facts">
+        <li>Закрита для сторонніх територія</li>
+        <li>Служба охорони 24/7</li>
+        <li>Власна сервісна компанія утримує містечко</li>
+        <li>Про укриття й резервне живлення менеджер розповість на перегляді</li>
+      </ul>`);
+  },
+  village(){
+    setMedia('2024/07/untitled-3-e1720697633918.jpg');
+    return slide('Не рендери', 'Понад 200 будинків уже збудовано',
+      `<p class="lead">Riviera Village — живе містечко. Чотири вілли, які зараз у продажу, вже стоять: Villa Zen, Villa Spirit, Monaco і Villa Forest. На перегляді ви зайдете всередину.</p>
+       <div class="stats"><div><b>200+</b><span>збудованих будинків</span></div><div><b>4,6</b><span>оцінка в Google, 448 відгуків</span></div><div><b>565</b><span>подій на рік</span></div></div>
+       <p class="source">Google Maps, жовтень 2026; riviera-village.com.ua</p>`);
+  },
+  resale(){
+    setMedia('2024/09/budynku_new_8.jpg');
+    return slide('Новий чи з рук', 'Новий будинок від забудовника чи готовий з рук?',
+      `<div class="vs">
+        <div><h3>Нова вілла від Riviera</h3><p class="big">${fromUsd(CAT.minHouse)}</p><p>Розтермінування до 40 місяців з внеском від 30%</p><p>Обираєте проєкт під свою сім’ю</p></div>
+        <div><h3>Готовий будинок з рук</h3><p class="big">${fromUsd(RESALE_FROM)}</p><p>Зазвичай оплата одразу всією сумою</p><p>Планування вже таке, як є</p></div>
+      </div>
+      <p class="source">Ціни: ЛУН — типові проєкти Riviera Village (23.10.2026) і продаж будинків у селищі (29.10.2026)</p>`);
+  },
+  infra(){
+    setMedia('2024/06/18.jpg');
+    return slide('Інфраструктура', 'Що вже працює сьогодні',
+      `<ul class="facts">
+        <li><b>Riviera Club:</b> пляжі, басейни, ресторан, павільйон для заходів</li>
+        <li><b>Діти:</b> садок Clever Kids від КМДШ, мотузковий парк, майданчики</li>
+        <li><b>Спорт:</b> 2 волейбольні поля, 2 тенісні корти, футбольне поле</li>
+        <li><b>Сервіс:</b> охорона 24/7, власна сервісна компанія, ландшафтний сервіс Riviera Botanica</li>
+      </ul>`);
+  },
+  price(){
+    setMedia('2024/09/budynku_new_6.jpg');
+    const rows = HOUSES.slice().sort((a,b)=>a.price-b.price);
+    return slide('Ціни', 'Скільки коштує життя в Riviera',
+      `<ul class="facts">
+        <li><b>Вілли</b> — ${fromUsd(rows[0].price)} до ${usd(rows[rows.length-1].price)}: від 152 до 367 м²</li>
+        <li><b>Ділянки</b> під власний проєкт — ${fromUsd(CAT.minPlot)}: від 7,5 до 31 сотки</li>
+        <li><b>Розтермінування</b> від забудовника — до 40 місяців з внеском від 30%</li>
+      </ul>
+      <p class="lead" style="margin-top:16px">Точну суму і графік платежів порахуємо для варіанта, який підберемо саме вам.</p>
+      <p class="source">ЛУН, типові проєкти Riviera Village, оновлено 23.10.2026</p>`);
+  },
+  checklist(){
+    setMedia('2024/07/12.jpg');
+    return slide('З чого почати', '9 питань, які варто поставити будь-якому забудовнику',
+      `<p class="sub">Ось перші три:</p>
+      <ol class="ol">${CHECKLIST.slice(0,3).map(q=>`<li>${q}</li>`).join('')}</ol>
+      <p class="lead" style="margin-top:14px">Решту шість надішлемо разом із підбором.</p>`);
+  },
+  analysis(){
+    setMedia('2024/07/2-4.jpg');
+    return `<h2 data-focus tabindex="-1">Аналізуємо ваші відповіді</h2>
+      <div class="counter" id="counter">${LOTS.length}</div>
+      <p class="lead" id="anTxt">Зараз у продажу ${CAT.houses} проєктів вілл і ${CAT.plots} ділянок. Відбираємо ті, що підходять саме вам.</p>
+      <div class="nav">${navBack()}<button class="btn" data-act="next" id="anBtn" hidden>Отримати підбір</button></div>`;
+  },
+  form(){
+    setMedia('2024/07/1-4.jpg');
+    return `<h2 data-focus tabindex="-1">Ваш підбір готовий. Куди надіслати?</h2>
+      <form id="lead" novalidate>
+        <div class="field"><label for="fName">Ім’я</label><input id="fName" autocomplete="given-name" value="${esc(S.name)}"></div>
+        <div class="field"><label for="fPhone">Телефон</label><div class="phone"><span>+380</span><input id="fPhone" inputmode="tel" autocomplete="tel-national" placeholder="67 123 45 67" value="${esc(S.phone)}"></div></div>
+        <div class="field"><label for="fEmail">Email</label><input id="fEmail" type="email" autocomplete="email" value="${esc(S.email)}"></div>
+        <label class="check"><input type="checkbox" id="fConsent" ${S.consent?'checked':''}> Погоджуюсь на обробку даних. Це демо-концепт: дані не передаються Riviera Village.</label>
+        <p class="err" id="fErr" role="alert"></p>
+        <div class="nav">${navBack()}<button class="btn" type="submit">Отримати підбір</button></div>
+      </form>`;
+  },
+  result(){
+    const R = buildResult();
+    const h = R.main;
+    setMedia(h.photos[0], {hideMobile:true, cap: h.kind==='house' && h.status!=='built' ? 'Візуалізація' : ''});
+    const lead = R.fallback ? 'найближчий варіант для вас —' : h.kind==='plot' ? 'для вашого проєкту підходить' : 'вашій сім’ї підходить';
+    return `<h2 data-focus tabindex="-1">${esc(S.name)}, ${lead} ${title(h)}</h2>
+      ${R.fallbackNote ? `<p class="sub">${R.fallbackNote}</p>` : ''}
+      ${card(h, R.reasons)}
+      ${R.alt ? altRow(R.alt, h) : ''}
+      <div class="pay"><h4>${R.payTitle}</h4>${R.payLines.map(l=>`<p>${l}</p>`).join('')}</div>
+      ${teaser(h)}
+      <p class="note">У прототипі повідомлення не надсилаються. Нижче — що отримає людина і менеджер.</p>
+      ${previewBlock(R)}
+      <div class="nav"><button class="link" data-act="restart">Пройти ще раз</button></div>`;
+  }
+};
+
+function gallery(h){
+  return `<div class="gal">
+    <div class="gal-track">${h.photos.map((src,i)=>`<figure><img src="${src}" alt="${esc(title(h))}, фото ${i+1}" loading="lazy" onerror="this.closest('figure').remove()"></figure>`).join('')}</div>
+    <button class="gal-btn prev" data-gal-step="-1" aria-label="Попереднє фото">${ARROW('l')}</button>
+    <button class="gal-btn next" data-gal-step="1" aria-label="Наступне фото">${ARROW('r')}</button>
+    <span class="gal-n">1 / ${h.photos.length}</span>
+  </div>`;
+}
+function card(h, reasons){
+  const specs = h.kind==='plot'
+    ? [['Площа', sotky(h.size)], ['Розташування', h.zone==='water' ? 'біля води' : 'район Forest'], ['Будинок', 'за вашим проєктом']]
+    : [['Площа', num(h.area) + ' м²'], ['Спальні', h.bed], ['Поверхів', h.levels], ['Санвузли', h.bath || 'уточнюється'], ['Ділянка', h.plot ? sotky(h.plot) : 'уточнюється'], ['Статус', STATUS[h.status].short]];
+  return `<div class="house">${gallery(h)}
+    <span class="pill ${h.status}">${STATUS[h.status].short}</span>
+    <h3>${esc(title(h))}</h3>
+    <div class="price">${fromUsd(h.price)}</div>
+    <dl class="specs">${specs.map(([k,v])=>`<div><dt>${k}</dt><dd>${v}</dd></div>`).join('')}</dl>
+    <ul class="why-list">${reasons.map(x=>`<li>${x}</li>`).join('')}</ul>
+  </div>`;
+}
+function altRow(a, h){
+  const lbl = a.kind!==h.kind ? (a.kind==='plot' ? 'Або побудуйте свій' : 'Або готова вілла') : 'Альтернатива';
+  return `<div class="alt"><span class="alt-in"><img src="${a.photos[0]}" alt="" loading="lazy" onerror="this.remove()"><span>${lbl}: <b>${esc(title(a))}</b>${a.kind==='plot' ? '' : ', ' + specsLine(a)}</span></span><b>${fromUsd(a.price)}</b></div>`;
+}
+function teaser(h){
+  const ttl = h.kind==='plot' ? 'Генплан із розташуванням ділянки надішлемо в Telegram' : `Планування ${h.name} надішлемо в Telegram`;
+  return `<div class="teaser"><div class="ghost" style="background-image:url('${h.plans[0]}')"></div>
+    <div class="in"><h4>${ttl}</h4><p>Разом із розрахунком оплати і чек-листом «${CHECKLIST_TITLE}».</p><button class="btn" data-act="tg">${h.kind==='plot' ? 'Отримати генплан' : 'Отримати планування'}</button></div>
+  </div>`;
+}
+
+const imgTag = src => `<img src="${src}" alt="" loading="lazy" onerror="this.style.visibility='hidden'">`;
+const nl2br = t => t.replace(/\n/g, '<br>');
+const kbHtml = rows => `<div class="kb">${rows.map(r => r.map(b => `<span>${b.text}</span>`).join('')).join('')}</div>`;
+const albumHtml = (list, cls) => list.length ? `<div class="album ${cls||''} ${list.length===1 ? 'one' : list.length===3 ? 'three' : ''}">${list.map(imgTag).join('')}</div>` : '';
+const PREVIEW = {
+  tg(R){
+    const T = tgParts(R);
+    return `<div class="tg"><div class="bubble">${nl2br(T.intro)}</div>
+      ${albumHtml(T.photos)}
+      ${albumHtml(T.plans, 'plans')}<p class="album-cap">${T.planCaption}</p>
+      <div class="bubble">${nl2br(T.text)}</div>${kbHtml(T.buttons)}
+      ${T.extra.map(t => `<div class="bubble">${nl2br(t)}</div>`).join('')}</div>
+      <p class="note">Планування — тільки в Telegram. Це причина відкрити бота: без неї більшість людей зупиняється на екрані результату.</p>`;
+  },
+  mail(R){
+    const M = mailParts(R);
+    return `<div class="mail"><div class="hd">Тема: <b>${esc(M.subject)}</b></div><div>${M.html}</div></div>`;
+  },
+  card(R){
+    return `<div class="card">${nl2br(cardText(R))}</div>
+      <p class="note">Картка приходить менеджеру в Telegram одразу після форми: з психотипом, стадією, сумнівами і фразою для першого дзвінка.</p>`;
+  }
+};
+function previewBlock(R){
+  const tabs = [['tg','Telegram'], ['mail','Email'], ['card','Картка для менеджера']];
+  return `<div class="tabs" role="tablist">${tabs.map(([k,l]) => `<button class="tab" role="tab" data-tab="${k}" aria-selected="${S.tab===k}">${l}</button>`).join('')}</div>
+    <div id="prev">${PREVIEW[S.tab](R)}</div>`;
+}
+
+const AFTER = {
+  analysis(){
+    const m = match();
+    const el = $('#counter'), txt = $('#anTxt'), btn = $('#anBtn');
+    const end = m.count || (m.alt ? 2 : 1);
+    const finish = () => {
+      el.textContent = end;
+      const what = m.plotMode ? 'ділянок' : 'вілл';
+      txt.textContent = m.count
+        ? `Під ваші відповіді ${plural(m.count,'підходить','підходять','підходять')} ${m.count} ${m.plotMode ? plural(m.count,'ділянка','ділянки','ділянок') : plural(m.count,'вілла','вілли','вілл')}. Обираємо найточніший варіант${m.alt ? ' і альтернативу' : ''}.`
+        : `Повного збігу з усіма вашими умовами серед ${what} немає, тому обираємо найближчий варіант і чесно скажемо, в чому компроміс.`;
+      btn.hidden = false; btn.focus({preventScroll:true});
+    };
+    if(matchMedia('(prefers-reduced-motion: reduce)').matches){ finish(); return; }
+    const t0 = performance.now(), dur = 1600, start = LOTS.length;
+    const tick = t => { const p = Math.min(1,(t-t0)/dur); const e = 1-Math.pow(1-p,3); el.textContent = Math.round(start - (start-end)*e); if(p<1) requestAnimationFrame(tick); else finish(); };
+    requestAnimationFrame(tick);
+  },
+  form(){
+    $('#lead').addEventListener('submit', e=>{
+      e.preventDefault();
+      S.name = $('#fName').value.trim(); S.phone = $('#fPhone').value.trim(); S.email = $('#fEmail').value.trim(); S.consent = $('#fConsent').checked;
+      const digits = S.phone.replace(/\D/g,'');
+      let err = '';
+      if(!S.name) err = 'Вкажіть ім’я.';
+      else if(digits.length !== 9) err = 'Перевірте номер: після +380 потрібно 9 цифр.';
+      else if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(S.email)) err = 'Перевірте email: схоже, в адресі помилка.';
+      else if(!S.consent) err = 'Без згоди на обробку даних ми не зможемо надіслати підбір.';
+      $('#fErr').textContent = err;
+      if(!err) next();
+    });
+  },
+  result(){
+    const tr = view.querySelector('.gal-track'), n = view.querySelector('.gal-n');
+    if(tr){
+      const upd = () => { const k = tr.children.length; const i = Math.round(tr.scrollLeft / Math.max(1, tr.clientWidth)); n.textContent = `${Math.min(i+1,k)} / ${k}`; n.hidden = k < 2; view.querySelectorAll('.gal-btn').forEach(b => b.hidden = k < 2); };
+      tr.addEventListener('scroll', () => requestAnimationFrame(upd), {passive:true});
+      view.querySelectorAll('[data-gal-step]').forEach(b => b.addEventListener('click', () => {
+        const k = tr.children.length, i = Math.round(tr.scrollLeft / tr.clientWidth), j = (i + (+b.dataset.galStep) + k) % k;
+        tr.scrollTo({left: j * tr.clientWidth, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'});
+      }));
+      setTimeout(upd, 400);
+    }
+    view.querySelectorAll('[data-tab]').forEach(b=>b.addEventListener('click',()=>{ S.tab=b.dataset.tab; view.querySelectorAll('[data-tab]').forEach(x=>x.setAttribute('aria-selected', x===b)); $('#prev').innerHTML = PREVIEW[S.tab](buildResult()); }));
+  }
+};
+
+view.addEventListener('click', e=>{
+  const a = e.target.closest('[data-act]'); if(!a) return;
+  const act = a.dataset.act;
+  if(act==='next') next();
+  if(act==='back') back();
+  if(act==='restart') restart();
+  if(act==='tg'){ const t = view.querySelector('[data-tab="tg"]'); if(t) t.click(); $('#prev').scrollIntoView({behavior:'smooth', block:'start'}); }
+});
+
+function bindQuestion(){
+  const q = Q[S.step];
+  view.querySelectorAll('[data-opt]').forEach(b=>b.addEventListener('click',()=>{
+    const id = b.dataset.opt;
+    if(q.type==='multi'){
+      let cur = S.ans[S.step] || [];
+      const o = q.opts.find(x=>x.id===id);
+      if(cur.includes(id)) cur = cur.filter(x=>x!==id);
+      else if(o.solo) cur = [id];
+      else { cur = cur.filter(x=>!q.opts.find(y=>y.id===x).solo); if(cur.length < q.max) cur = [...cur, id]; }
+      S.ans[S.step] = cur;
+      render(false);
+      const again = view.querySelector(`[data-opt="${id}"]`); if(again) again.focus();
+    } else {
+      S.ans[S.step] = id;
+      view.querySelectorAll('[data-opt]').forEach(x=>x.setAttribute('aria-pressed', x===b));
+      setTimeout(next, 260);
+    }
+  }));
+}
+
+render(false);
+</script>
+</body>
+</html>
