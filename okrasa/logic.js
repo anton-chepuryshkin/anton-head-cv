@@ -495,6 +495,10 @@ const small = (url, w, h) => 'https://wsrv.nl/?url=' + encodeURIComponent(url.re
 const lc1 = x => x.charAt(0).toLowerCase() + x.slice(1);
 const specsLine = h => `${num(h.area,1)} м², ${beds(h.bed)}${h.cab?' і кабінет':''}${h.land?`, ділянка ${sotky(h.land)}`:''}`;
 const ROAD = 'Дорога: 6 км до метро Житомирська, близько 10 хвилин.';
+const viewingLine = h => h.queue===1
+  ? `Менеджер покаже шоурум із готовим ремонтом, а потім — будинок O.${h.model}.`
+  : `Менеджер покаже шоурум із готовим ремонтом і збудовані будинки першої черги, а також розповість, на якому етапі будинок O.${h.model}.`;
+const fmtPhone = d => { d = String(d).replace(/\D/g, '').slice(-9); return d.length === 9 ? `+380 ${d.slice(0,2)} ${d.slice(2,5)} ${d.slice(5,7)} ${d.slice(7)}` : '+380 ' + d; };
 const DEMO_INTRO = 'Це демо-концепт квізу для О.Краси. Ось ваш підбір.';
 const deepLink = (ctx, suffix) => (ctx && ctx.bot && ctx.leadId) ? `https://t.me/${ctx.bot}?start=${ctx.leadId}${suffix||''}` : '';
 const ansText = id => { const q = Q[id], v = S.ans[id]; if(!q || v === undefined || v === null || v === '') return '—'; const ids = Array.isArray(v) ? v : [v]; return ids.map(x => { const o = q.opts.find(o => o.id === x); return o ? tx(o.t) : x; }).join('; '); };
@@ -520,7 +524,7 @@ function tgParts(R, ctx){
     ? [mainP, payP, altP, noPlan].concat(barP, [ROAD])
     : [story, mainP, altP, noPlan].concat(barP, [payP, ROAD]);
   const t = tour(h.model);
-  const buttons = [[{text:`Записатися на перегляд O.${h.model}`, data:'view'}]];
+  const buttons = [];
   if(t) buttons.push([{text:`3D-тур по O.${h.model}`, url:t}]);
   if(isFamily()){
     const link = deepLink(ctx, '_p');
@@ -534,6 +538,8 @@ function tgParts(R, ctx){
     planCaption: planList.length ? `Планування O.${h.model}${pAlt.length ? ` і O.${a.model}` : ''}` : '',
     text: head.concat(body.filter(Boolean)).join('\n\n'),
     buttons,
+    cta: {text: `<b>Наступний крок — перегляд</b>\n${viewingLine(h)} Запишіться на перегляд або попросіть дзвінок — менеджер зв’яжеться з вами, щоб узгодити зручний час.`,
+      buttons: [[{text:`Записатися на перегляд O.${h.model}`, data:'view'}], [{text:'Попросити дзвінок', data:'call'}]]},
     docs: [{url: CHECKLIST_PDF, caption: `Чек-лист «${CHECKLIST_TITLE}». Збережіть або роздрукуйте і візьміть на перегляд — у будь-яке містечко.`, fallback: checklistTg()}]
   };
 }
@@ -578,6 +584,7 @@ function mailParts(R, ctx){
   };
   const pMain = plans(h.model), pAlt = a ? plans(a.model).slice(0,1) : [];
   const link = deepLink(ctx);
+  const viewLink = deepLink(ctx, '_v');
   const t = tour(h.model);
   const cta = link ? `<table role="presentation" cellpadding="0" cellspacing="0" style="margin:4px 0 18px"><tr><td style="background:#277137;border-radius:8px"><a href="${link}" style="${F}display:inline-block;padding:13px 22px;color:#ffffff;font-weight:bold;font-size:15px;text-decoration:none">Отримати підбір і планування в Telegram</a></td></tr></table>` : '';
   const html = `<div style="background:#F3EFE2;padding:24px 12px">
@@ -595,9 +602,15 @@ ${cta}
 ${a ? P(`<b>Альтернатива: ${KIND[a.kind].toLowerCase()} O.${a.model}</b> — ${num(a.area,1)} м², ${beds(a.bed)}${a.cab?' і кабінет':''}, ${fromUsd(a.price)}`) + grid([img(renders(a.model)[0])].concat(pAlt.map(s => img(s, true)))) : ''}
 ${R.barriers.map(b => P(`<b>${b[0]}.</b> ${b[1]}`)).join('')}
 ${P(`<b>${R.payTitle}.</b> ${R.payLines.join(' ')}`)}
-${P(`<b>Чек-лист: ${CHECKLIST_TITLE}</b><br><span style="color:#626776">PDF для друку — у вкладенні до листа.</span>`, 'margin-bottom:6px')}
-<ol style="${F}font-size:14px;line-height:1.5;margin:0 0 18px;padding-left:20px">${CHECKLIST.map(q => `<li style="margin:0 0 6px">${q}</li>`).join('')}</ol>
 ${P('Сергій Крикун<br><span style="color:#626776">керуючий партнер О.Краси</span>')}
+</td></tr>
+<tr><td style="padding:0 26px 24px">
+<div style="background:#F2F6EA;border-radius:10px;padding:18px 18px 6px">
+${P('<b style="font-size:17px">Наступний крок — перегляд</b>', 'margin-bottom:6px')}
+${P(viewingLine(h))}
+${viewLink ? `<table role="presentation" cellpadding="0" cellspacing="0" style="margin:2px 0 14px"><tr><td style="background:#277137;border-radius:8px"><a href="${viewLink}" style="${F}display:inline-block;padding:13px 22px;color:#ffffff;font-weight:bold;font-size:15px;text-decoration:none">Записатися на перегляд</a></td></tr></table>` : ''}
+${P(`Не користуєтеся Telegram? Дайте відповідь на цей лист — менеджер передзвонить вам на ${fmtPhone(S.phone)}, щоб узгодити зручний час.`, 'font-size:14px;color:#454955')}
+</div>
 </td></tr>
 <tr><td style="padding:14px 26px 22px;border-top:1px solid #E3E2DC">${P(`Демо-концепт квізу для О.Краси від <a href="${CV}" style="color:#626776">Антона Чепуришкіна</a>. Ви отримали цей лист, бо пройшли тест і залишили email.`, 'font-size:12px;color:#626776;margin:0')}</td></tr>
 </table></div>`;
