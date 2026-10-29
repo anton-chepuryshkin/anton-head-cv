@@ -508,6 +508,83 @@ function shareText(){
   return `Подивись, який будинок я ${madeVerb()} для нас в О.Красі: фото, планування і ціна.`;
 }
 
+
+/* ---------- Особисте звернення від Сергія Крикуна: збирається з відповідей людини ---------- */
+const SIGNER = {name:'Крикун Сергій', title:'Співвласник та CEO О.Краса', site:'https://okrasa.city/'};
+const OPEN_DAY = false; // увімкнути, коли О.Краса підтвердить дні відкритих дверей
+// Кличний відмінок для імені у звертанні: Олена → Олено, Андрій → Андрію, Максим → Максиме
+function vocative(raw){
+  const name = String(raw || '').trim().split(/\s+/)[0] || '';
+  if(!/^[А-ЯІЇЄҐа-яіїєґ'’-]{2,}$/.test(name)) return name;
+  const n = name.charAt(0).toUpperCase() + name.slice(1);
+  const lo = n.toLowerCase();
+  const SPECIAL = {'ольга':'Ольго','любов':'Любове','ігор':'Ігоре','олег':'Олеже','лев':'Леве'};
+  if(SPECIAL[lo]) return SPECIAL[lo];
+  if(/ія$/.test(lo)) return n.slice(0,-1) + 'є';           // Марія → Маріє
+  if(/[^і]я$/.test(lo)) return n.slice(0,-1) + 'ю';        // Наталя → Наталю
+  if(/[жчшщ]а$/.test(lo)) return n.slice(0,-1) + 'е';     // Ганжа → Ганже
+  if(/а$/.test(lo)) return n.slice(0,-1) + 'о';            // Олена → Олено
+  if(/[ій]$/.test(lo) || /ь$/.test(lo)) return n.slice(0,-1) + 'ю'; // Андрій → Андрію, Василь → Василю
+  if(/о$/.test(lo)) return n.slice(0,-1) + 'е';            // Петро → Петре
+  if(/[кгх]$/.test(lo)) return n + 'у';                    // Марк → Марку
+  if(/[бвдзлмнпрстфц]$/.test(lo)) return n + 'е';          // Максим → Максиме
+  return n;
+}
+const listUa = arr => arr.length <= 1 ? (arr[0] || '') : arr.slice(0,-1).join(', ') + ' та ' + arr[arr.length-1];
+const pick = (id, M) => (Array.isArray(S.ans[id]) ? S.ans[id] : [S.ans[id]]).map(x => M[x]).filter(Boolean);
+function personalNote(){
+  const P = [];
+  const fam = {single:'для себе', couple:'для вас двох', kid1:'для сім’ї з дитиною', kid2:'для сім’ї з двома дітьми', kid3:'для великої сім’ї з дітьми', multi:'для кількох поколінь, разом із батьками', parents:'для батьків або як інвестицію'}[S.ans.q2] || 'для вашої сім’ї';
+  const seen = {
+    none:`Бачу, що ви тільки починаєте знайомитися з котеджними містечками і шукаєте будинок ${fam}.`,
+    few:`Бачу, що ви вже подивилися кілька котеджних містечок і шукаєте будинок ${fam}.`,
+    many:`Бачу, що ви вже подивилися чимало містечок і добре розумієте, що шукаєте: будинок ${fam}.`,
+    lived:`Бачу, що ви вже мали досвід життя в будинку і тепер шукаєте будинок ${fam}.`
+  }[S.ans.q6] || `Бачу, що ви шукаєте будинок ${fam}.`;
+  P.push(seen);
+  const tired = pick('q3', {noise:'шум і сусіди за стіною', privacy:'брак приватності', traffic:'затори й дорога', nature:'брак природи і брудне повітря', space:'брак простору для сім’ї й дітей', blackout:'відключення світла і відчуття небезпеки'});
+  if(tired.length) P.push(`Найбільше вас зараз втомлює ${listUa(tired)}.`);
+  else if(has('q3','ok')) P.push('Загалом вас усе влаштовує, і ви спокійно розглядаєте варіанти — для зваженого вибору це найкращий стан.');
+  const road = {
+    right:'Ви щодня їздите на правий берег, тож швидкий доїзд до Києва для вас критичний.',
+    left:'Ви щодня їздите на лівий берег, тож час у дорозі для вас важливий — менеджер чесно проговорить маршрут.',
+    weekly:'Ви буваєте в Києві кілька разів на тиждень, тому вам потрібен зручний доїзд.',
+    remote:'Ви працюєте віддалено або поруч, тож дорога до Києва для вас не головне.',
+    far:'Ви зараз живете в іншому місті або за кордоном, тож дорога до Києва для вас не головне.'
+  }[S.ans.q5];
+  if(road) P.push(road);
+  const fears = pick('q8', {fear:'надійності забудовника', burned:'надійності забудовника після попереднього досвіду', infra:'інфраструктури поруч', price:'того, чи адекватна ціна', upkeep:'вартості утримання будинку', sell:'продажу вашої нинішньої нерухомості', war:'безпеки й невизначеності', notfound:'того, що підходящий варіант досі не знайшовся', info:'браку інформації'});
+  const f = has('q8','burned') ? fears.filter(x => x !== 'надійності забудовника') : fears;
+  if(f.length) P.push(`Також розумію ваші переживання щодо ${listUa(f)}.`);
+  const pay = {full:'з повною оплатою', install:'з розтермінуванням від забудовника', trade:'з продажем або обміном нинішньої нерухомості', mortgage:'з іпотекою або єОселею'}[S.ans.q10];
+  const when = {m3:'плануєте переїхати протягом 1–3 місяців', m6:'плануєте переїхати через 3–6 місяців', m12:'плануєте переїхати через 6–12 місяців', y1:'плануєте переїзд через рік або пізніше', browse:'поки що просто вивчаєте варіанти'}[S.ans.q11];
+  if(S.ans.q9){
+    const fin = S.ans.q9 === 'unknown'
+      ? ['Ви хочете спершу зрозуміти реальні ціни'].concat(pay ? ['плануєте оплату ' + pay] : S.ans.q10 === 'undecided' ? ['ще обираєте спосіб оплати'] : [])
+      : ['Фінансовий аспект теж важливий: ви розглядаєте бюджет ' + ansText('q9').replace(/^До /, 'до ').replace(/^Від /, 'від ') + (pay ? ' ' + pay : S.ans.q10 === 'undecided' ? ' і ще обираєте спосіб оплати' : '')];
+    if(when) fin.push(when);
+    P.push(listUa(fin) + '.');
+  }
+  const want = pick('q4', {autonomy:'автономність і безпека для сім’ї', quality:'якісний будинок', kids:'простір і безпечний двір для дітей', cabinet:'кабінет або гостьова кімната', bigplot:'велика ділянка під сад', minimal:'мінімум клопоту з ділянкою', onefloor:'один поверх без сходів', neighbors:'гарне ком’юніті', water:'природа і вода поруч'});
+  if(want.length) P.push(`Ваш запит дуже чіткий: ${listUa(want)} 🌿`);
+  return P.join(' ');
+}
+function greeting(){
+  return {
+    hello: `Вітаю, ${esc(vocative(S.name))}!`,
+    meet: 'Приємно познайомитись, мене звати Сергій Крикун 😊',
+    thanks: 'Щиро дякую вам за проходження тесту. Ваші відповіді допомогли зрозуміти, на якому етапі ви зараз і який будинок найкраще підходитиме саме вашій сім’ї.',
+    note: personalNote()
+  };
+}
+function closing(h){
+  return {
+    invite: `${esc(vocative(S.name))}, пропоную обрати зручний час на перегляд, щоб ви могли побачити наші будинки наживо та відчути різницю між форматами. ${viewingLine(h)}` + (OPEN_DAY ? ' А також щиро запрошую вас на найближчий День відкритих дверей 🎉 Це можливість не тільки подивитися готові будинки, а й відчути атмосферу містечка, прогулятися вулицями, оцінити інфраструктуру та поставити всі питання особисто.' : ''),
+    help: 'Буду радий допомогти вам зробити зважений та безпечний крок до власного дому.',
+    sign: ['З повагою,', SIGNER.name, SIGNER.title, SIGNER.site]
+  };
+}
+
 /* Telegram: фото → планування → текст із кнопками. Текст — у форматі Telegram HTML (b, i, a; переноси рядків) */
 function tgParts(R, ctx){
   const h = R.main, a = R.alt;
@@ -519,7 +596,8 @@ function tgParts(R, ctx){
   const payP = `<b>${R.payTitle}</b>\n${R.payLines.join('\n')}`;
   const barP = R.barriers.slice(0,2).map(b => `<b>${b[0]}</b>\n${b[1]}`);
   const noPlan = pMain.length ? '' : `Планування O.${h.model} надішле менеджер окремо.`;
-  const head = [`<b>${esc(S.name)}, ваш підбір в О.Красі готовий.</b>`].concat(R.fallbackNote ? [R.fallbackNote] : []);
+  const G = greeting(), C = closing(h);
+  const head = ['<b>Ось що підібрала для вас моя команда</b>'].concat(R.fallbackNote ? [R.fallbackNote] : []);
   const body = R.psy !== 'Життєлюб'
     ? [mainP, payP, altP, noPlan].concat(barP, [ROAD])
     : [story, mainP, altP, noPlan].concat(barP, [payP, ROAD]);
@@ -532,13 +610,13 @@ function tgParts(R, ctx){
   }
   buttons.push([{text:'Поставити питання', data:'ask'}]);
   return {
-    intro: DEMO_INTRO,
+    intro: `<i>Демо-концепт квізу для О.Краси.</i>\n\n<b>${G.hello}</b>\n${G.meet}\n\n${G.thanks}\n\n${G.note}`,
     photos: renders(h.model).slice(0,3),
     plans: planList,
     planCaption: planList.length ? `Планування O.${h.model}${pAlt.length ? ` і O.${a.model}` : ''}` : '',
     text: head.concat(body.filter(Boolean)).join('\n\n'),
     buttons,
-    cta: {text: `<b>Наступний крок — перегляд</b>\n${viewingLine(h)} Запишіться на перегляд або попросіть дзвінок — менеджер зв’яжеться з вами, щоб узгодити зручний час.`,
+    cta: {text: `<b>Наступний крок — перегляд</b>\n\n${C.invite} Запишіться кнопкою нижче або попросіть дзвінок — менеджер зв’яжеться з вами, щоб узгодити зручний час.\n\n${C.help}\n\n${C.sign.join('\n')}`,
       buttons: [[{text:`Записатися на перегляд O.${h.model}`, data:'view'}], [{text:'Попросити дзвінок', data:'call'}]]},
     docs: [{url: CHECKLIST_PDF, caption: `Чек-лист «${CHECKLIST_TITLE}». Збережіть або роздрукуйте і візьміть на перегляд — у будь-яке містечко.`, fallback: checklistTg()}]
   };
@@ -586,12 +664,16 @@ function mailParts(R, ctx){
   const link = deepLink(ctx);
   const viewLink = deepLink(ctx, '_v');
   const t = tour(h.model);
+  const G = greeting(), C = closing(h);
   const cta = link ? `<table role="presentation" cellpadding="0" cellspacing="0" style="margin:4px 0 18px"><tr><td style="background:#277137;border-radius:8px"><a href="${link}" style="${F}display:inline-block;padding:13px 22px;color:#ffffff;font-weight:bold;font-size:15px;text-decoration:none">Отримати підбір і планування в Telegram</a></td></tr></table>` : '';
   const html = `<div style="background:#F3EFE2;padding:24px 12px">
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:600px;margin:0 auto;background:#ffffff;border-radius:12px;border-collapse:separate">
 <tr><td style="padding:26px 26px 8px">
 ${P('<span style="font-size:22px;font-weight:300">О.<b>Краса</b></span>', 'margin-bottom:18px')}
-${P(`${esc(S.name)}, дякую, що пройшли тест. Ось ваш підбір.`)}
+${P(`<b style="font-size:18px">${G.hello}</b><br>${G.meet}`)}
+${P(G.thanks)}
+${P(G.note)}
+${P('<b>Ось що підібрала для вас моя команда:</b>', 'margin-top:20px')}
 ${R.fallbackNote ? P(R.fallbackNote) : ''}
 ${P(`<b>${KIND[h.kind]} O.${h.model}</b>, черга ${h.queue}, будинок № ${esc(h.num)}<br>${specsLine(h)}<br><span style="font-size:22px">${fromUsd(h.price)}</span>`)}
 ${grid(renders(h.model).slice(0,2).map(s => img(s)).concat(pMain.map(s => img(s, true))))}
@@ -602,15 +684,16 @@ ${cta}
 ${a ? P(`<b>Альтернатива: ${KIND[a.kind].toLowerCase()} O.${a.model}</b> — ${num(a.area,1)} м², ${beds(a.bed)}${a.cab?' і кабінет':''}, ${fromUsd(a.price)}`) + grid([img(renders(a.model)[0])].concat(pAlt.map(s => img(s, true)))) : ''}
 ${R.barriers.map(b => P(`<b>${b[0]}.</b> ${b[1]}`)).join('')}
 ${P(`<b>${R.payTitle}.</b> ${R.payLines.join(' ')}`)}
-${P('Сергій Крикун<br><span style="color:#626776">керуючий партнер О.Краси</span>')}
 </td></tr>
 <tr><td style="padding:0 26px 24px">
 <div style="background:#F2F6EA;border-radius:10px;padding:18px 18px 6px">
 ${P('<b style="font-size:17px">Наступний крок — перегляд</b>', 'margin-bottom:6px')}
-${P(viewingLine(h))}
+${P(C.invite)}
 ${viewLink ? `<table role="presentation" cellpadding="0" cellspacing="0" style="margin:2px 0 14px"><tr><td style="background:#277137;border-radius:8px"><a href="${viewLink}" style="${F}display:inline-block;padding:13px 22px;color:#ffffff;font-weight:bold;font-size:15px;text-decoration:none">Записатися на перегляд</a></td></tr></table>` : ''}
 ${P(`Не користуєтеся Telegram? Дайте відповідь на цей лист — менеджер передзвонить вам на ${fmtPhone(S.phone)}, щоб узгодити зручний час.`, 'font-size:14px;color:#454955')}
 </div>
+${P(C.help, 'margin-top:18px')}
+${P(`${C.sign[0]}<br><b>${C.sign[1]}</b><br><span style="color:#626776">${C.sign[2]}</span><br><a href="${C.sign[3]}" style="color:#277137">okrasa.city</a>`)}
 </td></tr>
 <tr><td style="padding:14px 26px 22px;border-top:1px solid #E3E2DC">${P(`Демо-концепт квізу для О.Краси від <a href="${CV}" style="color:#626776">Антона Чепуришкіна</a>. Ви отримали цей лист, бо пройшли тест і залишили email.`, 'font-size:12px;color:#626776;margin:0')}</td></tr>
 </table></div>`;

@@ -242,8 +242,8 @@ h2{font-weight:300;font-size:33px;line-height:1.15;letter-spacing:-.015em;margin
   </main>
 </div>
 
-<script src="config.js?v=13"></script>
-<script src="logic.js?v=13"></script>
+<script src="config.js?v=14"></script>
+<script src="logic.js?v=14"></script>
 <script>
 /* Дані, питання, підбір і тексти повідомлень — у logic.js (спільний із сервером) */
 const ARROW = d => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${d==='l'?'M15 6l-6 6 6 6':'M9 6l6 6-6 6'}"/></svg>`;
@@ -651,7 +651,7 @@ const kbHtml = buttons => `<div class="kb">${buttons.map(row => row.map(b => b.u
 const albumHtml = (list, cls) => list.length ? `<div class="album ${cls||''} ${list.length===1 ? 'one' : list.length===3 ? 'three' : ''}">${list.map(src => imgTag(src)).join('')}</div>` : '';
 const partnerNoun = () => g()==='f' ? 'чоловік' : 'дружина';
 function tgHtml(T){
-  return `<div class="tg"><div class="bubble">${T.intro}</div>
+  return `<div class="tg"><div class="bubble">${nl2br(T.intro)}</div>
     ${albumHtml(T.photos)}
     ${T.plans.length ? albumHtml(T.plans.map(u => small(u, 900)), 'plans') + `<p class="album-cap">${T.planCaption}</p>` : ''}
     <div class="bubble">${nl2br(T.text)}</div>${kbHtml(T.buttons)}
