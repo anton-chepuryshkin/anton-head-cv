@@ -240,8 +240,8 @@ h2{font-weight:300;font-size:33px;line-height:1.15;letter-spacing:-.015em;margin
   </main>
 </div>
 
-<script src="config.js?v=9"></script>
-<script src="logic.js?v=9"></script>
+<script src="config.js?v=10"></script>
+<script src="logic.js?v=10"></script>
 <script>
 /* Дані, питання, підбір і тексти повідомлень — у logic.js (спільний із сервером) */
 const ARROW = d => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${d==='l'?'M15 6l-6 6 6 6':'M9 6l6 6-6 6'}"/></svg>`;
@@ -354,7 +354,7 @@ const RENDER = {
     return `<h2 data-focus tabindex="-1">Вітаю!</h2>
       <p class="lead">Мене звати Сергій Крикун. Я співзасновник і керуючий партнер О.Краси.</p>
       <p class="lead">За плечима моєї команди Svitlo Development — 14 років на ринку нерухомості і 6 котеджних містечок. 30% наших продажів — за рекомендаціями тих, хто вже купив. Перша черга О.Краси, ${houses(CAT.q1total)}, уже збудована, і в ній живуть люди.</p>
-      <p class="lead">Пройдіть короткий тест — і я підберу 1–2 будинки під вашу сім’ю з тих, що зараз у продажу.</p>
+      <p class="lead">Пройдіть короткий тест — і моя команда підбере 1–2 будинки під вашу сім’ю з тих, що зараз у продажу.</p>
       <div class="nav">${navBack()}<button class="btn" data-act="next">Почнімо</button></div>`;
   },
   question(){
@@ -430,14 +430,14 @@ const RENDER = {
     setMedia('town','');
     return `<h2 data-focus tabindex="-1">${houses(CAT.q1total)} першої черги вже стоять</h2>
       <p class="lead">${CAT.q1sold} з них уже продано, у будинках живуть люди.</p>
-      <p class="lead">Я покажу вам не шоурум, а будинок, який підберу саме під вашу сім’ю.</p>
+      <p class="lead">Моя команда покаже вам не шоурум, а будинок, підібраний саме під вашу сім’ю.</p>
       <div class="nav">${navBack()}<button class="btn" data-act="next">Далі</button></div>`;
   },
   firstqueue_burned(){
     setMedia('town','');
     return `<h2 data-focus tabindex="-1">Не вірте на слово — приїжджайте подивитися</h2>
       <p class="lead">Перша черга, ${houses(CAT.q1total)}, уже збудована, ${CAT.q1sold} продано.</p>
-      <p class="lead">Покажу будинок, який підберу саме вам, і поясню, на якому етапі наступні черги.</p>
+      <p class="lead">Моя команда покаже будинок, підібраний саме для вас, і пояснить, на якому етапі наступні черги.</p>
       <div class="nav">${navBack()}<button class="btn" data-act="next">Далі</button></div>`;
   },
   infra(){
@@ -469,7 +469,7 @@ const RENDER = {
         ${bar('Таунхаус O.100 в О.Красі', (r[0]+r[1])/2, `від $${fmt(r[0])}/м²`, true)}
         ${bar('Новобудови Києва, в середньому', KYIV_M2.avg, `≈ $${fmt(KYIV_M2.avg)}/м²`)}
       </div>
-      <p class="lead">До метра в О.Красі додаються власний вхід, тераса й ділянка. Точну суму порахую для будинку, який вам підберу.</p>
+      <p class="lead">До метра в О.Красі додаються власний вхід, тераса й ділянка. Точну суму моя команда порахує для будинку, який підбере саме вам.</p>
       <p class="source">Київ: ЛУН Статистика, червень 2026, у перерахунку за курсом 45,85 грн/$. О.Краса: ціни з okrasa.city на сьогодні.</p>
       <div class="nav">${navBack()}<button class="btn" data-act="next">Далі</button></div>`;
   },
@@ -482,15 +482,15 @@ const RENDER = {
         <li>Що з інфраструктури працює сьогодні, а що лише в планах — і коли?</li>
         <li>Скільки об’єктів компанія вже здала і хто відповідає за проєкт?</li>
       </ol>
-      <p class="lead" style="margin-top:14px">Решту шість надішлю разом із підбором.</p>
+      <p class="lead" style="margin-top:14px">Решту шість надішлемо разом із підбором.</p>
       <div class="nav">${navBack()}<button class="btn" data-act="next">Далі</button></div>`;
   },
   analysis(){
     setMedia('duck','');
     const m = match();
-    return `<h2 data-focus tabindex="-1">Аналізую ваші відповіді</h2>
+    return `<h2 data-focus tabindex="-1">Аналізуємо ваші відповіді</h2>
       <div class="counter" id="counter">${CAT.free}</div>
-      <p class="lead" id="anTxt">Зараз у продажу ${houses(CAT.free)}. Відбираю ті, що підходять саме вам.</p>
+      <p class="lead" id="anTxt">Зараз у продажу ${houses(CAT.free)}. Відбираємо ті, що підходять саме вам.</p>
       <div class="nav">${navBack()}<button class="btn" data-act="next" id="anBtn" hidden>Отримати підбір</button></div>`;
   },
   form(){
@@ -529,8 +529,8 @@ const AFTER = {
     const finish = () => {
       el.textContent = end;
       txt.textContent = m.count
-        ? `Зараз у продажу ${houses(CAT.free)}. Під ваші відповіді ${plural(m.count,'підходить','підходять','підходять')} ${m.count}. Обираю ${m.alt ? 'два найточніші' : 'найточніший'}.`
-        : `Зараз у продажу ${houses(CAT.free)}. Повного збігу з усіма вашими умовами немає, тому обираю ${m.alt ? 'два найближчі варіанти' : 'найближчий варіант'} і чесно скажу, в чому компроміс.`;
+        ? `Зараз у продажу ${houses(CAT.free)}. Під ваші відповіді ${plural(m.count,'підходить','підходять','підходять')} ${m.count}. Обираємо ${m.alt ? 'два найточніші' : 'найточніший'}.`
+        : `Зараз у продажу ${houses(CAT.free)}. Повного збігу з усіма вашими умовами немає, тому обираємо ${m.alt ? 'два найближчі варіанти' : 'найближчий варіант'} і чесно скажемо, в чому компроміс.`;
       btn.hidden = false; btn.focus({preventScroll:true});
     };
     if(matchMedia('(prefers-reduced-motion: reduce)').matches){ finish(); return; }
@@ -547,7 +547,7 @@ const AFTER = {
       if(!S.name) err = 'Вкажіть ім’я.';
       else if(digits.length !== 9) err = 'Перевірте номер: після +380 потрібно 9 цифр.';
       else if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(S.email)) err = 'Перевірте email: схоже, в адресі помилка.';
-      else if(!S.consent) err = 'Без згоди на обробку даних я не зможу надіслати підбір.';
+      else if(!S.consent) err = 'Без згоди на обробку даних ми не зможемо надіслати підбір.';
       $('#fErr').textContent = err;
       if(!err){ sendLead(); next(); }
     });
@@ -615,7 +615,7 @@ function gallery(h){
 function teaser(R){
   const h = R.main, pl = plans(h.model), t = tour(h.model);
   const altPl = R.alt && plans(R.alt.model).length;
-  const title = pl.length ? `Планування O.${h.model} з розмірами кімнат надішлю в Telegram` : `Фото і розрахунок оплати O.${h.model} надішлю в Telegram`;
+  const title = pl.length ? `Планування O.${h.model} з розмірами кімнат надішлемо в Telegram` : `Фото і розрахунок оплати O.${h.model} надішлемо в Telegram`;
   const sub = pl.length
     ? `Разом із ${t ? '3D-туром по будинку, ' : ''}розрахунком оплати${altPl ? ` і плануванням O.${R.alt.model}` : ''}.`
     : 'Планування цієї моделі менеджер надішле окремо.';
@@ -701,7 +701,7 @@ function sendNoteHtml(){
   if(!LIVE) return 'У прототипі повідомлення не надсилаються. Нижче — що отримає людина і менеджер.';
   if(S.sent==='ok') return `Підбір надіслано на ${esc(S.email)}. Планування${tour(buildResult().main.model) ? ' і 3D-тур' : ''} — у Telegram.`;
   if(S.sent==='fail') return `Не вдалося надіслати підбір. <button class="link" data-act="resend">Спробувати ще раз</button>`;
-  return `Надсилаю підбір на ${esc(S.email)}…`;
+  return `Надсилаємо підбір на ${esc(S.email)}…`;
 }
 function updateSendNote(){ const n = $('#sendNote'); if(n) n.innerHTML = sendNoteHtml(); }
 function sendLead(){
