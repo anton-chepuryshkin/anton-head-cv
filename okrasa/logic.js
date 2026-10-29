@@ -601,22 +601,16 @@ function tgParts(R, ctx){
     ? [mainP, payP, altP, noPlan].concat(barP, [ROAD])
     : [story, mainP, altP, noPlan].concat(barP, [payP, ROAD]);
   const t = tour(h.model);
-  const buttons = [];
-  if(t) buttons.push([{text:`3D-тур по O.${h.model}`, url:t}]);
-  if(isFamily()){
-    const link = deepLink(ctx, '_p');
-    buttons.push([{text:`Переслати ${partnerWord()}`, url: link ? `https://t.me/share/url?url=${encodeURIComponent(link)}&text=${encodeURIComponent(shareText())}` : ''}]);
-  }
-  buttons.push([{text:'Поставити питання', data:'ask'}]);
+  // три кнопки одразу під запрошенням: 3D-тур, запис на перегляд, дзвінок
+  const buttons = (t ? [[{text:`3D-тур по O.${h.model}`, url:t}]] : []).concat([[{text:`Записатися на перегляд O.${h.model}`, data:'view'}], [{text:'Попросити дзвінок', data:'call'}]]);
+  const invite = `<b>Наступний крок — перегляд</b>\n\n${C.invite} Запишіться кнопкою нижче або попросіть дзвінок — менеджер зв’яжеться з вами й узгодить день.\n\n${C.help}\n\n${C.sign.join('\n')}`;
   return {
     intro: `<i>Демо-концепт квізу для О.Краси.</i>\n\n<b>${G.hello}</b>\n${G.meet}\n\n${G.thanks}\n\n${G.note}`,
     photos: renders(h.model).slice(0,3),
     plans: planList,
     planCaption: planList.length ? `Планування O.${h.model}${pAlt.length ? ` і O.${a.model}` : ''}` : '',
-    text: head.concat(body.filter(Boolean)).join('\n\n'),
+    text: head.concat(body.filter(Boolean), [invite]).join('\n\n'),
     buttons,
-    cta: {text: `<b>Наступний крок — перегляд</b>\n\n${C.invite} Запишіться кнопкою нижче або попросіть дзвінок — менеджер зв’яжеться з вами й узгодить день.\n\n${C.help}\n\n${C.sign.join('\n')}`,
-      buttons: [[{text:`Записатися на перегляд O.${h.model}`, data:'view'}], [{text:'Попросити дзвінок', data:'call'}]]},
     docs: [{url: CHECKLIST_PDF, caption: `Чек-лист «${CHECKLIST_TITLE}». Збережіть або роздрукуйте і візьміть на перегляд — у будь-яке містечко.`, fallback: checklistTg()}]
   };
 }
@@ -689,7 +683,6 @@ ${P(`<b>${R.payTitle}.</b> ${R.payLines.join(' ')}`)}
 ${P('<b style="font-size:17px">Наступний крок — перегляд</b>', 'margin-bottom:6px')}
 ${P(C.invite)}
 ${viewLink ? `<table role="presentation" cellpadding="0" cellspacing="0" style="margin:2px 0 14px"><tr><td style="background:#277137;border-radius:8px"><a href="${viewLink}" style="${F}display:inline-block;padding:13px 22px;color:#ffffff;font-weight:bold;font-size:15px;text-decoration:none">Записатися на перегляд</a></td></tr></table>` : ''}
-${P(`Не користуєтеся Telegram? Дайте відповідь на цей лист — менеджер передзвонить вам на ${fmtPhone(S.phone)}, щоб узгодити день.`, 'font-size:14px;color:#454955')}
 </div>
 ${P(C.help, 'margin-top:18px')}
 ${P(`${C.sign[0]}<br><b>${C.sign[1]}</b><br><span style="color:#626776">${C.sign[2]}</span><br><a href="${C.sign[3]}" style="color:#277137">okrasa.city</a>`)}

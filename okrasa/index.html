@@ -242,8 +242,8 @@ h2{font-weight:300;font-size:33px;line-height:1.15;letter-spacing:-.015em;margin
   </main>
 </div>
 
-<script src="config.js?v=15"></script>
-<script src="logic.js?v=15"></script>
+<script src="config.js?v=16"></script>
+<script src="logic.js?v=16"></script>
 <script>
 /* Дані, питання, підбір і тексти повідомлень — у logic.js (спільний із сервером) */
 const ARROW = d => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${d==='l'?'M15 6l-6 6 6 6':'M9 6l6 6-6 6'}"/></svg>`;
@@ -678,8 +678,8 @@ const PREVIEW = {
   }
 };
 function previewBlock(R){
-  if(S.tab==='partner' && !isFamily()) S.tab = 'tg';
-  const tabs = [['tg','Telegram'], ...(isFamily() ? [['partner', `Що отримає ${partnerNoun()}`]] : []), ['mail','Email'], ['card','Картка для менеджера']];
+  if(S.tab==='partner') S.tab = 'tg';
+  const tabs = [['tg','Telegram'], ['mail','Email'], ['card','Картка для менеджера']];
   return `<div class="tabs" role="tablist">${tabs.map(([k,l]) => `<button class="tab" role="tab" data-tab="${k}" aria-selected="${S.tab===k}">${l}</button>`).join('')}</div>
     <div id="prev">${PREVIEW[S.tab](R)}</div>`;
 }
