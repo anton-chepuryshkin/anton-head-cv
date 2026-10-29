@@ -159,6 +159,7 @@ h2{font-weight:300;font-size:33px;line-height:1.15;letter-spacing:-.015em;margin
 .why-list li::before{content:"";position:absolute;left:0;top:.6em;width:7px;height:7px;border-radius:50%;background:var(--green)}
 .alt{display:flex;justify-content:space-between;gap:16px;align-items:center;border:1px dashed #CFCFC8;border-radius:12px;padding:14px 18px;margin-bottom:16px;font-size:15px}
 .alt b{font-weight:600}
+.alt > b{white-space:nowrap}
 .pay{background:var(--cream);border-radius:12px;padding:16px 18px;margin-bottom:22px;font-size:15px}
 .pay h4{margin:0 0 6px;font-size:15px}
 .pay p{margin:0 0 4px}
@@ -239,8 +240,8 @@ h2{font-weight:300;font-size:33px;line-height:1.15;letter-spacing:-.015em;margin
   </main>
 </div>
 
-<script src="config.js?v=8"></script>
-<script src="logic.js?v=8"></script>
+<script src="config.js?v=9"></script>
+<script src="logic.js?v=9"></script>
 <script>
 /* Дані, питання, підбір і тексти повідомлень — у logic.js (спільний із сервером) */
 const ARROW = d => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${d==='l'?'M15 6l-6 6 6 6':'M9 6l6 6-6 6'}"/></svg>`;
@@ -465,7 +466,7 @@ const RENDER = {
     return `<h2 data-focus tabindex="-1">Таунхаус з ділянкою дешевше за метр бізнес-класу в Києві</h2>
       <div class="bars">
         ${bar('Новобудови Києва, бізнес-клас', KYIV_M2.business, `≈ $${fmt(KYIV_M2.business)}/м²`)}
-        ${bar('Таунхаус O.100 в О.Красі', (r[0]+r[1])/2, r[0]===r[1] ? `$${fmt(r[0])}/м²` : `$${fmt(r[0])}–${fmt(r[1])}/м²`, true)}
+        ${bar('Таунхаус O.100 в О.Красі', (r[0]+r[1])/2, `від $${fmt(r[0])}/м²`, true)}
         ${bar('Новобудови Києва, в середньому', KYIV_M2.avg, `≈ $${fmt(KYIV_M2.avg)}/м²`)}
       </div>
       <p class="lead">До метра в О.Красі додаються власний вхід, тераса й ділянка. Точну суму порахую для будинку, який вам підберу.</p>
@@ -511,7 +512,7 @@ const RENDER = {
     return `<h2 data-focus tabindex="-1">${esc(S.name)}, ${R.fallback ? 'найближчий варіант для вас —' : (S.ans.q2==='parents' ? 'під ваш запит підходить' : 'вашій сім’ї підходить')} ${KIND[h.kind].toLowerCase()} O.${h.model}</h2>
       ${R.fallbackNote ? `<p class="sub">${R.fallbackNote}</p>` : ''}
       ${houseCard(h, R.reasons)}
-      ${R.alt ? `<div class="alt"><span class="alt-in"><img src="${renders(R.alt.model)[0]}" alt="" loading="lazy" onerror="this.remove()"><span>Альтернатива: <b>${KIND[R.alt.kind].toLowerCase()} O.${R.alt.model}</b>, ${num(R.alt.area,1)} м², ${beds(R.alt.bed)}${R.alt.cab?' і кабінет':''}</span></span><b>${usd(R.alt.price)}</b></div>` : ''}
+      ${R.alt ? `<div class="alt"><span class="alt-in"><img src="${renders(R.alt.model)[0]}" alt="" loading="lazy" onerror="this.remove()"><span>Альтернатива: <b>${KIND[R.alt.kind].toLowerCase()} O.${R.alt.model}</b>, ${num(R.alt.area,1)} м², ${beds(R.alt.bed)}${R.alt.cab?' і кабінет':''}</span></span><b>${fromUsd(R.alt.price)}</b></div>` : ''}
       <div class="pay"><h4>${R.payTitle}</h4>${R.payLines.map(l=>`<p>${l}</p>`).join('')}</div>
       ${teaser(R)}
       <p class="note" id="sendNote">${sendNoteHtml()}</p>
@@ -626,14 +627,14 @@ function houseCard(h, reasons){
   return `<div class="house">${gallery(h)}
     <div class="kind">${KIND[h.kind]}, черга ${h.queue}, будинок № ${h.num}</div>
     <h3>O.${h.model}</h3>
-    <div class="price">${usd(h.price)}</div>
+    <div class="price">${fromUsd(h.price)}</div>
     <dl class="specs">
       <div><dt>Площа</dt><dd>${num(h.area,1)} м²</dd></div>
       <div><dt>Спальні</dt><dd>${h.bed}${h.cab?' + кабінет':''}</dd></div>
       <div><dt>Санвузли</dt><dd>${h.bath ?? 'уточнюється'}</dd></div>
       <div><dt>${h.kind==='city'?'Поверх':'Поверхів'}</dt><dd>${h.kind==='city' ? h.floor + '-й' : h.levels}</dd></div>
       <div><dt>Ділянка</dt><dd>${h.land ? sotky(h.land) : (h.kind==='city' ? 'немає' : 'уточнюється')}</dd></div>
-      <div><dt>Ціна за м²</dt><dd>≈ ${usd(ppmUsd(h))}</dd></div>
+      <div><dt>Ціна за м²</dt><dd>${fromUsd(ppmUsd(h))}</dd></div>
     </dl>
     <ul class="why-list">${reasons.map(x=>`<li>${x}</li>`).join('')}</ul>
   </div>`;

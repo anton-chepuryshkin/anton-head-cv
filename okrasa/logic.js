@@ -290,6 +290,7 @@ const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>'
 // Форматування без Intl: однаково в браузері і в Apps Script
 const num = (n, d=0) => { const f = Math.pow(10, d), v = Math.round(n*f)/f; const parts = String(Math.abs(v)).split('.'); const i = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '\u00a0'); return (v < 0 ? '−' : '') + i + (parts[1] ? ',' + parts[1] : ''); };
 const usd = n => '$' + num(Math.round(n));
+const fromUsd = n => 'від ' + usd(n);   // ціни для клієнта — завжди «від»
 const plural = (n, one, few, many) => { const a=Math.abs(n)%100, b=a%10; if(!Number.isInteger(n)) return few; if(a>10&&a<20) return many; if(b===1) return one; if(b>=2&&b<=4) return few; return many; };
 const sotky = ha => { const v = Math.round(ha*1000)/10; return num(v,1) + ' ' + plural(v,'сотка','сотки','соток'); };
 const beds = n => n + ' ' + plural(n,'спальня','спальні','спалень');
@@ -393,8 +394,8 @@ function reasonsFor(h, m){
 function paymentFor(h){
   const p = S.ans.q10;
   const lines = [];
-  const full = () => `Повна оплата: ${usd(h.price*0.98)} замість ${usd(h.price)} — знижка 2% і бонус до комплектації.`;
-  const inst = () => `Розтермінування: внесок 20% — ${usd(h.price*0.2)}, далі ${usd(h.price*0.8/24)} на місяць протягом 24 місяців, без переплати.`;
+  const full = () => `Повна оплата зі знижкою 2%: ${fromUsd(h.price*0.98)} замість ${usd(h.price)} і бонус до комплектації.`;
+  const inst = () => `Розтермінування: внесок 20% — ${fromUsd(h.price*0.2)}, далі ${fromUsd(h.price*0.8/24)} на місяць протягом 24 місяців, без переплати.`;
   const trade = () => 'Трейд-ін: ціна будинку фіксується на час продажу вашої нерухомості, продаж бере на себе О.Краса.';
   const mort = () => 'Іпотека або єОселя: менеджер перевірить, чи підходите ви під умови програми і банку.';
   let title = 'Як можна оплатити';
@@ -414,7 +415,7 @@ function barrierBlocks(h, fallback){
     fear:['Ваше питання «чи добудують»', `Перша черга, ${houses(CAT.q1total)}, уже збудована, ${CAT.q1sold} з них продано. ${q1 ? 'Будинок, який я підібрав, уже стоїть — приїжджайте подивитися саме на нього.' : 'Будинок, який я підібрав, — у другій черзі. Приїжджайте подивитися готову першу, а строк здачі другої назве менеджер.'}`],
     burned:['Не вірте на слово', `Перша черга, ${houses(CAT.q1total)}, уже збудована, ${CAT.q1sold} продано. ${q1 ? 'Ваш будинок уже стоїть — приїжджайте, покажу його і познайомлю з тим, як тут живуть.' : 'Покажу готову першу чергу і поясню, на якому етапі друга.'}`],
     infra:['Ваше питання про інфраструктуру', 'Уже працюють застосунок мешканця, каршеринг, спортивні й дитячі майданчики, прокат електроінструменту. Садочок — за 500 м. Школа Midgard — у планах.'],
-    price:['Ваше питання про ціну', `Метр у цьому будинку — приблизно ${usd(ppmUsd(h))}. Для порівняння: у новобудовах Києва в середньому близько ${usd(KYIV_M2.avg)} за м², у бізнес-класі — близько ${usd(KYIV_M2.business)}. Тут до метра додаються власний вхід${h.land?' і ділянка':''}.`],
+    price:['Ваше питання про ціну', `Метр у цьому будинку — ${fromUsd(ppmUsd(h))}. Для порівняння: у новобудовах Києва в середньому близько ${usd(KYIV_M2.avg)} за м², у бізнес-класі — близько ${usd(KYIV_M2.business)}. Тут до метра додаються власний вхід${h.land?' і ділянка':''}.`],
     upkeep:['Ваше питання про утримання', 'Реальні витрати на утримання цього будинку менеджер розрахує на перегляді.'],
     sell:['Ваше питання про продаж нерухомості', 'Трейд-ін: ціна будинку фіксується на час продажу вашої нерухомості, продаж бере на себе О.Краса.'],
     war:['Ваше питання про безпеку', 'Власний сонячний парк для внутрішньої інфраструктури, генератори, артезіанські свердловини, укриття в будинках і на території.'],
@@ -509,8 +510,8 @@ function tgParts(R, ctx){
   const pMain = plans(h.model), pAlt = a ? plans(a.model).slice(0,1) : [];
   const planList = pMain.concat(pAlt);
   const story = storyLine(h);
-  const mainP = `<b>1. ${KIND[h.kind]} O.${h.model}</b>, черга ${h.queue}, будинок № ${esc(h.num)}\n${specsLine(h)}\n<b>${usd(h.price)}</b>\n\nЧому він: ${R.reasons.slice(0,3).map(lc1).join('; ')}.`;
-  const altP = a ? `<b>2. Альтернатива: ${KIND[a.kind].toLowerCase()} O.${a.model}</b>\n${num(a.area,1)} м², ${beds(a.bed)}${a.cab?' і кабінет':''}, ${usd(a.price)}` : '';
+  const mainP = `<b>1. ${KIND[h.kind]} O.${h.model}</b>, черга ${h.queue}, будинок № ${esc(h.num)}\n${specsLine(h)}\n<b>${fromUsd(h.price)}</b>\n\nЧому він: ${R.reasons.slice(0,3).map(lc1).join('; ')}.`;
+  const altP = a ? `<b>2. Альтернатива: ${KIND[a.kind].toLowerCase()} O.${a.model}</b>\n${num(a.area,1)} м², ${beds(a.bed)}${a.cab?' і кабінет':''}, ${fromUsd(a.price)}` : '';
   const payP = `<b>${R.payTitle}</b>\n${R.payLines.join('\n')}`;
   const barP = R.barriers.slice(0,2).map(b => `<b>${b[0]}</b>\n${b[1]}`);
   const noPlan = pMain.length ? '' : `Планування O.${h.model} надішле менеджер окремо.`;
@@ -547,7 +548,7 @@ function partnerParts(R, ctx){
   const forFeelings = R.psy !== 'Життєлюб'; // хто пройшов тест «через цифри» — партнерові даємо атмосферу, і навпаки
   const body = forFeelings
     ? [storyLine(h), [specsLine(h)].concat(R.reasons.slice(1).filter(x => !/черга/.test(x)).slice(0,2)).join('. ') + '.', ready]
-    : [`${specsLine(h)}\n<b>${usd(h.price)}</b>`, `<b>${R.payTitle}</b>\n${R.payLines.join('\n')}`, h.queue===1 ? `Перша черга, ${houses(CAT.q1total)}, уже збудована, ${CAT.q1sold} з них продано.` : '', ROAD, ready];
+    : [`${specsLine(h)}\n<b>${fromUsd(h.price)}</b>`, `<b>${R.payTitle}</b>\n${R.payLines.join('\n')}`, h.queue===1 ? `Перша черга, ${houses(CAT.q1total)}, уже збудована, ${CAT.q1sold} з них продано.` : '', ROAD, ready];
   const t = tour(h.model);
   const buttons = [[{text:'Записатися на перегляд разом', data:'view'}]];
   if(t) buttons.push([{text:`3D-тур по O.${h.model}`, url:t}]);
@@ -585,13 +586,13 @@ function mailParts(R, ctx){
 ${P('<span style="font-size:22px;font-weight:300">О.<b>Краса</b></span>', 'margin-bottom:18px')}
 ${P(`${esc(S.name)}, дякую, що пройшли тест. Ось ваш підбір.`)}
 ${R.fallbackNote ? P(R.fallbackNote) : ''}
-${P(`<b>${KIND[h.kind]} O.${h.model}</b>, черга ${h.queue}, будинок № ${esc(h.num)}<br>${specsLine(h)}<br><span style="font-size:22px">${usd(h.price)}</span>`)}
+${P(`<b>${KIND[h.kind]} O.${h.model}</b>, черга ${h.queue}, будинок № ${esc(h.num)}<br>${specsLine(h)}<br><span style="font-size:22px">${fromUsd(h.price)}</span>`)}
 ${grid(renders(h.model).slice(0,2).map(s => img(s)).concat(pMain.map(s => img(s, true))))}
 ${P(R.reasons.map(x => '— ' + x).join('<br>'))}
 ${pMain.length ? '' : P(`Планування O.${h.model} надішле менеджер окремо.`)}
 ${t ? P(`<a href="${t}" style="color:#277137">Подивитися 3D-тур по O.${h.model}</a>`) : ''}
 ${cta}
-${a ? P(`<b>Альтернатива: ${KIND[a.kind].toLowerCase()} O.${a.model}</b> — ${num(a.area,1)} м², ${beds(a.bed)}${a.cab?' і кабінет':''}, ${usd(a.price)}`) + grid([img(renders(a.model)[0])].concat(pAlt.map(s => img(s, true)))) : ''}
+${a ? P(`<b>Альтернатива: ${KIND[a.kind].toLowerCase()} O.${a.model}</b> — ${num(a.area,1)} м², ${beds(a.bed)}${a.cab?' і кабінет':''}, ${fromUsd(a.price)}`) + grid([img(renders(a.model)[0])].concat(pAlt.map(s => img(s, true)))) : ''}
 ${R.barriers.map(b => P(`<b>${b[0]}.</b> ${b[1]}`)).join('')}
 ${P(`<b>${R.payTitle}.</b> ${R.payLines.join(' ')}`)}
 ${P(`<b>Чек-лист: ${CHECKLIST_TITLE}</b><br><span style="color:#626776">PDF для друку — у вкладенні до листа.</span>`, 'margin-bottom:6px')}
