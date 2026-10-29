@@ -239,8 +239,8 @@ h2{font-weight:300;font-size:33px;line-height:1.15;letter-spacing:-.015em;margin
   </main>
 </div>
 
-<script src="config.js?v=7"></script>
-<script src="logic.js?v=7"></script>
+<script src="config.js?v=8"></script>
+<script src="logic.js?v=8"></script>
 <script>
 /* Дані, питання, підбір і тексти повідомлень — у logic.js (спільний із сервером) */
 const ARROW = d => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${d==='l'?'M15 6l-6 6 6 6':'M9 6l6 6-6 6'}"/></svg>`;
@@ -458,16 +458,18 @@ const RENDER = {
   },
   price(){
     setMedia('facade','');
-    const max = 80000;
-    const bar = (label, val, txt, ok) => `<div class="br ${ok?'ok':''}"><div class="lb"><span>${label}</span><b>${txt}</b></div><div class="tr"><i style="width:${Math.round(val/max*100)}%"></i></div></div>`;
+    const max = KYIV_M2.business;
+    const r = modelM2Range('100') || [1420, 1540];
+    const fmt = n => num(n);
+    const bar = (label, val, txt, ok) => `<div class="br ${ok?'ok':''}"><div class="lb"><span>${label}</span><b>${txt}</b></div><div class="tr"><i style="width:${Math.min(100, Math.round(val/max*100))}%"></i></div></div>`;
     return `<h2 data-focus tabindex="-1">Таунхаус з ділянкою дешевше за метр бізнес-класу в Києві</h2>
       <div class="bars">
-        ${bar('Новобудови Києва, бізнес-клас', 80000, '≈ 80 000 грн/м²')}
-        ${bar('Таунхаус O.100 в О.Красі', 66500, '65–68 тис. грн/м²', true)}
-        ${bar('Новобудови Києва, в середньому', 60200, '60 200 грн/м²')}
+        ${bar('Новобудови Києва, бізнес-клас', KYIV_M2.business, `≈ $${fmt(KYIV_M2.business)}/м²`)}
+        ${bar('Таунхаус O.100 в О.Красі', (r[0]+r[1])/2, r[0]===r[1] ? `$${fmt(r[0])}/м²` : `$${fmt(r[0])}–${fmt(r[1])}/м²`, true)}
+        ${bar('Новобудови Києва, в середньому', KYIV_M2.avg, `≈ $${fmt(KYIV_M2.avg)}/м²`)}
       </div>
       <p class="lead">До метра в О.Красі додаються власний вхід, тераса й ділянка. Точну суму порахую для будинку, який вам підберу.</p>
-      <p class="source">ЛУН Статистика, червень 2026; ЛУН, 21.10.2026, курс 45,85 грн/$</p>
+      <p class="source">Київ: ЛУН Статистика, червень 2026, у перерахунку за курсом 45,85 грн/$. О.Краса: ціни з okrasa.city на сьогодні.</p>
       <div class="nav">${navBack()}<button class="btn" data-act="next">Далі</button></div>`;
   },
   checklist(){
@@ -631,7 +633,7 @@ function houseCard(h, reasons){
       <div><dt>Санвузли</dt><dd>${h.bath ?? 'уточнюється'}</dd></div>
       <div><dt>${h.kind==='city'?'Поверх':'Поверхів'}</dt><dd>${h.kind==='city' ? h.floor + '-й' : h.levels}</dd></div>
       <div><dt>Ділянка</dt><dd>${h.land ? sotky(h.land) : (h.kind==='city' ? 'немає' : 'уточнюється')}</dd></div>
-      <div><dt>Ціна за м²</dt><dd>≈ ${num(Math.round(h.price*USD_UAH/h.area/100)/10,1)} тис. грн</dd></div>
+      <div><dt>Ціна за м²</dt><dd>≈ ${usd(ppmUsd(h))}</dd></div>
     </dl>
     <ul class="why-list">${reasons.map(x=>`<li>${x}</li>`).join('')}</ul>
   </div>`;
