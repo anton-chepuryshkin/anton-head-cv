@@ -510,8 +510,7 @@ function shareText(){
 
 
 /* ---------- Особисте звернення від Сергія Крикуна: збирається з відповідей людини ---------- */
-const SIGNER = {name:'Крикун Сергій', title:'Співвласник та CEO О.Краса', site:'https://okrasa.city/'};
-const OPEN_DAY = false; // увімкнути, коли О.Краса підтвердить дні відкритих дверей
+const SIGNER = {name:'Крикун Сергій', title:'Керуючий партнер О.Краси', site:'https://okrasa.city/'};
 // Кличний відмінок для імені у звертанні: Олена → Олено, Андрій → Андрію, Максим → Максиме
 function vocative(raw){
   const name = String(raw || '').trim().split(/\s+/)[0] || '';
@@ -579,7 +578,7 @@ function greeting(){
 }
 function closing(h){
   return {
-    invite: `${esc(vocative(S.name))}, пропоную обрати зручний час на перегляд, щоб ви могли побачити наші будинки наживо та відчути різницю між форматами. ${viewingLine(h)}` + (OPEN_DAY ? ' А також щиро запрошую вас на найближчий День відкритих дверей 🎉 Це можливість не тільки подивитися готові будинки, а й відчути атмосферу містечка, прогулятися вулицями, оцінити інфраструктуру та поставити всі питання особисто.' : ''),
+    invite: `${esc(vocative(S.name))}, пропоную обрати зручний час для перегляду — це індивідуальна екскурсія містечком лише для вас. ${viewingLine(h)} Ви зможете прогулятися вулицями, відчути атмосферу, оцінити інфраструктуру поруч і поставити всі питання особисто.`,
     help: 'Буду радий допомогти вам зробити зважений та безпечний крок до власного дому.',
     sign: ['З повагою,', SIGNER.name, SIGNER.title, SIGNER.site]
   };
@@ -616,7 +615,7 @@ function tgParts(R, ctx){
     planCaption: planList.length ? `Планування O.${h.model}${pAlt.length ? ` і O.${a.model}` : ''}` : '',
     text: head.concat(body.filter(Boolean)).join('\n\n'),
     buttons,
-    cta: {text: `<b>Наступний крок — перегляд</b>\n\n${C.invite} Запишіться кнопкою нижче або попросіть дзвінок — менеджер зв’яжеться з вами, щоб узгодити зручний час.\n\n${C.help}\n\n${C.sign.join('\n')}`,
+    cta: {text: `<b>Наступний крок — перегляд</b>\n\n${C.invite} Запишіться кнопкою нижче або попросіть дзвінок — менеджер зв’яжеться з вами й узгодить день.\n\n${C.help}\n\n${C.sign.join('\n')}`,
       buttons: [[{text:`Записатися на перегляд O.${h.model}`, data:'view'}], [{text:'Попросити дзвінок', data:'call'}]]},
     docs: [{url: CHECKLIST_PDF, caption: `Чек-лист «${CHECKLIST_TITLE}». Збережіть або роздрукуйте і візьміть на перегляд — у будь-яке містечко.`, fallback: checklistTg()}]
   };
@@ -690,7 +689,7 @@ ${P(`<b>${R.payTitle}.</b> ${R.payLines.join(' ')}`)}
 ${P('<b style="font-size:17px">Наступний крок — перегляд</b>', 'margin-bottom:6px')}
 ${P(C.invite)}
 ${viewLink ? `<table role="presentation" cellpadding="0" cellspacing="0" style="margin:2px 0 14px"><tr><td style="background:#277137;border-radius:8px"><a href="${viewLink}" style="${F}display:inline-block;padding:13px 22px;color:#ffffff;font-weight:bold;font-size:15px;text-decoration:none">Записатися на перегляд</a></td></tr></table>` : ''}
-${P(`Не користуєтеся Telegram? Дайте відповідь на цей лист — менеджер передзвонить вам на ${fmtPhone(S.phone)}, щоб узгодити зручний час.`, 'font-size:14px;color:#454955')}
+${P(`Не користуєтеся Telegram? Дайте відповідь на цей лист — менеджер передзвонить вам на ${fmtPhone(S.phone)}, щоб узгодити день.`, 'font-size:14px;color:#454955')}
 </div>
 ${P(C.help, 'margin-top:18px')}
 ${P(`${C.sign[0]}<br><b>${C.sign[1]}</b><br><span style="color:#626776">${C.sign[2]}</span><br><a href="${C.sign[3]}" style="color:#277137">okrasa.city</a>`)}

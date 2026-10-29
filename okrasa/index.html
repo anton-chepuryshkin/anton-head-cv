@@ -242,8 +242,8 @@ h2{font-weight:300;font-size:33px;line-height:1.15;letter-spacing:-.015em;margin
   </main>
 </div>
 
-<script src="config.js?v=14"></script>
-<script src="logic.js?v=14"></script>
+<script src="config.js?v=15"></script>
+<script src="logic.js?v=15"></script>
 <script>
 /* Дані, питання, підбір і тексти повідомлень — у logic.js (спільний із сервером) */
 const ARROW = d => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${d==='l'?'M15 6l-6 6 6 6':'M9 6l6 6-6 6'}"/></svg>`;
@@ -354,7 +354,7 @@ const RENDER = {
   intro(){
     setMedia('krykun','', {pos:'38% 30%', tall:true});
     return `<h2 data-focus tabindex="-1">Вітаю!</h2>
-      <p class="lead">Мене звати Сергій Крикун. Я співзасновник і керуючий партнер О.Краси.</p>
+      <p class="lead">Мене звати Сергій Крикун. Я керуючий партнер О.Краси.</p>
       <p class="lead">За плечима моєї команди Svitlo Development — 14 років на ринку нерухомості і 6 котеджних містечок. 30% наших продажів — за рекомендаціями тих, хто вже купив. Перша черга О.Краси, ${houses(CAT.q1total)}, уже збудована, і в ній живуть люди.</p>
       <p class="lead">Пройдіть короткий тест — і моя команда підбере 1–2 будинки під вашу сім’ю з тих, що зараз у продажу.</p>
       <div class="nav">${navBack()}<button class="btn" data-act="next">Почнімо</button></div>`;
