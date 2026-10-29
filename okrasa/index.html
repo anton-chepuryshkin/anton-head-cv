@@ -239,8 +239,8 @@ h2{font-weight:300;font-size:33px;line-height:1.15;letter-spacing:-.015em;margin
   </main>
 </div>
 
-<script src="config.js?v=11"></script>
-<script src="logic.js?v=11"></script>
+<script src="config.js?v=12"></script>
+<script src="logic.js?v=12"></script>
 <script>
 /* Дані, питання, підбір і тексти повідомлень — у logic.js (спільний із сервером) */
 const ARROW = d => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${d==='l'?'M15 6l-6 6 6 6':'M9 6l6 6-6 6'}"/></svg>`;
@@ -429,14 +429,14 @@ const RENDER = {
     setMedia('town','');
     return `<h2 data-focus tabindex="-1">${houses(CAT.q1total)} першої черги вже стоять</h2>
       <p class="lead">${CAT.q1sold} з них уже продано, у будинках живуть люди.</p>
-      <p class="lead">Моя команда покаже вам не шоурум, а будинок, підібраний саме під вашу сім’ю.</p>
+      <p class="lead">На перегляді моя команда спершу покаже шоурум із готовим ремонтом, а потім — збудований будинок, підібраний під вас. Усе наживо, а не на рендерах.</p>
       <div class="nav">${navBack()}<button class="btn" data-act="next">Далі</button></div>`;
   },
   firstqueue_burned(){
     setMedia('town','');
     return `<h2 data-focus tabindex="-1">Не вірте на слово — приїжджайте подивитися</h2>
       <p class="lead">Перша черга, ${houses(CAT.q1total)}, уже збудована, ${CAT.q1sold} продано.</p>
-      <p class="lead">Моя команда покаже будинок, підібраний саме для вас, і пояснить, на якому етапі наступні черги.</p>
+      <p class="lead">Моя команда покаже шоурум із готовим ремонтом, збудовані будинки першої черги і пояснить, на якому етапі наступні черги.</p>
       <div class="nav">${navBack()}<button class="btn" data-act="next">Далі</button></div>`;
   },
   infra(){
