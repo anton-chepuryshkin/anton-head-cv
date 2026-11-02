@@ -395,9 +395,11 @@ function personalNote(){
 }
 
 const SIGN = ['З повагою,', 'Команда Riviera Village'];
+const deepLink = (ctx, suffix) => (ctx && ctx.bot && ctx.leadId) ? `https://t.me/${ctx.bot}?start=${ctx.leadId}${suffix||''}` : '';
+const fmtPhone = d => { d = String(d).replace(/\D/g, '').slice(-9); return d.length === 9 ? `+380 ${d.slice(0,2)} ${d.slice(2,5)} ${d.slice(5,7)} ${d.slice(7)}` : '+380 ' + d; };
 
 /* Telegram: фото → планування → текст із кнопками (Telegram HTML) */
-function tgParts(R){
+function tgParts(R, ctx){
   const h = R.main, a = R.alt;
   const planList = h.plans.concat(a && a.kind==='house' && h.kind==='house' ? a.plans.slice(0,1) : []);
   const mainP = `<b>1. ${title(h)}</b>${h.kind==='house' ? ` · ${STATUS[h.status].short.toLowerCase()}` : ''}\n${specsLine(h)}\n<b>${fromUsd(h.price)}</b>\n\nЧому саме цей варіант: ${R.reasons.slice(0,3).map(lc1).join('; ')}.`;
@@ -415,17 +417,18 @@ function tgParts(R){
     plans: planList,
     planCaption: h.kind==='plot' ? 'Генплан Riviera Village' : `Планування ${h.name}${planList.length > h.plans.length ? ' і ' + a.name : ''}`,
     text: head.concat(body.filter(Boolean), [invite]).join('\n\n'),
-    buttons: [[{text: h.kind==='plot' ? 'Подивитися ділянку наживо' : `Записатися на перегляд ${h.name}`}], [{text:'Попросити дзвінок'}]],
+    buttons: [[{text: h.kind==='plot' ? 'Подивитися ділянку наживо' : `Записатися на перегляд ${h.name}`, data:'view'}], [{text:'Попросити дзвінок', data:'call'}]],
     extra: [checklistTg()]
   };
 }
 
 /* Email: таблиці з інлайн-стилями, щоб однаково виглядало в Gmail, Apple Mail і Outlook */
-function mailParts(R){
+function mailParts(R, ctx){
   const h = R.main, a = R.alt;
   const F = 'font-family:Arial,Helvetica,sans-serif;color:#1C2226;';
   const P = (html, extra) => `<p style="${F}font-size:15px;line-height:1.55;margin:0 0 14px;${extra||''}">${html}</p>`;
   const img = (src, plan) => `<img src="${plan ? small(src, 1100) : small(src, 1100, 760)}" width="270" alt="" style="display:block;width:100%;max-width:270px;height:auto;border-radius:6px;${plan?'border:1px solid #E1E4E2;':''}">`;
+  const btn = (href, label) => `<table role="presentation" cellpadding="0" cellspacing="0" style="margin:4px 0 18px"><tr><td style="background:#1E5A5F;border-radius:8px"><a href="${href}" style="${F}display:inline-block;padding:13px 22px;color:#ffffff;font-weight:bold;font-size:15px;text-decoration:none">${label}</a></td></tr></table>`;
   const grid = list => {
     if(!list.length) return '';
     const rows = [];
@@ -443,6 +446,7 @@ ${R.fallbackNote ? P(R.fallbackNote) : ''}
 ${P(`<b>${title(h)}</b>${h.kind==='house' ? ' · ' + STATUS[h.status].short.toLowerCase() : ''}<br>${specsLine(h)}<br><span style="font-size:22px">${fromUsd(h.price)}</span>`)}
 ${grid(h.photos.slice(0,2).map(s => img(s)).concat(h.plans.slice(0,2).map(s => img(s, true))))}
 ${P(R.reasons.map(x => '— ' + x).join('<br>'))}
+${deepLink(ctx) ? btn(deepLink(ctx), h.kind==='plot' ? 'Отримати генплан у Telegram' : 'Отримати планування в Telegram') : ''}
 ${a ? P(`<b>${a.kind!==h.kind ? (a.kind==='plot' ? 'Або побудуйте свій' : 'Або готова вілла') : 'Альтернатива'}: ${title(a)}</b> — ${a.kind==='plot' ? '' : specsLine(a) + ', '}${fromUsd(a.price)}`) + grid([img(a.photos[0])]) : ''}
 ${R.barriers.map(b => P(`<b>${b[0]}.</b> ${b[1]}`)).join('')}
 ${P(`<b>${R.payTitle}.</b> ${R.payLines.join(' ')}`)}
@@ -451,6 +455,7 @@ ${P(`<b>${R.payTitle}.</b> ${R.payLines.join(' ')}`)}
 <div style="background:#E8F0EF;border-radius:10px;padding:18px 18px 6px">
 ${P('<b style="font-size:17px">Наступний крок — перегляд</b>', 'margin-bottom:6px')}
 ${P(`Пропонуємо обрати зручний час для індивідуальної екскурсії. ${viewingLine(h)}`)}
+${deepLink(ctx, '_v') ? btn(deepLink(ctx, '_v'), 'Записатися на перегляд') : ''}
 </div>
 ${P(`${SIGN[0]}<br><b>${SIGN[1]}</b>`, 'margin-top:18px')}
 </td></tr>

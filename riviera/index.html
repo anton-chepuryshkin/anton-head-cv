@@ -164,6 +164,9 @@ h2{font-weight:300;font-size:33px;line-height:1.15;letter-spacing:-.015em;margin
 .mail{border:1px solid var(--line);border-radius:12px;font-size:14.5px;overflow:hidden}
 .mail .hd{color:var(--muted);font-size:13px;border-bottom:1px solid var(--line);padding:14px 18px}
 .mail .hd b{color:var(--ink)}
+.behind{margin-top:30px;border-top:1px solid var(--line);padding-top:6px}
+.behind summary{cursor:pointer;color:var(--muted);font-size:14.5px;padding:12px 0}
+.behind .tabs{margin-top:8px}
 .card{border:1px solid var(--line);border-left:4px solid var(--water);border-radius:10px;padding:16px 18px;font-size:14.5px}
 
 @media (max-width:860px){
@@ -209,7 +212,7 @@ h2{font-weight:300;font-size:33px;line-height:1.15;letter-spacing:-.015em;margin
   </main>
 </div>
 
-<script src="config.js?v=1"></script>
+<script src="config.js?v=2"></script>
 <script src="logic.js?v=2"></script>
 <script>
 const ARROW = d => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${d==='l'?'M15 6l-6 6 6 6':'M9 6l6 6-6 6'}"/></svg>`;
@@ -217,8 +220,9 @@ const ARROW = d => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" s
 /* ---------- Порядок кроків. # — слайд, що залежить від відповідей ---------- */
 const SEQ = ['start','intro','qa','q2','q3','empathy','q4','#after4','q5','q6','q7','village','q8','q9','#after9','q10','#after10','q11','q12','analysis','form','result'];
 
-Object.assign(S, {pos:0, step:'start', hist:[], consent:false, tab:'tg'});
+Object.assign(S, {pos:0, step:'start', hist:[], consent:false, tab:'tg', leadId:'', sent:''});
 const CFG = Object.assign({api:'', bot:''}, window.QUIZ_CONFIG || {});
+const LIVE = !!CFG.api;
 
 const $ = s => document.querySelector(s);
 const view = $('#view');
@@ -262,7 +266,7 @@ function next(){
   render(true);
 }
 function back(){ const h = S.hist.pop(); if(!h) return; S.pos=h.pos; S.step=h.step; render(true); }
-function restart(){ Object.assign(S, {pos:0, step:'start', hist:[], ans:{}, consent:false, tab:'tg'}); render(true); }
+function restart(){ Object.assign(S, {pos:0, step:'start', hist:[], ans:{}, consent:false, tab:'tg', leadId:'', sent:''}); render(true); }
 
 /* ---------- Рендер ---------- */
 function setMedia(src, opts={}){
@@ -452,8 +456,8 @@ const RENDER = {
       ${R.alt ? altRow(R.alt, h) : ''}
       <div class="pay"><h4>${R.payTitle}</h4>${R.payLines.map(l=>`<p>${l}</p>`).join('')}</div>
       ${teaser(h)}
-      <p class="note">У прототипі повідомлення не надсилаються. Нижче — що отримає людина і менеджер.</p>
-      ${previewBlock(R)}
+      <p class="note" id="sendNote">${sendNoteHtml()}</p>
+      ${LIVE ? `<details class="behind" id="behind"><summary>Як це працює зсередини: що отримують людина і менеджер</summary>${previewBlock(R)}</details>` : previewBlock(R)}
       <div class="nav"><button class="link" data-act="restart">Пройти ще раз</button></div>`;
   }
 };
@@ -485,7 +489,7 @@ function altRow(a, h){
 function teaser(h){
   const ttl = h.kind==='plot' ? 'Генплан із розташуванням ділянки надішлемо в Telegram' : `Планування ${h.name} надішлемо в Telegram`;
   return `<div class="teaser"><div class="ghost" style="background-image:url('${h.plans[0]}')"></div>
-    <div class="in"><h4>${ttl}</h4><p>Разом із розрахунком оплати і чек-листом «${CHECKLIST_TITLE}».</p><button class="btn" data-act="tg">${h.kind==='plot' ? 'Отримати генплан' : 'Отримати планування'}</button></div>
+    <div class="in"><h4>${ttl}</h4><p>Разом із розрахунком оплати і чек-листом «${CHECKLIST_TITLE}».</p>${tgButton(h.kind==='plot' ? 'Отримати генплан' : 'Отримати планування')}</div>
   </div>`;
 }
 
@@ -495,7 +499,7 @@ const kbHtml = rows => `<div class="kb">${rows.map(r => r.map(b => `<span>${b.te
 const albumHtml = (list, cls) => list.length ? `<div class="album ${cls||''} ${list.length===1 ? 'one' : list.length===3 ? 'three' : ''}">${list.map(imgTag).join('')}</div>` : '';
 const PREVIEW = {
   tg(R){
-    const T = tgParts(R);
+    const T = tgParts(R, ctxNow());
     return `<div class="tg"><div class="bubble">${nl2br(T.intro)}</div>
       ${albumHtml(T.photos)}
       ${albumHtml(T.plans, 'plans')}<p class="album-cap">${T.planCaption}</p>
@@ -504,7 +508,7 @@ const PREVIEW = {
       <p class="note">Планування — тільки в Telegram. Це причина відкрити бота: без неї більшість людей зупиняється на екрані результату.</p>`;
   },
   mail(R){
-    const M = mailParts(R);
+    const M = mailParts(R, ctxNow());
     return `<div class="mail"><div class="hd">Тема: <b>${esc(M.subject)}</b></div><div>${M.html}</div></div>`;
   },
   card(R){
@@ -547,10 +551,11 @@ const AFTER = {
       else if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(S.email)) err = 'Перевірте email: схоже, в адресі помилка.';
       else if(!S.consent) err = 'Без згоди на обробку даних ми не зможемо надіслати підбір.';
       $('#fErr').textContent = err;
-      if(!err) next();
+      if(!err){ sendLead(); next(); }
     });
   },
   result(){
+    if(LIVE && S.sent==='') sendLead();
     const tr = view.querySelector('.gal-track'), n = view.querySelector('.gal-n');
     if(tr){
       const upd = () => { const k = tr.children.length; const i = Math.round(tr.scrollLeft / Math.max(1, tr.clientWidth)); n.textContent = `${Math.min(i+1,k)} / ${k}`; n.hidden = k < 2; view.querySelectorAll('.gal-btn').forEach(b => b.hidden = k < 2); };
@@ -571,7 +576,8 @@ view.addEventListener('click', e=>{
   if(act==='next') next();
   if(act==='back') back();
   if(act==='restart') restart();
-  if(act==='tg'){ const t = view.querySelector('[data-tab="tg"]'); if(t) t.click(); $('#prev').scrollIntoView({behavior:'smooth', block:'start'}); }
+  if(act==='tg'){ const d = $('#behind'); if(d) d.open = true; const t = view.querySelector('[data-tab="tg"]'); if(t) t.click(); $('#prev').scrollIntoView({behavior:'smooth', block:'start'}); }
+  if(act==='resend'){ S.sent=''; sendLead(); }
 });
 
 function bindQuestion(){
@@ -593,6 +599,50 @@ function bindQuestion(){
       setTimeout(next, 260);
     }
   }));
+}
+
+/* ---------- Живий режим: відправка ліда на сервер (Google Apps Script) ---------- */
+const botName = () => CFG.bot || S.bot || '';
+const ctxNow = () => ({bot: botName(), leadId: S.leadId});
+function tgButton(label){
+  const link = LIVE && botName() && S.leadId ? `https://t.me/${botName()}?start=${S.leadId}` : '';
+  return link ? `<a class="btn" href="${link}" target="_blank" rel="noopener">${label}</a>` : `<button class="btn" data-act="tg">${label}</button>`;
+}
+function newLeadId(){
+  const A = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789';
+  const r = new Uint8Array(12); crypto.getRandomValues(r);
+  return Array.from(r, x => A[x % A.length]).join('');
+}
+function utm(){
+  const p = new URLSearchParams(location.search), o = {};
+  ['utm_source','utm_medium','utm_campaign','utm_content','utm_term'].forEach(k => { if(p.get(k)) o[k] = p.get(k).slice(0,100); });
+  return o;
+}
+function sendNoteHtml(){
+  if(!LIVE) return 'У прототипі повідомлення не надсилаються. Нижче — що отримає людина і менеджер.';
+  if(S.sent==='ok') return `Підбір надіслано на ${esc(S.email)}. Планування — у Telegram: натисніть кнопку вище.`;
+  if(S.sent==='fail') return `Не вдалося надіслати підбір. <button class="link" data-act="resend">Спробувати ще раз</button>`;
+  return `Надсилаємо підбір на ${esc(S.email)}…`;
+}
+function refreshLive(){
+  const n = $('#sendNote'); if(n) n.innerHTML = sendNoteHtml();
+  const t = view.querySelector('.teaser .in');
+  if(t && S.step==='result'){ const b = t.querySelector('.btn'); if(b) b.outerHTML = tgButton(b.textContent); }
+}
+function sendLead(){
+  if(!LIVE) return;
+  const body = {action:'lead', name:S.name, phone:S.phone.replace(/\D/g,''), email:S.email, ans:S.ans};
+  const key = JSON.stringify(body);
+  if(S.sentKey === key && (S.sent==='ok' || S.sent==='pending')) return;
+  if(!S.leadId || (S.sentKey && S.sentKey !== key)) S.leadId = newLeadId(); // змінили відповіді — це новий підбір
+  S.sentKey = key; S.sent = 'pending'; refreshLive();
+  fetch(CFG.api, {method:'POST', headers:{'Content-Type':'text/plain;charset=utf-8'}, body: JSON.stringify(Object.assign({leadId:S.leadId, utm:utm(), ref:document.referrer.slice(0,200)}, body))})
+    .then(r => r.json())
+    .then(d => { S.sent = d && d.ok ? 'ok' : 'fail'; if(d && d.bot) S.bot = d.bot; refreshLive(); })
+    .catch(() => { S.sent = 'fail'; refreshLive(); });
+}
+if(LIVE && !CFG.bot){
+  fetch(CFG.api + '?action=bot').then(r => r.json()).then(d => { if(d && d.bot) S.bot = d.bot; }).catch(() => {});
 }
 
 render(false);
