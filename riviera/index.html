@@ -161,6 +161,9 @@ h2{font-weight:300;font-size:33px;line-height:1.15;letter-spacing:-.015em;margin
 .album.three img:first-child{grid-column:1/-1;aspect-ratio:16/9}
 .album.plans img{object-fit:contain;background:#fff}
 .album-cap{font-size:13px;color:#5C6370;max-width:480px;margin:0 0 8px}
+.tg .doc{display:flex;gap:12px;align-items:flex-start;text-decoration:none;color:var(--ink)}
+.tg .doc b{font-weight:600;word-break:break-all}
+.doc-ic{flex:none;width:42px;height:42px;border-radius:50%;background:#3E8ED0;color:#fff;font-size:11px;font-weight:700;display:grid;place-items:center}
 .mail{border:1px solid var(--line);border-radius:12px;font-size:14.5px;overflow:hidden}
 .mail .hd{color:var(--muted);font-size:13px;border-bottom:1px solid var(--line);padding:14px 18px}
 .mail .hd b{color:var(--ink)}
@@ -213,7 +216,7 @@ h2{font-weight:300;font-size:33px;line-height:1.15;letter-spacing:-.015em;margin
 </div>
 
 <script src="config.js?v=3"></script>
-<script src="logic.js?v=2"></script>
+<script src="logic.js?v=3"></script>
 <script>
 const ARROW = d => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${d==='l'?'M15 6l-6 6 6 6':'M9 6l6 6-6 6'}"/></svg>`;
 
@@ -504,7 +507,7 @@ const PREVIEW = {
       ${albumHtml(T.photos)}
       ${albumHtml(T.plans, 'plans')}<p class="album-cap">${T.planCaption}</p>
       <div class="bubble">${nl2br(T.text)}</div>${kbHtml(T.buttons)}
-      ${T.extra.map(t => `<div class="bubble">${nl2br(t)}</div>`).join('')}</div>
+      ${T.docs.map(d => `<a class="bubble doc" href="${d.url}" target="_blank" rel="noopener"><span class="doc-ic">PDF</span><span><b>${d.url.split('/').pop()}</b><br>${d.caption}</span></a>`).join('')}</div>
       <p class="note">Планування — тільки в Telegram. Це причина відкрити бота: без неї більшість людей зупиняється на екрані результату.</p>`;
   },
   mail(R){

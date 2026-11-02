@@ -343,6 +343,7 @@ const CHECKLIST = [
   'Скільки коштуватиме утримання території після заселення: охорона, прибирання, сміття, освітлення?'
 ];
 const CHECKLIST_TITLE = '9 питань забудовнику до підписання договору';
+const CHECKLIST_PDF = 'https://anton-chepuryshkin.github.io/anton-head-cv/riviera/chek-lyst-9-pytan-zabudovnyku.pdf';
 const checklistTg = () => `<b>Чек-лист: ${CHECKLIST_TITLE}</b>\n\n${CHECKLIST.map((q, i) => `${i+1}. ${q}`).join('\n')}\n\nПройдіться по ньому на перегляді — в будь-якому містечку, не лише в Riviera.`;
 
 /* ---------- Повідомлення ---------- */
@@ -418,7 +419,7 @@ function tgParts(R, ctx){
     planCaption: h.kind==='plot' ? 'Генплан Riviera Village' : `Планування ${h.name}${planList.length > h.plans.length ? ' і ' + a.name : ''}`,
     text: head.concat(body.filter(Boolean), [invite]).join('\n\n'),
     buttons: [[{text: h.kind==='plot' ? 'Подивитися ділянку наживо' : `Записатися на перегляд ${h.name}`, data:'view'}], [{text:'Попросити дзвінок', data:'call'}]],
-    extra: [checklistTg()]
+    docs: [{url: CHECKLIST_PDF, caption: `Чек-лист «${CHECKLIST_TITLE}». Збережіть або роздрукуйте і візьміть на перегляд — у будь-яке містечко.`, fallback: checklistTg()}]
   };
 }
 
@@ -450,6 +451,7 @@ ${deepLink(ctx) ? btn(deepLink(ctx), h.kind==='plot' ? 'Отримати ген�
 ${a ? P(`<b>${a.kind!==h.kind ? (a.kind==='plot' ? 'Або побудуйте свій' : 'Або готова вілла') : 'Альтернатива'}: ${title(a)}</b> — ${a.kind==='plot' ? '' : specsLine(a) + ', '}${fromUsd(a.price)}`) + grid([img(a.photos[0])]) : ''}
 ${R.barriers.map(b => P(`<b>${b[0]}.</b> ${b[1]}`)).join('')}
 ${P(`<b>${R.payTitle}.</b> ${R.payLines.join(' ')}`)}
+${P(`<b>У вкладенні</b> — чек-лист «${CHECKLIST_TITLE}». Роздрукуйте його і візьміть на перегляд — у будь-яке містечко.`)}
 </td></tr>
 <tr><td style="padding:0 26px 24px">
 <div style="background:#E8F0EF;border-radius:10px;padding:18px 18px 6px">
