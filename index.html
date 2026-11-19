@@ -8,7 +8,7 @@
 <meta property="og:type" content="website">
 <meta property="og:locale" content="uk_UA">
 <meta property="og:title" content="Антон Чепуришкін — Head of Marketing">
-<meta property="og:description" content="Побудував 5 будинків. Тепер будую маркетинг, який звітує угодами.">
+<meta property="og:description" content="80% річного плану продажів за 9 місяців — на 60% бюджету. Маркетингова вартість угоди — на 25% нижча за план.">
 <meta property="og:url" content="https://anton-chepuryshkin.github.io/anton-head-cv/">
 <meta property="og:image" content="https://anton-chepuryshkin.github.io/anton-head-cv/og.jpg">
 <link rel="canonical" href="https://anton-chepuryshkin.github.io/anton-head-cv/">
@@ -82,7 +82,8 @@ p{margin:0}
 .cover::before{content:"";position:absolute;inset:0;background-image:linear-gradient(var(--cover-rule) 1px,transparent 1px),linear-gradient(90deg,var(--cover-rule) 1px,transparent 1px);background-size:48px 48px;opacity:.35;pointer-events:none}
 .cover .wrap{position:relative;display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,.85fr);gap:clamp(24px,5vw,72px);align-items:start;padding-block:clamp(48px,7vw,88px)}
 .eyebrow{color:var(--cover-accent)}
-.cover h1{font:700 clamp(30px,5.2vw,64px)/1.06 var(--f-display);letter-spacing:-.02em;margin:18px 0 22px}
+.cover h1{font:700 clamp(28px,4.4vw,54px)/1.08 var(--f-display);letter-spacing:-.02em;margin:18px 0 18px}
+.cover .sub{font:600 clamp(16px,1.7vw,20px)/1.4 var(--f-display);color:var(--on-cover);max-width:40ch;margin-bottom:18px}
 .cover h1 em{font-style:normal;color:var(--cover-accent)}
 .lead{font-size:clamp(16px,1.6vw,19px);line-height:1.6;color:var(--on-cover-2);max-width:60ch}
 .lead strong{color:var(--on-cover);font-weight:500}
@@ -250,6 +251,19 @@ section.sheet{padding-block:clamp(56px,8vw,104px);border-bottom:1px solid var(--
 .ebar.on::after{content:"◀ мій стандарт";font:500 12px/1 var(--f-mono);letter-spacing:.04em;color:var(--ink)}
 .energy p{margin-top:14px;color:var(--ink-2);font-size:14px}
 
+/* system */
+.sys{list-style:none;margin:0;padding:0;border:1px solid var(--rule);background:var(--sheet);box-shadow:var(--shadow)}
+.sys li{display:grid;grid-template-columns:44px 150px minmax(0,1fr);gap:14px;align-items:baseline;padding:16px 20px;border-bottom:1px solid var(--rule)}
+.sys li:last-child{border-bottom:0}
+.sys .n{font:500 13px/1 var(--f-mono);color:var(--accent);letter-spacing:.06em}
+.sys b{font:600 16px/1.25 var(--f-display)}
+.sys p{color:var(--ink-2)}
+.base{margin-top:14px;color:var(--ink-2)}
+.base b{color:var(--ink);font-weight:600}
+.weekly{background:var(--sheet);border:1px solid var(--rule);padding:24px;box-shadow:var(--shadow)}
+.weekly h3{font-size:17px;margin-bottom:16px}
+@media (max-width:560px){.sys li{grid-template-columns:36px minmax(0,1fr);gap:4px 10px}.sys li p{grid-column:2}}
+
 /* team */
 .team{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(20px,4vw,48px);align-items:start}
 @media (max-width:900px){.team{grid-template-columns:minmax(0,1fr)}}
@@ -312,6 +326,8 @@ blockquote::before{content:"“";position:absolute;left:22px;top:10px;font:700 6
 .lvl.hl::before{border-top-color:var(--accent)}
 .lvl.hl::after{border-top-color:var(--accent)}
 .found .lvl{left:-85.5px}
+.fl.found.plain{border:1.5px solid var(--ink);border-top:0;background:var(--sheet)}
+.fl.found.plain > :not(.lvl){background:transparent;padding:0}
 .tstats{margin-top:16px;display:grid;gap:1px;background:var(--rule);border:1px solid var(--rule);box-shadow:var(--shadow)}
 .tstats div{background:var(--sheet);padding:20px 22px;display:flex;flex-direction:column;gap:6px}
 .tstats b{font:700 clamp(28px,3vw,38px)/1 var(--f-display);color:var(--ink)}
@@ -383,15 +399,16 @@ blockquote::before{content:"“";position:absolute;left:22px;top:10px;font:700 6
   <div class="wrap">
     <div>
       <p class="mono eyebrow">Head of Marketing · дорогі продукти · довгий цикл угоди</p>
-      <h1>Побудував <em>5&nbsp;будинків.</em> Тепер будую маркетинг, який звітує угодами.</h1>
-      <p class="lead"><strong>6 років у маркетингу</strong>: performance в iGaming, власний e-commerce, а з грудня 2025 по вересень 2026 — <strong>Head of Marketing у DFD</strong>, девелопері трьох котеджних містечок під Києвом. До цього <strong>9 років вів власний будівельний бізнес</strong>. Поєдную рекламу, контент, що прогріває, і роботу з продажами в одну систему — від кліку до угоди.</p>
+      <h1><em>80%</em> річного плану продажів за 9&nbsp;місяців — на&nbsp;60% бюджету</h1>
+      <p class="sub">Маркетингова вартість угоди — на 25% нижча за план. Рахую маркетинг як власник: 11 років свого бізнесу, 6 — у маркетингу.</p>
+      <p class="lead">Результат — у <strong>DFD</strong>, девелопері трьох котеджних містечок під Києвом, де з грудня 2025 по вересень 2026 я був <strong>Head of Marketing</strong>. До цього — performance в iGaming, власний e-commerce і 9 років будівельного бізнесу. Поєдную рекламу, контент, що прогріває, і роботу з продажами в одну систему — від кліку до угоди.</p>
       <div class="cta">
         <a class="btn btn-primary" href="https://t.me/Anton_lucky_man" target="_blank" rel="noopener">Написати в Telegram →</a>
         <a class="btn btn-ghost" href="#cases">Дивитися кейси</a>
         <a class="btn btn-ghost" href="Anton_Chepuryshkin_Head_of_Marketing.pdf" download>Завантажити PDF</a>
       </div>
       <div class="facts mono">
-        <span>80% річного плану за 60% бюджету</span>
+        <span>Конверсія в зустріч ×6</span>
         <span>Команда 6 + 2 підрядники</span>
         <span>Нерухомість · iGaming · e-commerce</span>
         <span>AI у виробництві контенту</span>
@@ -457,7 +474,7 @@ blockquote::before{content:"“";position:absolute;left:22px;top:10px;font:700 6
 <section class="sheet" id="cases">
   <div class="wrap">
     <div class="head">
-      <p class="mono">Об'єкти</p>
+      <p class="mono">Кейси</p>
       <h2>Кейси в трьох нішах</h2>
       <p>Нерухомість, iGaming і власний e-commerce. Детальні кейси DFD зі скрінами, фото і відео — на окремій сторінці.</p>
     </div>
@@ -478,33 +495,30 @@ blockquote::before{content:"“";position:absolute;left:22px;top:10px;font:700 6
 <section class="sheet" id="approach">
   <div class="wrap">
     <div class="head">
-      <p class="mono">Технічний паспорт кандидата</p>
+      <p class="mono">Система</p>
       <h2>Як я будую маркетинг</h2>
-      <p>Як будинок: від фундаменту — 9 років власного бізнесу — до даху, стратегії, яка накриває всю систему. Розріз знизу вгору.</p>
+      <p>Шість ланок від кліку до угоди. Кожна звітує цифрами, які бачить власник.</p>
     </div>
     <div class="section-draw">
       <div>
-        <div class="layers">
-          <div class="layer l-roof"><div class="sw"><span class="ic"><svg viewBox="0 0 28 28" aria-hidden="true"><path d="M3 15 14 5l11 10"/><path d="M19 9.5V5h3v7.2"/><path d="M6 13v2M22 13v2"/></svg></span><b>Дах</b><small>стратегія</small></div><p>Дослідження та сегментація ЦА, позиціонування і медіаплан — накривають усю систему.</p></div>
-          <div class="layer l-facade"><div class="sw"><span class="ic"><svg viewBox="0 0 28 28" aria-hidden="true"><rect x="5" y="4" width="18" height="20"/><path d="M9 8h3v3H9zM16 8h3v3h-3zM9 14h3v3H9zM16 14h3v3h-3z"/><path d="M12 24v-4h4v4"/></svg></span><b>Фасад</b><small>бренд</small></div><p>Бренд компанії і засновника, ребренд, зовнішня реклама.</p></div>
-          <div class="layer l-eng"><div class="sw"><span class="ic"><svg viewBox="0 0 28 28" aria-hidden="true"><path d="M3 9h9v10h13"/><circle cx="12" cy="9" r="2.2"/><circle cx="12" cy="19" r="2.2"/><path d="M20 4l-2.5 4h4L19 12"/></svg></span><b>Інженерні мережі</b><small>аналітика</small></div><p>Наскрізна аналітика від кліку до угоди, OKR і звітність по кожному напряму, бюджет план-факт.</p></div>
-          <div class="layer l-ins"><div class="sw"><span class="ic"><svg viewBox="0 0 28 28" aria-hidden="true"><path d="M3 8c2.5-3 5-3 7.5 0s5 3 7.5 0 5-3 7.5 0"/><path d="M3 14c2.5-3 5-3 7.5 0s5 3 7.5 0 5-3 7.5 0"/><path d="M3 20c2.5-3 5-3 7.5 0s5 3 7.5 0 5-3 7.5 0"/></svg></span><b>Утеплення</b><small>прогрів</small></div><p>Прогрів, що знімає заперечення: YouTube, Telegram-канали, чат-боти.</p></div>
-          <div class="layer l-wall"><div class="sw"><span class="ic"><svg viewBox="0 0 28 28" aria-hidden="true"><rect x="3" y="5" width="22" height="18"/><path d="M3 11h22M3 17h22M10 5v6M18 5v6M6 11v6M14 11v6M22 11v6M10 17v6M18 17v6"/></svg></span><b>Стіни</b><small>performance</small></div><p>Meta Ads, Google Ads, Telegram Ads, YouTube Ads. Школа iGaming — однієї з найконкурентніших ніш за трафік.</p></div>
-          <div class="layer l-found"><div class="sw"><span class="ic"><svg viewBox="0 0 28 28" aria-hidden="true"><path d="M2 14h24"/><rect x="4" y="14" width="20" height="8"/><path d="M7 22l4-8M12 22l4-8M17 22l4-8M4 18l3-4M21 22l3-6"/><path d="M9 14V7h10v7"/></svg></span><b>Фундамент</b><small>власний бізнес</small></div><p>9 років власного будівельного бізнесу: 5 будинків і ремонти під ключ, свої бригади і підрядники. Рахую бюджет як власник.</p></div>
-          <div class="ground" aria-hidden="true"></div>
-        </div>
-        <div class="cut mono"><span>Розріз 1–1</span><span>М 1:1</span></div>
+        <ol class="sys">
+          <li><span class="n">01</span><b>Стратегія</b><p>Дослідження та сегментація ЦА, позиціонування, медіаплан.</p></li>
+          <li><span class="n">02</span><b>Залучення</b><p>Meta Ads, Google Ads, Telegram Ads, YouTube Ads. Школа iGaming — однієї з найконкурентніших ніш за трафік.</p></li>
+          <li><span class="n">03</span><b>Прогрів</b><p>Контент, що знімає заперечення до першої розмови: YouTube, Telegram, чат-боти.</p></li>
+          <li><span class="n">04</span><b>Продажі</b><p>Спільний із продажами критерій якісного ліда, причини відмов у CRM.</p></li>
+          <li><span class="n">05</span><b>Аналітика</b><p>Наскрізна аналітика від кліку до угоди, OKR і звітність по кожному напряму, бюджет план-факт.</p></li>
+          <li><span class="n">06</span><b>Бренд</b><p>Бренд компанії і засновника, ребренд, зовнішня реклама.</p></li>
+        </ol>
+        <p class="base"><b>Основа:</b> 11 років власного бізнесу — рахую бюджет як власник.</p>
       </div>
-      <div class="energy">
-        <h3>Клас енергоефективності</h3>
-        <div class="ebar on"><i style="width:34%;background:var(--e-a)">A</i></div>
-        <div class="ebar"><i style="width:44%;background:var(--e-b)">B</i></div>
-        <div class="ebar"><i style="width:54%;background:var(--e-c);color:#1B2430">C</i></div>
-        <div class="ebar"><i style="width:64%;background:var(--e-d);color:#1B2430">D</i></div>
-        <div class="ebar"><i style="width:74%;background:var(--e-e);color:#1B2430">E</i></div>
-        <div class="ebar"><i style="width:84%;background:var(--e-f)">F</i></div>
-        <div class="ebar"><i style="width:94%;background:var(--e-g)">G</i></div>
-        <p>Клас A для маркетингу — максимум результату на кожну гривню бюджету: 80% плану за 60% бюджету.</p>
+      <div class="weekly">
+        <h3>Що власник бачить щотижня</h3>
+        <ul class="ticklist">
+          <li><span>Ліди → кваліфіковані → зустрічі → угоди по кожному каналу</span></li>
+          <li><span>Маркетингова вартість угоди проти плану</span></li>
+          <li><span>Бюджет план-факт</span></li>
+          <li><span>Гіпотези тижня і їхній результат</span></li>
+        </ul>
       </div>
     </div>
   </div>
@@ -513,7 +527,7 @@ blockquote::before{content:"“";position:absolute;left:22px;top:10px;font:700 6
 <section class="sheet" id="team">
   <div class="wrap">
     <div class="head">
-      <p class="mono">Бригада</p>
+      <p class="mono">Команда</p>
       <h2>Команда і процеси</h2>
       <p>У DFD я перебудував маркетинг як відділ: ролі, KPI, звітність і зв'язку з продажами.</p>
     </div>
@@ -546,27 +560,27 @@ blockquote::before{content:"“";position:absolute;left:22px;top:10px;font:700 6
 <section class="sheet" id="plan">
   <div class="wrap">
     <div class="head">
-      <p class="mono">Графік робіт</p>
+      <p class="mono">План</p>
       <h2>Перші 90 днів у вашій компанії</h2>
-      <p>Фундамент, стіни, дах — у такому порядку. Кожен етап закінчується результатом, який можна перевірити.</p>
+      <p>Аудит, система, план — у такому порядку. Кожен етап закінчується результатом, який можна перевірити.</p>
     </div>
     <div class="gauge" aria-hidden="true"><div></div><div></div><div></div></div>
     <div class="plan">
       <div class="phase">
         <p class="mono days">Дні 1–30</p>
-        <h3>Фундамент</h3>
+        <h3>Аудит</h3>
         <p>Аудит і ресерч: воронка від кліку до угоди, обробка лідів і SLA з відділом продажу, канали, бюджет і команда; сегментація ЦА, її заперечення і конкуренти. Перші тести реклами і щотижневий звіт по воронці.</p>
         <p class="out"><span>На виході</span>Карта втрат, критерії SQL, погоджені з продажами, і список гіпотез з оцінкою ефекту</p>
       </div>
       <div class="phase">
         <p class="mono days">Дні 31–60</p>
-        <h3>Стіни</h3>
+        <h3>Система</h3>
         <p>Покращую комунікацію з потенційним клієнтом на кожному етапі воронки: прогрів, чат-боти, фолоапи. Оргструктура відділу під цілі, OKR, KPI і звітність для кожного напряму.</p>
         <p class="out"><span>На виході</span>Цілі й KPI по кожному напряму, погоджені з власником, і інструменти, що формують попит</p>
       </div>
       <div class="phase">
         <p class="mono days">Дні 61–90</p>
-        <h3>Дах</h3>
+        <h3>План</h3>
         <p>Медіаплан і контент-план воронок, які формують попит і закривають заперечення ЦА.</p>
         <p class="out"><span>На виході</span>План на рік з прогнозом лідів, зустрічей, угод і бюджетом</p>
       </div>
@@ -579,36 +593,34 @@ blockquote::before{content:"“";position:absolute;left:22px;top:10px;font:700 6
     <div class="head">
       <p class="mono">Етапи</p>
       <h2>Досвід</h2>
-      <p>Від будівельного майданчика до керівника маркетингу. Висота поверху — масштаб відповідальності.</p>
+      <p>Від власного бізнесу до керівника маркетингу. Що вище — то більший масштаб відповідальності.</p>
     </div>
     <div class="floors">
       <div class="tower">
-        <div class="t-roof" aria-hidden="true"></div>
         <div class="t-body">
           <div class="fl top">
             <span class="lvl up hl" aria-hidden="true">2026</span><span class="lvl hl" aria-hidden="true">2025</span>
-            <p class="mono">Верхній поверх · грудень 2025 — вересень 2026</p>
+            <p class="mono">Грудень 2025 — вересень 2026</p>
             <h3>Head of Marketing · DFD</h3>
             <p class="d">Керував маркетингом девелопера трьох котеджних містечок: стратегія, бюджет, команда, продажі в зв'язці з комерційним відділом, бренд засновника.</p>
             <div class="chips"><span><b>3</b> містечка: комфорт+, бізнес, преміум</span><span>Команда <b>6 + 2</b></span><span><b>80%</b> плану за <b>60%</b> бюджету</span><span>Конверсія в перегляд <b>×6</b></span></div>
           </div>
           <div class="fl">
             <span class="lvl" aria-hidden="true">2022</span>
-            <p class="mono">2-й поверх · 2022 — 2025</p>
+            <p class="mono">2022 — 2025</p>
             <h3>Slots City — Traffic Manager</h3>
             <p class="d">Performance в iGaming: 110&nbsp;000+ підписників у Telegram, срібна кнопка YouTube.</p>
           </div>
           <div class="fl">
             <span class="lvl" aria-hidden="true">2020</span>
-            <p class="mono">1-й поверх · 2020 — 2022</p>
+            <p class="mono">2020 — 2022</p>
             <h3>«Дом еко-хутра» — засновник</h3>
             <p class="d">Власний e-commerce: маркетинг з нуля, CPL −40%.</p>
           </div>
         </div>
-        <div class="t-ground" aria-hidden="true"></div>
-        <div class="fl found">
+        <div class="fl found plain">
           <span class="lvl" aria-hidden="true">2011</span>
-          <p class="mono">Фундамент · 2011 — 2020</p>
+          <p class="mono">2011 — 2020</p>
           <h3>Будівельний бізнес — власник</h3>
           <p class="d">5 будинків і квартири під ключ.</p>
         </div>

@@ -29,7 +29,8 @@ h1,h2,h3{margin:0}
 .cover > *{position:relative}
 .cover h1{font:700 29px/1.1 var(--f-display);letter-spacing:-.01em}
 .eyebrow{margin-top:12px;font-size:8.6px;color:var(--cover-accent)}
-.hook{margin-top:18px;font:600 15.5px/1.32 var(--f-display);letter-spacing:-.005em}
+.hook{margin-top:16px;font:700 17px/1.28 var(--f-display);letter-spacing:-.005em}
+.sub{margin-top:8px;font:500 11.2px/1.45 var(--f-body);color:var(--on-cover)}
 .hook em{font-style:normal;color:var(--cover-accent)}
 .lead{margin-top:12px;font-size:11px;line-height:1.55;color:var(--on-cover-2)}
 .lead b{color:var(--on-cover);font-weight:500}
@@ -84,11 +85,13 @@ h1,h2,h3{margin:0}
 /* page 2 */
 .p2top{padding-top:22px}
 .two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:26px;margin-top:6px}
-.layers{border:1.3px solid var(--ink)}
+.layers{border:1px solid var(--rule)}
 .layer{display:grid;grid-template-columns:112px minmax(0,1fr);border-bottom:1px solid var(--rule)}
 .layer:last-child{border-bottom:0}
-.layer .sw{display:flex;align-items:center;gap:7px;padding:7px 8px;border-right:1.3px solid var(--ink);background:#EFF2F5}
-.layer .sw svg{width:16px;height:16px;flex:none;fill:none;stroke:var(--accent);stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.layer .sw{display:flex;align-items:center;gap:8px;padding:7px 9px;border-right:1px solid var(--rule);background:#EFF2F5}
+.layer .sw .n{font:500 8.4px/1 var(--f-mono);color:var(--accent);letter-spacing:.06em}
+.base{margin-top:7px;font-size:9.4px;color:var(--ink-2)}
+.base b{color:var(--ink);font-weight:600}
 .layer .sw b{font:600 9.6px/1.15 var(--f-display)}
 .layer p{padding:7px 9px;font-size:9.3px;line-height:1.4;align-self:center}
 .ticklist{list-style:none;margin:0;padding:0;display:grid;gap:7px}
@@ -121,8 +124,9 @@ h1,h2,h3{margin:0}
     <div>
       <h1>Антон Чепуришкін</h1>
       <p class="mono eyebrow">Head of Marketing · дорогі продукти · довгий цикл угоди</p>
-      <p class="hook">Побудував <em>5&nbsp;будинків.</em> Тепер будую маркетинг, який звітує угодами.</p>
-      <p class="lead"><b>6 років у маркетингу</b>: performance в iGaming, власний e-commerce, з грудня 2025 по вересень 2026 — <b>Head of Marketing у DFD</b>, девелопері трьох котеджних містечок під Києвом. До цього 9 років вів власний будівельний бізнес. Поєдную рекламу, контент, що прогріває, і роботу з продажами в одну систему — від кліку до угоди.</p>
+      <p class="hook"><em>80%</em> річного плану продажів за 9&nbsp;місяців — на&nbsp;60% бюджету</p>
+      <p class="sub">Маркетингова вартість угоди — на 25% нижча за план. Рахую маркетинг як власник: 11 років свого бізнесу, 6 — у маркетингу.</p>
+      <p class="lead">Результат — у <b>DFD</b>, девелопері трьох котеджних містечок під Києвом, де з грудня 2025 по вересень 2026 я був <b>Head of Marketing</b>. До цього — performance в iGaming, власний e-commerce і 9 років будівельного бізнесу. Поєдную рекламу, контент, що прогріває, і роботу з продажами в одну систему — від кліку до угоди.</p>
       <div class="contacts">
         <span>+38 067 457 97 26</span>
         <span>antonchepuryshkin@gmail.com</span>
@@ -154,7 +158,6 @@ h1,h2,h3{margin:0}
         <h3>DFD (Diachuk Family Development) — Head of Marketing</h3>
         <p class="sub">Девелопер котеджних містечок під Києвом: Montana City (комфорт+), Zoloche Provance (бізнес), Золочів Ліс (преміум)</p>
         <ul>
-          <li>До кінця вересня компанія виконала 80% річного плану продажів на 2026 рік, витративши 60% маркетингового бюджету: вартість угоди — на 25% нижча за план.</li>
           <li>Збільшив конверсію: лід → кваліфікований з 5% до 20%, кваліфікований → перегляд з 2% до 12% — через контент, що формує попит.</li>
           <li>Синхронізував маркетинг і продажі: спільний критерій якісного ліда, причини відмов у CRM. Впровадив наскрізну аналітику від трафіку до угоди і бюджет план-факт.</li>
           <li>Спланував і провів перезапуск Gran Montaña → Montana City під розширення з 5 до 20 га: ребренд, новий сайт, комунікація інфраструктури, кампанія запуску — борди, таргет, контент-серія.</li>
@@ -219,18 +222,19 @@ h1,h2,h3{margin:0}
 
     <div class="two">
       <div>
-        <div class="st" style="margin-top:12px"><span class="mono">Розріз 1–1</span><h2>Як я будую маркетинг</h2></div>
+        <div class="st" style="margin-top:12px"><span class="mono">Система</span><h2>Як я будую маркетинг</h2></div>
         <div class="layers">
-          <div class="layer"><div class="sw"><svg viewBox="0 0 28 28"><path d="M3 15 14 5l11 10"/><path d="M19 9.5V5h3v7.2"/><path d="M6 13v2M22 13v2"/></svg><b>Дах</b></div><p>Дослідження та сегментація ЦА, позиціонування, медіаплан.</p></div>
-          <div class="layer"><div class="sw"><svg viewBox="0 0 28 28"><rect x="5" y="4" width="18" height="20"/><path d="M9 8h3v3H9zM16 8h3v3h-3zM9 14h3v3H9zM16 14h3v3h-3z"/><path d="M12 24v-4h4v4"/></svg><b>Фасад</b></div><p>Бренд компанії і засновника, ребренд, зовнішня реклама.</p></div>
-          <div class="layer"><div class="sw"><svg viewBox="0 0 28 28"><path d="M3 9h9v10h13"/><circle cx="12" cy="9" r="2.2"/><circle cx="12" cy="19" r="2.2"/><path d="M20 4l-2.5 4h4L19 12"/></svg><b>Інженерні мережі</b></div><p>Наскрізна аналітика, OKR і звітність по напрямах, бюджет план-факт.</p></div>
-          <div class="layer"><div class="sw"><svg viewBox="0 0 28 28"><path d="M3 8c2.5-3 5-3 7.5 0s5 3 7.5 0 5-3 7.5 0"/><path d="M3 14c2.5-3 5-3 7.5 0s5 3 7.5 0 5-3 7.5 0"/><path d="M3 20c2.5-3 5-3 7.5 0s5 3 7.5 0 5-3 7.5 0"/></svg><b>Утеплення</b></div><p>Прогрів, що знімає заперечення: YouTube, Telegram, чат-боти.</p></div>
-          <div class="layer"><div class="sw"><svg viewBox="0 0 28 28"><rect x="3" y="5" width="22" height="18"/><path d="M3 11h22M3 17h22M10 5v6M18 5v6M6 11v6M14 11v6M22 11v6M10 17v6M18 17v6"/></svg><b>Стіни</b></div><p>Performance: Meta Ads, Google Ads, Telegram Ads, YouTube Ads.</p></div>
-          <div class="layer"><div class="sw"><svg viewBox="0 0 28 28"><path d="M2 14h24"/><rect x="4" y="14" width="20" height="8"/><path d="M7 22l4-8M12 22l4-8M17 22l4-8M4 18l3-4M21 22l3-6"/><path d="M9 14V7h10v7"/></svg><b>Фундамент</b></div><p>11 років власного бізнесу: будівництво й e-commerce. Рахую бюджет як власник.</p></div>
+          <div class="layer"><div class="sw"><span class="n">01</span><b>Стратегія</b></div><p>Дослідження та сегментація ЦА, позиціонування, медіаплан.</p></div>
+          <div class="layer"><div class="sw"><span class="n">02</span><b>Залучення</b></div><p>Meta Ads, Google Ads, Telegram Ads, YouTube Ads.</p></div>
+          <div class="layer"><div class="sw"><span class="n">03</span><b>Прогрів</b></div><p>Контент, що знімає заперечення до першої розмови: YouTube, Telegram, чат-боти.</p></div>
+          <div class="layer"><div class="sw"><span class="n">04</span><b>Продажі</b></div><p>Спільний із продажами критерій якісного ліда, причини відмов у CRM.</p></div>
+          <div class="layer"><div class="sw"><span class="n">05</span><b>Аналітика</b></div><p>Наскрізна аналітика, OKR і звітність по напрямах, бюджет план-факт.</p></div>
+          <div class="layer"><div class="sw"><span class="n">06</span><b>Бренд</b></div><p>Бренд компанії і засновника, ребренд, зовнішня реклама.</p></div>
         </div>
+        <p class="base"><b>Основа:</b> 11 років власного бізнесу — рахую бюджет як власник.</p>
       </div>
       <div>
-        <div class="st" style="margin-top:12px"><span class="mono">Бригада</span><h2>Команда і процеси</h2></div>
+        <div class="st" style="margin-top:12px"><span class="mono">Команда</span><h2>Команда і процеси</h2></div>
         <ul class="ticklist">
           <li><span>Команда 6 + 2 підрядники; OKR і звітність по кожному напряму.</span></li>
           <li><span>Спільний з продажами критерій якісного ліда, причини відмов у CRM.</span></li>
@@ -244,11 +248,11 @@ h1,h2,h3{margin:0}
       </div>
     </div>
 
-    <div class="st"><span class="mono">Графік робіт</span><h2>Перші 90 днів у вашій компанії</h2></div>
+    <div class="st"><span class="mono">План</span><h2>Перші 90 днів у вашій компанії</h2></div>
     <div class="plan">
-      <div class="phase"><p class="mono days">Дні 1–30</p><h3>Фундамент</h3><p>Аудит і ресерч: воронка від кліку до угоди, обробка лідів і SLA з продажами, канали, бюджет і команда; сегментація ЦА, заперечення, конкуренти. Перші тести реклами.</p><p class="out">Карта втрат, критерії SQL і список гіпотез з оцінкою ефекту</p></div>
-      <div class="phase"><p class="mono days">Дні 31–60</p><h3>Стіни</h3><p>Покращую комунікацію з клієнтом на кожному етапі воронки: прогрів, чат-боти, фолоапи. Оргструктура відділу під цілі, OKR, KPI і звітність для кожного напряму.</p><p class="out">Цілі й KPI по кожному напряму, погоджені з власником; щотижневий звіт по воронці</p></div>
-      <div class="phase"><p class="mono days">Дні 61–90</p><h3>Дах</h3><p>Медіаплан і контент-план воронок, які формують попит і закривають заперечення ЦА.</p><p class="out">План на рік з прогнозом лідів, зустрічей, угод і бюджетом</p></div>
+      <div class="phase"><p class="mono days">Дні 1–30</p><h3>Аудит</h3><p>Аудит і ресерч: воронка від кліку до угоди, обробка лідів і SLA з продажами, канали, бюджет і команда; сегментація ЦА, заперечення, конкуренти. Перші тести реклами.</p><p class="out">Карта втрат, критерії SQL і список гіпотез з оцінкою ефекту</p></div>
+      <div class="phase"><p class="mono days">Дні 31–60</p><h3>Система</h3><p>Покращую комунікацію з клієнтом на кожному етапі воронки: прогрів, чат-боти, фолоапи. Оргструктура відділу під цілі, OKR, KPI і звітність для кожного напряму.</p><p class="out">Цілі й KPI по кожному напряму, погоджені з власником; щотижневий звіт по воронці</p></div>
+      <div class="phase"><p class="mono days">Дні 61–90</p><h3>План</h3><p>Медіаплан і контент-план воронок, які формують попит і закривають заперечення ЦА.</p><p class="out">План на рік з прогнозом лідів, зустрічей, угод і бюджетом</p></div>
     </div>
 
     <div class="extra">
