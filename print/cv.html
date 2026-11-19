@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<title>Антон Чепуришкін — Head of Marketing</title>
+<meta name="robots" content="noindex">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Onest:wght@400;500;600;700&family=Unbounded:wght@500;600;700&display=swap">
+<style>
+/* Джерело PDF-резюме. Друк: Chrome → A4, поля «немає», фон увімкнено. */
+@page{size:A4;margin:0}
+:root{
+  --ink:#0F1B2B; --ink-2:#4C5A6B; --rule:#C9D2DC; --sheet:#F8FAFB; --accent:#A24B1A;
+  --cover:#0B1628; --on-cover:#E9EEF4; --on-cover-2:#9AA9BB; --cover-accent:#E8894B; --cover-rule:#24364F;
+  --f-display:"Unbounded","Arial Black",sans-serif; --f-body:"Onest","Segoe UI",sans-serif; --f-mono:"IBM Plex Mono",monospace;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:#fff}
+body{font:400 10.5px/1.5 var(--f-body);color:var(--ink);-webkit-print-color-adjust:exact;print-color-adjust:exact}
+p{margin:0}
+h1,h2,h3{margin:0}
+.page{width:210mm;height:297mm;position:relative;overflow:hidden;page-break-after:always;break-after:page;background:#fff}
+.page:last-child{page-break-after:auto;break-after:auto}
+.pad{padding:0 54px}
+.mono{font-family:var(--f-mono);text-transform:uppercase;letter-spacing:.08em}
+
+/* cover */
+.cover{background:var(--cover);color:var(--on-cover);position:relative;padding:34px 54px 30px;display:grid;grid-template-columns:minmax(0,1fr) 172px;gap:34px}
+.cover::before{content:"";position:absolute;inset:0;background-image:linear-gradient(var(--cover-rule) 1px,transparent 1px),linear-gradient(90deg,var(--cover-rule) 1px,transparent 1px);background-size:32px 32px;opacity:.3}
+.cover > *{position:relative}
+.cover h1{font:700 29px/1.1 var(--f-display);letter-spacing:-.01em}
+.eyebrow{margin-top:12px;font-size:8.6px;color:var(--cover-accent)}
+.hook{margin-top:18px;font:600 15.5px/1.32 var(--f-display);letter-spacing:-.005em}
+.hook em{font-style:normal;color:var(--cover-accent)}
+.lead{margin-top:12px;font-size:11px;line-height:1.55;color:var(--on-cover-2)}
+.lead b{color:var(--on-cover);font-weight:500}
+.contacts{margin-top:16px;display:flex;flex-wrap:wrap;gap:7px 20px;font-size:10.5px}
+.contacts span{display:inline-flex;align-items:center;gap:8px}
+.contacts span::before{content:"";width:6px;height:6px;border:1.2px solid var(--cover-accent);transform:rotate(45deg);flex:none}
+.contacts .site{flex-basis:100%;color:var(--cover-accent)}
+.photo{align-self:center;margin-top:6px}
+.photo img{width:172px;height:215px;object-fit:cover;object-position:center 22%;display:block;border:1px solid var(--cover-rule)}
+
+/* section titles */
+.st{display:flex;align-items:baseline;gap:12px;margin:20px 0 10px}
+.st .mono{font-size:8px;color:var(--accent)}
+.st h2{font:600 16px/1.2 var(--f-display)}
+
+/* spec grid */
+.spec{display:grid;grid-template-columns:2fr 1fr 1fr;border:1px solid var(--rule)}
+.spec .row2{display:contents}
+.spec > div,.spec .row2 > div{padding:10px 12px 12px;border-right:1px solid var(--rule);border-bottom:1px solid var(--rule);min-width:0}
+.spec b{display:block;font:700 20px/1 var(--f-display);letter-spacing:-.01em;color:var(--ink)}
+.spec b small{font-size:.6em}
+.spec span{display:block;margin-top:6px;font-size:9.3px;line-height:1.42;color:var(--ink-2)}
+.spec .hl b{color:var(--accent)}
+.spec .wide span{color:var(--ink);font-size:10px;font-weight:500}
+.spec4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;border:1px solid var(--rule);border-top:0}
+.spec4 > div{padding:10px 12px 12px;border-right:1px solid var(--rule);min-width:0}
+.spec4 > div:last-child,.spec > div:nth-child(3){border-right:0}
+.spec > div{border-bottom:0}
+.spec4 b{display:block;font:700 20px/1 var(--f-display);color:var(--ink)}
+.spec4 b small{font-size:.6em}
+.spec4 span{display:block;margin-top:6px;font-size:9.3px;line-height:1.42;color:var(--ink-2)}
+.spec4 .hl b{color:var(--accent)}
+
+/* jobs */
+.job{display:grid;grid-template-columns:130px minmax(0,1fr);gap:0 18px;padding:12px 0 10px}
+.job + .job{border-top:1px solid var(--rule)}
+.job .when{font-size:8.4px;color:var(--ink-2);padding-top:3px}
+.job h3{font:600 12.5px/1.3 var(--f-display)}
+.job .sub{margin-top:2px;font-size:9.6px;color:var(--ink-2)}
+.job ul{margin:7px 0 0;padding-left:15px;display:grid;gap:3.5px}
+.job li{font-size:10.4px;line-height:1.48}
+.job li::marker{color:var(--accent)}
+
+/* footer band */
+.band{position:absolute;left:0;right:0;bottom:0;background:var(--cover);color:var(--on-cover);padding:16px 54px 18px;display:grid;gap:16px}
+.band .k{display:block;font:500 7.6px/1.2 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--on-cover-2);margin-bottom:5px}
+.band .v{font-size:10px}
+.band .v.acc{color:var(--cover-accent)}
+.band1{grid-template-columns:1fr 1fr 1fr auto}
+.band2{grid-template-columns:auto auto auto 1fr}
+
+/* page 2 */
+.p2top{padding-top:22px}
+.two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:26px;margin-top:6px}
+.layers{border:1.3px solid var(--ink)}
+.layer{display:grid;grid-template-columns:112px minmax(0,1fr);border-bottom:1px solid var(--rule)}
+.layer:last-child{border-bottom:0}
+.layer .sw{display:flex;align-items:center;gap:7px;padding:7px 8px;border-right:1.3px solid var(--ink);background:#EFF2F5}
+.layer .sw svg{width:16px;height:16px;flex:none;fill:none;stroke:var(--accent);stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.layer .sw b{font:600 9.6px/1.15 var(--f-display)}
+.layer p{padding:7px 9px;font-size:9.3px;line-height:1.4;align-self:center}
+.ticklist{list-style:none;margin:0;padding:0;display:grid;gap:7px}
+.ticklist li{display:grid;grid-template-columns:14px minmax(0,1fr);gap:7px;font-size:10px;line-height:1.45}
+.ticklist li::before{content:"";width:8px;height:8px;margin-top:4px;border:1.3px solid var(--accent);transform:rotate(45deg)}
+.quote{margin-top:12px;background:#EFF2F5;padding:12px 14px}
+.quote p{font-size:9.8px;line-height:1.45}
+.quote p + p{margin-top:7px}
+.quote p b{font-weight:600}
+.quote .who{margin-top:9px;font:500 7.6px/1.2 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2)}
+.plan{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border:1px solid var(--rule)}
+.phase{padding:11px 13px 12px;border-right:1px solid var(--rule);display:flex;flex-direction:column;gap:5px}
+.phase:last-child{border-right:0}
+.phase .days{font-size:8px;color:var(--accent)}
+.phase h3{font:600 12px/1.2 var(--f-display)}
+.phase p{font-size:9.4px;line-height:1.45;color:var(--ink-2)}
+.phase .out{margin-top:auto;padding-top:8px;border-top:1px dashed var(--rule);color:var(--ink);font-weight:600}
+.ask{border-left:2px solid var(--accent);padding:2px 0 2px 12px;font-size:10.6px;line-height:1.5;max-width:640px}
+.ask b{font-weight:600}
+.extra{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;margin-top:16px}
+.extra h3{font:600 11px/1.2 var(--f-display);margin-bottom:5px}
+.extra p{font-size:9.4px;line-height:1.45;color:var(--ink-2)}
+</style>
+</head>
+<body>
+
+<!-- ============ PAGE 1 ============ -->
+<section class="page">
+  <header class="cover">
+    <div>
+      <h1>Антон Чепуришкін</h1>
+      <p class="mono eyebrow">Head of Marketing · дорогі продукти · довгий цикл угоди</p>
+      <p class="hook">Побудував <em>5&nbsp;будинків.</em> Тепер будую маркетинг, який звітує угодами.</p>
+      <p class="lead"><b>6 років у маркетингу</b>: performance в iGaming, власний e-commerce, з грудня 2025 по вересень 2026 — <b>Head of Marketing у DFD</b>, девелопері трьох котеджних містечок під Києвом. До цього 9 років вів власний будівельний бізнес. Поєдную рекламу, контент, що прогріває, і роботу з продажами в одну систему — від кліку до угоди.</p>
+      <div class="contacts">
+        <span>+38 067 457 97 26</span>
+        <span>antonchepuryshkin@gmail.com</span>
+        <span>Telegram @Anton_lucky_man</span>
+        <span class="site">Сайт з кейсами: anton-chepuryshkin.github.io/anton-head-cv</span>
+      </div>
+    </div>
+    <figure class="photo" style="margin:0"><img src="../img/anton.jpg" alt="Антон Чепуришкін"></figure>
+  </header>
+
+  <div class="pad">
+    <div class="st"><span class="mono">Специфікація</span><h2>Результати в DFD, грудень 2025 — вересень 2026</h2></div>
+    <div class="spec">
+      <div class="wide hl"><b>80%</b><span>До кінця вересня компанія виконала 80% річного плану продажів на 2026 рік, витративши 60% маркетингового бюджету: вартість угоди — на 25% нижча за план.</span></div>
+      <div><b>2&nbsp;000+</b><span>Органічних підписників у Telegram-воронках.</span></div>
+      <div><b>$0</b><span>Вивів засновника в спікери: $0 замість $3–5k за участь.</span></div>
+    </div>
+    <div class="spec4">
+      <div class="hl"><b>×4</b><span>Конверсія ліда в кваліфікований: 5% → 20%.</span></div>
+      <div class="hl"><b>×6</b><span>Конверсія кваліфікованого ліда в перегляд: 2% → 12%.</span></div>
+      <div><b>65<small> тис.</small></b><span>Переглядів відео на YouTube за форматом з AI-трендвотчінгу.</span></div>
+      <div><b>6&nbsp;+&nbsp;2</b><span>Команда: 6 людей і 2 підрядники.</span></div>
+    </div>
+
+    <div class="st"><span class="mono">Етапи</span><h2>Досвід</h2></div>
+    <div class="job">
+      <p class="mono when">12.2025 — 09.2026</p>
+      <div>
+        <h3>DFD (Diachuk Family Development) — Head of Marketing</h3>
+        <p class="sub">Девелопер котеджних містечок під Києвом: Montana City (комфорт+), Zoloche Provance (бізнес), Золочів Ліс (преміум)</p>
+        <ul>
+          <li>До кінця вересня компанія виконала 80% річного плану продажів на 2026 рік, витративши 60% маркетингового бюджету: вартість угоди — на 25% нижча за план.</li>
+          <li>Збільшив конверсію: лід → кваліфікований з 5% до 20%, кваліфікований → перегляд з 2% до 12% — через контент, що формує попит.</li>
+          <li>Синхронізував маркетинг і продажі: спільний критерій якісного ліда, причини відмов у CRM. Впровадив наскрізну аналітику від трафіку до угоди і бюджет план-факт.</li>
+          <li>Спланував і провів перезапуск Gran Montaña → Montana City під розширення з 5 до 20 га: ребренд, новий сайт, комунікація інфраструктури, кампанія запуску — борди, таргет, контент-серія.</li>
+          <li>Організував благодійне барбекю із засновником: 25+ гостей, збір на дрони-перехоплювачі; один з гостей купив будинок.</li>
+          <li>Побудував власні медіа з AI-продакшном: AI-відео в Higgsfield і Seedance замість постановочної зйомки (економія від $10&nbsp;000 і 1–2 місяців), AI-трендвотчінг — 65&nbsp;000 органічних переглядів на YouTube, AI-контент для воронок — 2&nbsp;000+ підписників.</li>
+          <li>Вибудував особистий бренд засновника: тепер його запрошують спікером безкоштовно, а не за $3–5k за участь.</li>
+          <li>Керував командою з 6 людей і 2 постійних підрядників. Перебудував оргструктуру: ролі, KPI, OKR і звітність по кожному напряму.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="st"><span class="mono">Запит</span><h2>Що шукаю</h2></div>
+    <div class="ask">
+      <p>Роль <b>Head of Marketing</b> у компанії з дорогим продуктом і довгим циклом угоди — нерухомість, фінанси, освіта, авто, преміальні послуги, — де маркетинг рахують угодами, а не охопленнями.</p>
+    </div>
+  </div>
+
+  <footer class="band band1">
+    <div><span class="k">Розробив</span><span class="v">Чепуришкін Антон</span></div>
+    <div><span class="k">Посада</span><span class="v">Head of Marketing</span></div>
+    <div><span class="k">Спеціалізація</span><span class="v">Дорогі продукти, довгий цикл угоди</span></div>
+    <div><span class="k">Аркуш</span><span class="v">1 з 2</span></div>
+  </footer>
+</section>
+
+<!-- ============ PAGE 2 ============ -->
+<section class="page">
+  <div class="pad p2top">
+    <div class="job">
+      <p class="mono when">2022 — 2025</p>
+      <div>
+        <h3>Slots City — Traffic Manager</h3>
+        <p class="sub">iGaming — одна з найконкурентніших ніш performance-маркетингу</p>
+        <ul>
+          <li>Залучив 110&nbsp;000+ цільових підписників у Telegram-канал (найкращі зв'язки — по $0,3) і утримував ERR понад 25% через ігрові механіки й ситуативний контент.</li>
+          <li>Отримав срібну кнопку YouTube: 20&nbsp;000+ нових підписників на місяць. Знизив вартість підписника з $2 до $1,2.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="job">
+      <p class="mono when">2020 — 2022</p>
+      <div>
+        <h3>«Дом еко-хутра» — засновник</h3>
+        <p class="sub">Власний e-commerce проєкт</p>
+        <ul>
+          <li>Запустив проєкт з нуля: аналіз попиту й конкурентів, сегментація ЦА, лендінг з магазином, Instagram і Facebook. Знизив CPL на 40% через багатоетапний прогрів і нативні креативи в Meta.</li>
+          <li>Вийшов на друге місце за обсягом закупівель у постачальника з першого сезону — обігнав магазини, які працюють по 10 років.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="job">
+      <p class="mono when">2011 — 2020</p>
+      <div>
+        <h3>Власний бізнес: будинки й ремонт під ключ</h3>
+        <p class="sub">Власник</p>
+        <ul>
+          <li>Побудував 5 будинків і зробив квартири під ключ — найбільші проєкти. Керував бригадами і підрядниками: організація процесів і людей.</li>
+          <li>Сам вибудував лідогенерацію: запустив лендінг із квізом для кваліфікації лідів і знизив вартість ліда.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="two">
+      <div>
+        <div class="st" style="margin-top:12px"><span class="mono">Розріз 1–1</span><h2>Як я будую маркетинг</h2></div>
+        <div class="layers">
+          <div class="layer"><div class="sw"><svg viewBox="0 0 28 28"><path d="M3 15 14 5l11 10"/><path d="M19 9.5V5h3v7.2"/><path d="M6 13v2M22 13v2"/></svg><b>Дах</b></div><p>Дослідження та сегментація ЦА, позиціонування, медіаплан.</p></div>
+          <div class="layer"><div class="sw"><svg viewBox="0 0 28 28"><rect x="5" y="4" width="18" height="20"/><path d="M9 8h3v3H9zM16 8h3v3h-3zM9 14h3v3H9zM16 14h3v3h-3z"/><path d="M12 24v-4h4v4"/></svg><b>Фасад</b></div><p>Бренд компанії і засновника, ребренд, зовнішня реклама.</p></div>
+          <div class="layer"><div class="sw"><svg viewBox="0 0 28 28"><path d="M3 9h9v10h13"/><circle cx="12" cy="9" r="2.2"/><circle cx="12" cy="19" r="2.2"/><path d="M20 4l-2.5 4h4L19 12"/></svg><b>Інженерні мережі</b></div><p>Наскрізна аналітика, OKR і звітність по напрямах, бюджет план-факт.</p></div>
+          <div class="layer"><div class="sw"><svg viewBox="0 0 28 28"><path d="M3 8c2.5-3 5-3 7.5 0s5 3 7.5 0 5-3 7.5 0"/><path d="M3 14c2.5-3 5-3 7.5 0s5 3 7.5 0 5-3 7.5 0"/><path d="M3 20c2.5-3 5-3 7.5 0s5 3 7.5 0 5-3 7.5 0"/></svg><b>Утеплення</b></div><p>Прогрів, що знімає заперечення: YouTube, Telegram, чат-боти.</p></div>
+          <div class="layer"><div class="sw"><svg viewBox="0 0 28 28"><rect x="3" y="5" width="22" height="18"/><path d="M3 11h22M3 17h22M10 5v6M18 5v6M6 11v6M14 11v6M22 11v6M10 17v6M18 17v6"/></svg><b>Стіни</b></div><p>Performance: Meta Ads, Google Ads, Telegram Ads, YouTube Ads.</p></div>
+          <div class="layer"><div class="sw"><svg viewBox="0 0 28 28"><path d="M2 14h24"/><rect x="4" y="14" width="20" height="8"/><path d="M7 22l4-8M12 22l4-8M17 22l4-8M4 18l3-4M21 22l3-6"/><path d="M9 14V7h10v7"/></svg><b>Фундамент</b></div><p>11 років власного бізнесу: будівництво й e-commerce. Рахую бюджет як власник.</p></div>
+        </div>
+      </div>
+      <div>
+        <div class="st" style="margin-top:12px"><span class="mono">Бригада</span><h2>Команда і процеси</h2></div>
+        <ul class="ticklist">
+          <li><span>Команда 6 + 2 підрядники; OKR і звітність по кожному напряму.</span></li>
+          <li><span>Спільний з продажами критерій якісного ліда, причини відмов у CRM.</span></li>
+          <li><span>Швидко закривав позиції: найняв копірайтера, замінив таргетолога.</span></li>
+        </ul>
+        <div class="quote">
+          <p><b>Швидкість дій.</b> «Ти швидко дієш, тільки поговорили — одразу впроваджуєш, дієш.»</p>
+          <p><b>Найм.</b> «Зміг знайти і найняти достойного копірайтера… досить оперативно.»</p>
+          <p class="who">Комерційний директор</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="st"><span class="mono">Графік робіт</span><h2>Перші 90 днів у вашій компанії</h2></div>
+    <div class="plan">
+      <div class="phase"><p class="mono days">Дні 1–30</p><h3>Фундамент</h3><p>Аудит і ресерч: воронка від кліку до угоди, обробка лідів і SLA з продажами, канали, бюджет і команда; сегментація ЦА, заперечення, конкуренти. Перші тести реклами.</p><p class="out">Карта втрат, критерії SQL і список гіпотез з оцінкою ефекту</p></div>
+      <div class="phase"><p class="mono days">Дні 31–60</p><h3>Стіни</h3><p>Покращую комунікацію з клієнтом на кожному етапі воронки: прогрів, чат-боти, фолоапи. Оргструктура відділу під цілі, OKR, KPI і звітність для кожного напряму.</p><p class="out">Цілі й KPI по кожному напряму, погоджені з власником; щотижневий звіт по воронці</p></div>
+      <div class="phase"><p class="mono days">Дні 61–90</p><h3>Дах</h3><p>Медіаплан і контент-план воронок, які формують попит і закривають заперечення ЦА.</p><p class="out">План на рік з прогнозом лідів, зустрічей, угод і бюджетом</p></div>
+    </div>
+
+    <div class="extra">
+      <div><h3>Освіта</h3><p>ДУІКТ, спеціаліст із систем захисту інформації (2010). Курси 2020–2021: Media Buyer Pro (Таргеторіум), Units, Offerleaks.</p></div>
+      <div><h3>Інструменти</h3><p>Meta Ads, Google Ads, Telegram Ads, YouTube Ads, GA4, GTM, CRM, Webflow, Tilda, Notion. AI: Higgsfield, Seedance, GPT, Make, парсер соцмереж.</p></div>
+      <div><h3>Мови і особисте</h3><p>Українська — рідна, англійська — Intermediate (B1). Бігаю 30 км на тиждень, у 2019 році пробіг марафон.</p></div>
+    </div>
+  </div>
+
+  <footer class="band band2">
+    <div><span class="k">Телефон</span><span class="v">+38 067 457 97 26</span></div>
+    <div><span class="k">Email</span><span class="v">antonchepuryshkin@gmail.com</span></div>
+    <div><span class="k">Telegram</span><span class="v">@Anton_lucky_man</span></div>
+    <div><span class="k">Сайт з кейсами</span><span class="v acc">anton-chepuryshkin.github.io/anton-head-cv</span></div>
+  </footer>
+</section>
+
+</body>
+</html>
